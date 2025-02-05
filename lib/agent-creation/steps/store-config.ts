@@ -19,6 +19,16 @@ interface UpdatedConfig {
   };
 }
 
+interface UpdateConfigParams {
+  id: string;
+  documentUrls: string[];
+  logoUrl?: string;
+  vectorDbConfig?: {
+    collectionId: string;
+    documentCount: number;
+  } | null;
+}
+
 export async function storeConfig(config: AgentConfig) {
   // Simulate database storage time
   await new Promise(resolve => setTimeout(resolve, 2000));
@@ -30,12 +40,16 @@ export async function storeConfig(config: AgentConfig) {
   };
 }
 
-export async function updateConfig(config: UpdatedConfig) {
-  // Simulate updating config in database
+export async function updateConfig(params: UpdateConfigParams) {
+  // Simulate config update (2 seconds)
   await new Promise(resolve => setTimeout(resolve, 2000));
-  
+
+  // Return simulated data
   return {
-    ...config,
-    updatedAt: new Date().toISOString()
+    id: params.id,
+    document_urls: params.documentUrls,
+    logo_url: params.logoUrl,
+    vector_db_config: params.vectorDbConfig,
+    updated_at: new Date().toISOString(),
   };
 }

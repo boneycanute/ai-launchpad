@@ -1,18 +1,22 @@
-interface DeploymentConfig {
+interface DeployAgentParams {
   agentId: string;
   name: string;
   vectorDbConfig?: {
-    dbUrl: string;
+    collectionId: string;
     documentCount: number;
-  };
+  } | null;
 }
 
-export async function deployAgent(config: DeploymentConfig) {
-  // Simulate deployment time
-  await new Promise(resolve => setTimeout(resolve, 8000));
-  
+interface DeploymentResult {
+  deploymentUrl: string;
+}
+
+export async function deployAgent(params: DeployAgentParams): Promise<DeploymentResult> {
+  // Simulate deployment (10 seconds)
+  await new Promise(resolve => setTimeout(resolve, 10000));
+
+  // Return simulated deployment URL
   return {
-    deploymentUrl: `https://agent-${config.agentId}.fake-deployment.com`,
-    status: 'deployed'
+    deploymentUrl: `https://${params.name.toLowerCase().replace(/\s+/g, '-')}-${params.agentId}.vercel.app`
   };
 }

@@ -10,91 +10,88 @@ import { CreationState } from "@/lib/types/agent";
 
 // Map creation states to user-friendly messages
 const stateMessages: Record<CreationState, string> = {
-  storing_config: "Storing your configuration...",
-  processing_documents: "Processing your knowledge base...",
+  storing_initial_config: "Storing initial configuration...",
   creating_vectordb: "Creating vector database...",
-  initializing_agent: "Initializing AI agent...",
-  configuring_agent: "Configuring agent with your settings...",
-  final_checks: "Running final checks...",
-  completed: "Your AI agent is ready!"
+  updating_config: "Storing final configuration...",
+  deploying_agent: "Deploying your AI agent...",
+  finalizing_agent: "Running final checks...",
+  completed: "Your AI agent is ready!",
+  failed: "Failed to create agent",
 };
 
 // Order of states for the loader
 const stateOrder: CreationState[] = [
-  "storing_config",
-  "processing_documents",
+  "storing_initial_config",
   "creating_vectordb",
-  "initializing_agent",
-  "configuring_agent",
-  "final_checks",
-  "completed"
+  "updating_config",
+  "deploying_agent",
+  "finalizing_agent",
+  "completed",
 ];
 
 export default function CreatePage() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const agentId = searchParams.get('agentId');
-  const { progress, error } = useAgentStatus(agentId);
-  const [loading, setLoading] = useState(true);
+  const agentId = searchParams.get("agentId");
+  const [currentStep, setCurrentStep] = useState(0);
 
-  // If no agentId is provided, redirect back to home
+  const { progress: status, error } = useAgentStatus(agentId || "");
+
   useEffect(() => {
     if (!agentId) {
-      router.push('/');
+      router.push("/");
+      return;
     }
-  }, [agentId, router]);
 
-  // Convert progress to loader states
-  const loadingStates = stateOrder.map(state => ({
-    text: stateMessages[state],
-    process: async () => {
-      // Return true if this state is completed
-      if (!progress) return false;
-      const currentStateIndex = stateOrder.indexOf(progress.state);
-      const thisStateIndex = stateOrder.indexOf(state);
-      return currentStateIndex > thisStateIndex;
+    if (status?.state === "failed") {
+      const errorMessage = encodeURIComponent(
+        status.error || "Agent creation failed"
+      );
+      router.push(`/error?error=${errorMessage}`);
+      return;
     }
-  }));
 
-  const handleComplete = () => {
-    router.push("/agents");
-  };
+    if (status?.state) {
+      const stepIndex = stateOrder.indexOf(status.state);
+      if (stepIndex !== -1) {
+        setCurrentStep(stepIndex);
+      }
 
-  // Handle errors
-  useEffect(() => {
-    if (error) {
-      setLoading(false);
+      if (status.state === "completed") {
+        // Redirect to the agent page or dashboard
+        router.push(`/agent/${agentId}`);
+      }
     }
-  }, [error]);
+  }, [status, agentId, router]);
 
-  if (!agentId) {
-    return null; // or loading spinner
-  }
+  if (!agentId) return null;
 
   return (
-    <div className="min-h-screen w-full flex flex-col">
-      <div className="flex-1 flex items-center justify-center">
+    <div className="flex flex-col items-center justify-center min-h-screen p-4">
+      <div className="w-full max-w-2xl space-y-8">
+        <h1 className="text-2xl font-bold text-center text-gray-900">
+          Creating Your AI Agent
+        </h1>
         <MultiStepLoader
-          loadingStates={loadingStates}
-          loading={loading}
-          onComplete={handleComplete}
+          loadingStates={stateOrder.map((state) => ({
+            text: stateMessages[state],
+            process: async () => {
+              // Wait for the current state to match or pass this state
+              return (
+                status?.state === state ||
+                (status?.state && stateOrder.indexOf(status.state) > stateOrder.indexOf(state))
+              );
+            },
+          }))}
+          loading={!!status && status.state !== "completed" && status.state !== "failed"}
+          onComplete={() => {
+            // Only redirect if we're actually completed
+            if (status?.state === "completed") {
+              router.push(`/agent/${agentId}`);
+            }
+          }}
         />
-        {loading && (
-          <button
-            className="fixed top-4 right-4 text-black dark:text-white z-[120]"
-            onClick={() => setLoading(false)}
-          >
-            <IconSquareRoundedX className="h-10 w-10" />
-          </button>
-        )}
       </div>
-      {error && (
-        <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2">
-          <div className="bg-red-50 text-red-500 px-4 py-2 rounded-lg shadow-lg">
-            Error: {error}
-          </div>
-        </div>
-      )}
     </div>
   );
 }

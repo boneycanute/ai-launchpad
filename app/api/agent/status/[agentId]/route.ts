@@ -1,29 +1,49 @@
-import { NextResponse } from 'next/server';
-import { supabase } from '@/lib/supabase/client';
+import { NextResponse } from "next/server";
+import { CreationState } from "../../create/route";
+
+// Total delays from the creation steps:
+// - store-initial-config: 3s
+// - create-vectordb: 5s
+// - store-config: 2s
+// - deploy-agent: 10s
+// - finalize-agent: 2s
+// Total: 22s
 
 export async function GET(
   request: Request,
-  { params }: { params: { agentId: string } }
+  context: { params: { agentId: string } }
 ) {
-  try {
-    const { data, error } = await supabase
-      .from('agent_configs')
-      .select('creation_progress')
-      .eq('id', params.agentId)
-      .single();
+  const { agentId } = await context.params;
 
-    if (error) throw error;
+  // Extract timestamp from agent ID (format: agent_[timestamp])
+  const timestamp = parseInt(agentId.split("_")[1]);
+  const elapsedSeconds = (Date.now() - timestamp) / 1000;
 
-    return NextResponse.json({
-      success: true,
-      progress: data.creation_progress
-    });
+  let state: CreationState;
 
-  } catch (error) {
-    console.error('Failed to get agent status:', error);
-    return NextResponse.json(
-      { success: false, message: "Failed to get agent status" },
-      { status: 500 }
-    );
+  if (elapsedSeconds < 3) {
+    state = "storing_initial_config";
+  } else if (elapsedSeconds < 8) {
+    // 3 + 5
+    state = "creating_vectordb";
+  } else if (elapsedSeconds < 10) {
+    // 3 + 5 + 2
+    state = "updating_config";
+  } else if (elapsedSeconds < 20) {
+    // 3 + 5 + 2 + 10
+    state = "deploying_agent";
+  } else if (elapsedSeconds < 22) {
+    // 3 + 5 + 2 + 10 + 2
+    state = "finalizing_agent";
+  } else {
+    state = "completed";
   }
+
+  return NextResponse.json({
+    success: true,
+    progress: {
+      state,
+      updated_at: new Date().toISOString(),
+    },
+  });
 }

@@ -19,6 +19,7 @@ import { Card } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { PlusCircle, Upload, X } from "lucide-react";
 import { useAgentStore } from "@/store/agent-store";
+import { FileUploadField } from "@/components/agent-form/file-upload-field";
 
 type ModelType = "openai" | "claude" | "deepseek";
 
@@ -163,73 +164,58 @@ export default function Home() {
     {
       level: 1,
       id: "capabilities",
-      title: "Capabilities",
-      description: "Define your agent's capabilities",
+      title: "System Prompt & Knowledge Base",
+      description: "Define how your agent thinks and what it knows",
       items: [
         {
           id: "capabilities-1",
-          title: "System Prompt & Knowledge Base",
-          description: "Configure your agent's behavior and knowledge",
+          title: "System Prompt & Knowledge",
+          description: "Configure the agent's behavior and knowledge",
           icon: Brain,
           component: (
-            <div className="space-y-4 p-2">
+            <div className="space-y-6 p-2">
               <div className="space-y-2">
                 <Label htmlFor="system-prompt">System Prompt</Label>
-                <Input
+                <Textarea
                   id="system-prompt"
                   placeholder="Enter system prompt"
                   value={store.systemPrompt}
                   onChange={(e) =>
                     store.setCapabilities(e.target.value, store.knowledgeBase)
                   }
+                  className="min-h-[100px]"
                 />
               </div>
 
               <div className="space-y-2">
                 <Label>Knowledge Base</Label>
-                <Card className="p-4 border-dashed">
-                  <input
-                    type="file"
-                    accept=".pdf,.txt,.csv"
-                    multiple
-                    onChange={(e) => {
-                      const files = Array.from(e.target.files || []).map(
-                        (file) => ({
-                          name: file.name,
-                          size: file.size,
-                          type: file.type,
-                        })
-                      );
-                      store.addKnowledgeBase(files);
-                    }}
-                  />
-                  <p className="text-sm text-gray-500 mt-2">
-                    Max 20 files, 30MB each. Supported formats: PDF, TXT, CSV
-                  </p>
-                  {store.knowledgeBase.length > 0 && (
-                    <div className="mt-4">
-                      <h4 className="font-medium mb-2">Uploaded Files:</h4>
-                      <ul className="space-y-2">
-                        {store.knowledgeBase.map((file) => (
-                          <li
-                            key={file.name}
-                            className="flex justify-between items-center"
+                <p className="text-sm text-muted-foreground mb-2">
+                  Upload documents to give your agent specialized knowledge
+                </p>
+                <FileUploadField type="knowledge" />
+                
+                {store.knowledgeBase.length > 0 && (
+                  <div className="mt-4 space-y-2">
+                    <Label>Uploaded Documents</Label>
+                    <div className="space-y-2">
+                      {store.knowledgeBase.map((file, index) => (
+                        <div
+                          key={index}
+                          className="flex items-center justify-between p-2 border rounded-md"
+                        >
+                          <span className="text-sm truncate">{file.name}</span>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            onClick={() => store.removeKnowledgeBase(file.name)}
                           >
-                            <span>{file.name}</span>
-                            <button
-                              onClick={() =>
-                                store.removeKnowledgeBase(file.name)
-                              }
-                              className="text-red-500 text-sm"
-                            >
-                              Remove
-                            </button>
-                          </li>
-                        ))}
-                      </ul>
+                            <X className="h-4 w-4" />
+                          </Button>
+                        </div>
+                      ))}
                     </div>
-                  )}
-                </Card>
+                  </div>
+                )}
               </div>
             </div>
           ),
@@ -239,85 +225,59 @@ export default function Home() {
     {
       level: 2,
       id: "appearance",
-      title: "Appearance",
+      title: "Visual Customization",
       description: "Customize your agent's appearance",
       items: [
         {
           id: "appearance-1",
-          title: "Visual Customization",
-          description: "Style your agent",
+          title: "Visual Settings",
+          description: "Configure the visual elements",
           icon: Brush,
           component: (
             <div className="space-y-6 p-2">
-              <div className="space-y-4">
-                <Label>Agent Icon</Label>
-                <div className="flex items-center gap-4">
-                  {store.agentIcon ? (
-                    <div className="relative">
-                      <div className="h-20 w-20 rounded-lg border-2 border-dashed border-gray-200 flex items-center justify-center overflow-hidden">
-                        {store.agentIcon.file && (
-                          <img
-                            src={URL.createObjectURL(store.agentIcon.file)}
-                            alt="Agent Icon"
-                            className="w-full h-full object-cover"
-                          />
-                        )}
-                      </div>
+              <div className="space-y-2">
+                <Label>Agent Avatar</Label>
+                <p className="text-sm text-muted-foreground mb-2">
+                  Upload an avatar image for your agent
+                </p>
+                <FileUploadField type="avatar" />
+                
+                {store.agentIcon && (
+                  <div className="mt-4">
+                    <div className="flex items-center justify-between p-2 border rounded-md">
+                      <span className="text-sm truncate">{store.agentIcon.name}</span>
                       <Button
                         variant="ghost"
                         size="icon"
-                        className="absolute -top-2 -right-2 h-6 w-6 rounded-full bg-destructive text-destructive-foreground hover:bg-destructive/90"
-                        onClick={() =>
-                          store.setAppearance(
-                            undefined,
-                            store.userMessageColor,
-                            store.agentMessageColor,
-                            store.openingMessage,
-                            store.quickMessages
-                          )
-                        }
+                        onClick={() => store.setAppearance(
+                          undefined,
+                          store.userMessageColor,
+                          store.agentMessageColor,
+                          store.openingMessage,
+                          store.quickMessages
+                        )}
                       >
                         <X className="h-4 w-4" />
                       </Button>
                     </div>
-                  ) : (
-                    <label
-                      htmlFor="agent-icon"
-                      className="h-20 w-20 rounded-lg border-2 border-dashed border-gray-200 flex flex-col items-center justify-center gap-1 cursor-pointer hover:border-primary hover:bg-primary/5 transition-colors"
-                    >
-                      <Upload className="h-8 w-8 text-muted-foreground" />
-                      <span className="text-xs text-muted-foreground">
-                        Upload
-                      </span>
-                      <input
-                        type="file"
-                        id="agent-icon"
-                        className="hidden"
-                        accept="image/*"
-                        onChange={(e) => {
-                          const file = e.target.files?.[0];
-                          if (file) {
-                            store.setAppearance(
-                              {
-                                name: file.name,
-                                size: file.size,
-                                type: file.type,
-                                file: file,
-                              },
-                              store.userMessageColor,
-                              store.agentMessageColor,
-                              store.openingMessage,
-                              store.quickMessages
-                            );
-                          }
-                        }}
-                      />
-                    </label>
-                  )}
-                  <div className="text-sm text-muted-foreground">
-                    Upload a square image (recommended size: 256x256px)
                   </div>
-                </div>
+                )}
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="opening-message">Opening Message</Label>
+                <Input
+                  id="opening-message"
+                  placeholder="Enter opening message"
+                  value={store.openingMessage}
+                  onChange={(e) => store.setAppearance(
+                    store.agentIcon,
+                    store.userMessageColor,
+                    store.agentMessageColor,
+                    e.target.value,
+                    store.quickMessages
+                  )}
+                />
               </div>
 
               <div className="space-y-2">
@@ -382,24 +342,6 @@ export default function Home() {
                     </div>
                   </div>
                 </div>
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="opening-message">Opening Message</Label>
-                <Textarea
-                  id="opening-message"
-                  value={store.openingMessage}
-                  onChange={(e) =>
-                    store.setAppearance(
-                      store.agentIcon,
-                      store.userMessageColor,
-                      store.agentMessageColor,
-                      e.target.value,
-                      store.quickMessages
-                    )
-                  }
-                  placeholder="Enter the first message your agent will send"
-                />
               </div>
 
               <div className="space-y-2">
@@ -493,44 +435,34 @@ export default function Home() {
     {
       level: 4,
       id: "review",
-      title: "Review",
-      description: "Review your agent configuration",
+      title: "",
+      description: "",
       items: [
         {
           id: "review-1",
-          title: "Review",
-          description: "Confirm your settings",
+          title: "",
+          description: "",
           icon: Settings,
           component: (
             <div className="space-y-4 p-2">
-              <h3 className="font-medium">Basic Information</h3>
-              <div className="space-y-2 ml-4">
-                <p>Agent Name: {store.agentName}</p>
-                <p>Description: {store.description}</p>
-                <p>Primary Model: {store.primaryModel}</p>
-                <p>Fallback Model: {store.fallbackModel}</p>
-              </div>
-
-              <h3 className="font-medium">Capabilities</h3>
-              <div className="space-y-2 ml-4">
-                <p>System Prompt: {store.systemPrompt}</p>
-                <p>Knowledge Base Files: {store.knowledgeBase.length}</p>
-              </div>
-
-              <h3 className="font-medium">Appearance</h3>
-              <div className="space-y-2 ml-4">
-                <p>Agent Icon: {store.agentIcon?.name || "None"}</p>
-                <p>User Message Color: {store.userMessageColor}</p>
-                <p>Agent Message Color: {store.agentMessageColor}</p>
-                <p>Opening Message: {store.openingMessage}</p>
-                <p>Quick Messages: {store.quickMessages.length}</p>
-              </div>
-
-              <h3 className="font-medium">Pricing</h3>
-              <div className="space-y-2 ml-4">
-                <p>Type: {store.isPaid ? "Paid" : "Free"}</p>
-                <p>Visibility: {store.isPublic ? "Public" : "Private"}</p>
-              </div>
+              <pre className="p-4 bg-secondary/50 rounded-lg overflow-auto">
+                {JSON.stringify({
+                  userId: store.userId,
+                  agentName: store.agentName,
+                  description: store.description,
+                  primaryModel: store.primaryModel,
+                  fallbackModel: store.fallbackModel,
+                  systemPrompt: store.systemPrompt,
+                  knowledgeBase: store.knowledgeBase,
+                  agentIcon: store.agentIcon,
+                  userMessageColor: store.userMessageColor,
+                  agentMessageColor: store.agentMessageColor,
+                  openingMessage: store.openingMessage,
+                  quickMessages: store.quickMessages,
+                  isPaid: store.isPaid,
+                  isPublic: store.isPublic
+                }, null, 2)}
+              </pre>
             </div>
           ),
         },
@@ -539,10 +471,35 @@ export default function Home() {
   ];
 
   const handleComplete = useCallback(
-    (selections: Record<number | string, string>) => {
-      console.log(store);
-      router.push('/create');
-      return true;
+    async (selections: Record<number | string, string>) => {
+      try {
+        const response = await fetch('/api/agent/create', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            name: store.agentName,
+            user_id: store.userId,
+            documentUrls: store.knowledgeBase.map(file => file.url),
+            logoUrl: store.agentIcon?.url,
+          }),
+        });
+
+        const data = await response.json();
+        
+        if (data.success) {
+          // Redirect to the creation status page with the agent ID
+          router.push(`/create?agentId=${data.agentId}`);
+          return true;
+        } else {
+          console.error('Failed to create agent:', data.message);
+          return false;
+        }
+      } catch (error) {
+        console.error('Error creating agent:', error);
+        return false;
+      }
     },
     [store, router]
   );

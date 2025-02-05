@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { uploadToS3 } from '@/lib/utils/upload-to-s3'
+import { uploadFileToS3, deleteFileFromS3 } from '@/lib/s3-upload'
 
 export type FileUpload = {
   name: string
@@ -11,6 +11,7 @@ export type FileUpload = {
 
 interface AgentStore {
   // Basic Info
+  userId: string  // Added userId field
   agentName: string
   description: string
   primaryModel: 'openai' | 'claude' | 'deepseek'
@@ -55,6 +56,8 @@ interface AgentStore {
 }
 
 const initialState = {
+  // TODO: Replace this test userId with actual user ID from authentication
+  userId: 'test-user-123',
   agentName: '',
   description: '',
   primaryModel: 'openai' as const,
@@ -91,47 +94,121 @@ export const useAgentStore = create<AgentStore>((set, get) => ({
       knowledgeBase: [...state.knowledgeBase, ...files.map(file => ({ ...file, url: undefined }))].slice(0, 20) 
     })),
 
-  removeKnowledgeBase: (fileName) =>
-    set((state) => ({ 
-      knowledgeBase: state.knowledgeBase.filter(file => file.name !== fileName) 
-    })),
-
-  addQuickMessage: (message) =>
-    set((state) => ({ 
-      quickMessages: [...state.quickMessages, message] 
-    })),
-
-  removeQuickMessage: (index) =>
-    set((state) => ({ 
-      quickMessages: state.quickMessages.filter((_, i) => i !== index) 
-    })),
-
-  uploadKnowledgeBase: async (file) => {
-    set({ isUploading: true, uploadError: null });
+  removeKnowledgeBase: async (fileName: string) => {
+    const state = get()
     try {
-      const url = await uploadToS3(file, 'document');
-      set((state) => ({
-        knowledgeBase: [...state.knowledgeBase, { ...file, url }],
-        isUploading: false
-      }));
+      // Delete from S3 first
+      await deleteFileFromS3(
+        state.userId,
+        state.agentName || 'default-agent',
+        fileName,
+        'knowledge'
+      )
+      
+      // Then remove from state
+      set(state => ({
+        knowledgeBase: state.knowledgeBase.filter(file => file.name !== fileName)
+      }))
     } catch (error) {
+      console.error('Error removing knowledge base file:', error)
       set({ 
-        uploadError: error instanceof Error ? error.message : 'Failed to upload document',
-        isUploading: false 
-      });
+        uploadError: error instanceof Error ? error.message : 'Failed to remove file'
+      })
     }
   },
 
-  uploadAgentIcon: async (file) => {
-    set({ isUploading: true, uploadError: null });
+  addQuickMessage: (message: string) => {
+    set(state => ({
+      quickMessages: [...state.quickMessages, message]
+    }))
+  },
+
+  removeQuickMessage: (index: number) => {
+    set(state => ({
+      quickMessages: state.quickMessages.filter((_, i) => i !== index)
+    }))
+  },
+
+  uploadKnowledgeBase: async (file: File) => {
     try {
-      const url = await uploadToS3(file, 'logo');
-      set({ agentIcon: { ...file, url }, isUploading: false });
+      set({ isUploading: true, uploadError: null })
+      const state = get()
+      
+      const url = await uploadFileToS3(
+        file,
+        state.userId,
+        state.agentName || 'default-agent',
+        'knowledge',
+        (progress) => {
+          // You can use this to update a progress indicator if needed
+          console.log(`Upload progress: ${progress}%`)
+        }
+      )
+      
+      // Add to knowledge base array
+      const newFile: FileUpload = {
+        name: file.name,
+        size: file.size,
+        type: file.type,
+        file,
+        url
+      }
+      
+      set(state => ({
+        knowledgeBase: [...state.knowledgeBase, newFile],
+        isUploading: false
+      }))
     } catch (error) {
+      console.error('Upload error:', error)
       set({ 
-        uploadError: error instanceof Error ? error.message : 'Failed to upload logo',
-        isUploading: false 
-      });
+        isUploading: false, 
+        uploadError: error instanceof Error ? error.message : 'Upload failed' 
+      })
+    }
+  },
+  
+  uploadAgentIcon: async (file: File) => {
+    try {
+      set({ isUploading: true, uploadError: null })
+      const state = get()
+      
+      // If there's an existing icon, delete it first
+      if (state.agentIcon?.name) {
+        await deleteFileFromS3(
+          state.userId,
+          state.agentName || 'default-agent',
+          state.agentIcon.name,
+          'avatar'
+        )
+      }
+      
+      const url = await uploadFileToS3(
+        file,
+        state.userId,
+        state.agentName || 'default-agent',
+        'avatar',
+        (progress) => {
+          // You can use this to update a progress indicator if needed
+          console.log(`Upload progress: ${progress}%`)
+        }
+      )
+      
+      // Set as agent icon
+      const newFile: FileUpload = {
+        name: file.name,
+        size: file.size,
+        type: file.type,
+        file,
+        url
+      }
+      
+      set({ agentIcon: newFile, isUploading: false })
+    } catch (error) {
+      console.error('Upload error:', error)
+      set({ 
+        isUploading: false, 
+        uploadError: error instanceof Error ? error.message : 'Upload failed' 
+      })
     }
   },
 
