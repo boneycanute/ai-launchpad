@@ -1,10 +1,12 @@
 import { create } from 'zustand'
+import { uploadToS3 } from '@/lib/utils/upload-to-s3'
 
 export type FileUpload = {
   name: string
   size: number
   type: string
   file?: File
+  url?: string
 }
 
 interface AgentStore {
@@ -29,6 +31,10 @@ interface AgentStore {
   isPaid: boolean
   isPublic: boolean
   
+  // S3 Upload
+  isUploading: boolean
+  uploadError: string | null
+  
   // Actions
   setBasicInfo: (
     name: string, 
@@ -43,6 +49,8 @@ interface AgentStore {
   removeKnowledgeBase: (fileName: string) => void
   addQuickMessage: (message: string) => void
   removeQuickMessage: (index: number) => void
+  uploadKnowledgeBase: (file: File) => Promise<void>
+  uploadAgentIcon: (file: File) => Promise<void>
   reset: () => void
 }
 
@@ -59,16 +67,18 @@ const initialState = {
   quickMessages: [],
   isPaid: false,
   isPublic: false,
+  isUploading: false,
+  uploadError: null,
 }
 
-export const useAgentStore = create<AgentStore>((set) => ({
+export const useAgentStore = create<AgentStore>((set, get) => ({
   ...initialState,
 
   setBasicInfo: (name, description, primaryModel, fallbackModel) => 
     set({ agentName: name, description, primaryModel, fallbackModel }),
 
   setCapabilities: (systemPrompt, files) => 
-    set({ systemPrompt, knowledgeBase: files }),
+    set({ systemPrompt, knowledgeBase: files.map(file => ({ ...file, url: undefined })) }),
 
   setAppearance: (icon, userColor, agentColor, openingMsg, quickMsgs) =>
     set({ agentIcon: icon, userMessageColor: userColor, agentMessageColor: agentColor, openingMessage: openingMsg, quickMessages: quickMsgs }),
@@ -78,7 +88,7 @@ export const useAgentStore = create<AgentStore>((set) => ({
 
   addKnowledgeBase: (files) =>
     set((state) => ({ 
-      knowledgeBase: [...state.knowledgeBase, ...files].slice(0, 20) 
+      knowledgeBase: [...state.knowledgeBase, ...files.map(file => ({ ...file, url: undefined }))].slice(0, 20) 
     })),
 
   removeKnowledgeBase: (fileName) =>
@@ -95,6 +105,35 @@ export const useAgentStore = create<AgentStore>((set) => ({
     set((state) => ({ 
       quickMessages: state.quickMessages.filter((_, i) => i !== index) 
     })),
+
+  uploadKnowledgeBase: async (file) => {
+    set({ isUploading: true, uploadError: null });
+    try {
+      const url = await uploadToS3(file, 'document');
+      set((state) => ({
+        knowledgeBase: [...state.knowledgeBase, { ...file, url }],
+        isUploading: false
+      }));
+    } catch (error) {
+      set({ 
+        uploadError: error instanceof Error ? error.message : 'Failed to upload document',
+        isUploading: false 
+      });
+    }
+  },
+
+  uploadAgentIcon: async (file) => {
+    set({ isUploading: true, uploadError: null });
+    try {
+      const url = await uploadToS3(file, 'logo');
+      set({ agentIcon: { ...file, url }, isUploading: false });
+    } catch (error) {
+      set({ 
+        uploadError: error instanceof Error ? error.message : 'Failed to upload logo',
+        isUploading: false 
+      });
+    }
+  },
 
   reset: () => set(initialState),
 }))

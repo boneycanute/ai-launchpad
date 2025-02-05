@@ -131,7 +131,9 @@ const OptionCard = React.forwardRef<HTMLDivElement, OptionCardProps>(
             <div className="p-6 pt-0 text-center">
               <h3 className="font-semibold">{title}</h3>
               {description && (
-                <p className="text-sm text-muted-foreground mt-2">{description}</p>
+                <p className="text-sm text-muted-foreground mt-2">
+                  {description}
+                </p>
               )}
             </div>
           </>
@@ -173,7 +175,13 @@ interface FormCardProps {
 
 const FormCard = React.forwardRef<HTMLDivElement, FormCardProps>(
   (
-    { options, variant = "default", cardClassName, imageClassName, iconClassName },
+    {
+      options,
+      variant = "default",
+      cardClassName,
+      imageClassName,
+      iconClassName,
+    },
     ref
   ) => {
     const { currentStep, setSelection } = useFormStore();
@@ -279,7 +287,10 @@ const MultiStepForm = React.forwardRef<HTMLDivElement, MultiStepFormProps>(
     };
 
     const handleNext = () => {
-      if (currentStep < formSteps.length - 1 && (!isStepValid || isStepValid(currentStep))) {
+      if (
+        currentStep < formSteps.length - 1 &&
+        (!isStepValid || isStepValid(currentStep))
+      ) {
         onNextStep?.(currentStep);
         setStep(currentStep + 1);
       }
@@ -423,17 +434,14 @@ const MultiStepForm = React.forwardRef<HTMLDivElement, MultiStepFormProps>(
                 Previous
               </Button>
               {isLastStep ? (
-                <Button 
-                  onClick={handleComplete} 
-                  disabled={!canFinish || (isStepValid && !isStepValid(currentStep))}
+                <Button
+                  onClick={handleComplete}
+                  disabled={isStepValid && !isStepValid(currentStep)}
                 >
-                  {finalStep ? "Submit" : "Complete"}
+                  Create Agent
                 </Button>
               ) : (
-                <Button 
-                  onClick={handleNext}
-                  disabled={isNextDisabled}
-                >
+                <Button onClick={handleNext} disabled={isNextDisabled}>
                   Next
                 </Button>
               )}

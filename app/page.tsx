@@ -2,6 +2,7 @@
 
 import { Brain, Brush, Info, Puzzle, Settings } from "lucide-react";
 import { useCallback } from "react";
+import { useRouter } from "next/navigation";
 import MultiStepForm from "@/components/ui/multi-step-form";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -23,6 +24,7 @@ type ModelType = "openai" | "claude" | "deepseek";
 
 export default function Home() {
   const store = useAgentStore();
+  const router = useRouter();
 
   const isStepValid = (step: number) => {
     switch (step) {
@@ -38,7 +40,6 @@ export default function Home() {
       case 2: // Visual Customization
         return (
           store.openingMessage.trim() !== "" &&
-          store.quickMessages.length > 0 &&
           store.userMessageColor !== "" &&
           store.agentMessageColor !== ""
         );
@@ -53,12 +54,10 @@ export default function Home() {
 
   const handleNextStep = (step: number) => {
     // You can add any additional logic here when moving to next step
-    console.log(`Moving from step ${step} to ${step + 1}`);
   };
 
   const handlePrevStep = (step: number) => {
     // You can add any additional logic here when moving to previous step
-    console.log(`Moving from step ${step} to ${step - 1}`);
   };
 
   const formSteps = [
@@ -541,11 +540,11 @@ export default function Home() {
 
   const handleComplete = useCallback(
     (selections: Record<number | string, string>) => {
-      console.log("Form completed with selections:", selections);
-      console.log("Final store state:", store);
+      console.log(store);
+      router.push('/create');
       return true;
     },
-    [store]
+    [store, router]
   );
 
   return (
