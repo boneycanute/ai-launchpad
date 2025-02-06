@@ -2,14 +2,6 @@ import { NextResponse } from "next/server";
 import { CreationState } from "../../create/route";
 import { createClient } from "@/utils/supabase/server";
 
-// Total delays from the creation steps:
-// - store-initial-config: 3s
-// - create-vectordb: 5s
-// - store-config: 2s
-// - deploy-agent: 10s
-// - finalize-agent: 2s
-// Total: 22s
-
 export async function GET(
   request: Request,
   context: { params: { agentId: string } }

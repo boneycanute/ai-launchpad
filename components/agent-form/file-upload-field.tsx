@@ -1,18 +1,23 @@
-"use client"
+"use client";
 
-import { FileUpload } from '@/components/ui/file-upload'
+import { FileUpload } from "@/components/ui/file-upload";
 import { CheckCircle2, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useAgentStore } from '@/store/agent-store'
+import { useAgentStore } from "@/store/agent-store";
 import { cn } from "@/lib/utils";
 
 interface FileUploadFieldProps {
-  type: "knowledge" | "avatar"
+  type: "knowledge" | "avatar";
 }
 
 export function FileUploadField({ type }: FileUploadFieldProps) {
   const store = useAgentStore();
-  const files = type === "knowledge" ? store.knowledgeBase : (store.agentIcon ? [store.agentIcon] : []);
+  const files =
+    type === "knowledge"
+      ? store.knowledgeBase
+      : store.agentIcon
+      ? [store.agentIcon]
+      : [];
 
   const handleUpload = async (file: File) => {
     if (type === "knowledge") {
@@ -26,7 +31,13 @@ export function FileUploadField({ type }: FileUploadFieldProps) {
     if (type === "knowledge") {
       store.removeKnowledgeBase(fileName);
     } else {
-      store.set({ agentIcon: undefined });
+      store.setAppearance(
+        undefined,
+        store.userMessageColor,
+        store.agentMessageColor,
+        store.openingMessage,
+        store.quickMessages
+      );
     }
   };
 
@@ -35,9 +46,13 @@ export function FileUploadField({ type }: FileUploadFieldProps) {
       <FileUpload
         onUpload={handleUpload}
         isUploading={store.isUploading}
-        accept={type === "avatar" ? "image/*" : undefined}
+        accept={
+          type === "avatar"
+            ? "image/*"
+            : "text/plain,application/pdf,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        }
       />
-      
+
       {store.uploadError && (
         <div className="flex items-center gap-2 text-sm text-destructive bg-destructive/10 rounded-md px-3 py-2">
           <X className="h-4 w-4" />
@@ -72,5 +87,5 @@ export function FileUploadField({ type }: FileUploadFieldProps) {
         </div>
       )}
     </div>
-  )
+  );
 }

@@ -53,6 +53,8 @@ export async function POST(request: Request) {
         // Step 2: Create vector DB (placeholder)
         await createVectorDB({
           agentId,
+          userId: body.userId,
+          knowledgeBase: body.knowledgeBase || [],
         });
 
         // Step 3: Update config (placeholder)
