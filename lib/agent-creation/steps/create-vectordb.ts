@@ -51,10 +51,14 @@ function getS3Client() {
 async function getDocumentLoader(file: KnowledgeBaseFile, s3Client: S3Client) {
   const fileExtension = file.name.split(".").pop()?.toLowerCase();
 
-  // Create get object command
+  // Extract the key from the full URL
+  const urlPath = new URL(file.url).pathname;
+  const key = urlPath.startsWith("/") ? urlPath.slice(1) : urlPath;
+
+  // Create get object command with just the path
   const getObjectCommand = new GetObjectCommand({
     Bucket: process.env.AWS_BUCKET_NAME!,
-    Key: file.url,
+    Key: key,
   });
 
   try {
