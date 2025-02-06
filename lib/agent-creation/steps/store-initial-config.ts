@@ -7,7 +7,7 @@ interface StoreInitialConfigParams {
 
 export async function storeInitialConfig(params: StoreInitialConfigParams) {
   // Simulate a delay (3 seconds)
-  await new Promise(resolve => setTimeout(resolve, 3000));
+  await new Promise((resolve) => setTimeout(resolve, 3000));
 
   // Return simulated data
   return {
