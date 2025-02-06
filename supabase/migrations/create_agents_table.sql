@@ -2,6 +2,7 @@
 create table "public"."agents" (
   -- Primary Fields
   "id" uuid primary key default gen_random_uuid(),
+  "agent_id" text not null unique,
   "status" text not null,
   "vector_db_data" jsonb,
   "deployed_link" text,
@@ -49,6 +50,7 @@ create table "public"."agents" (
 create index agents_user_id_idx on public.agents(user_id);
 create index agents_agent_name_idx on public.agents(agent_name);
 create index agents_status_idx on public.agents(status);
+create index agents_agent_id_idx on public.agents(agent_id);
 
 -- Add RLS (Row Level Security) policies
 alter table "public"."agents" enable row level security;

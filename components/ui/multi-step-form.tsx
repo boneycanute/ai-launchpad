@@ -6,6 +6,7 @@ import Image from "next/image";
 import * as React from "react";
 import { create } from "zustand";
 import { useAgentStore } from "@/store/agent-store";
+import { useRouter } from "next/navigation";
 
 import { cn } from "@/lib/utils";
 
@@ -273,10 +274,12 @@ const MultiStepForm = React.forwardRef<HTMLDivElement, MultiStepFormProps>(
     },
     ref
   ) => {
+    const router = useRouter();
     const { currentStep, setStep, selections } = useFormStore();
     const store = useAgentStore();
     const [canFinish, setCanFinish] = React.useState(false);
     const [showSuccess, setShowSuccess] = React.useState(false);
+    const [isSubmitting, setIsSubmitting] = React.useState(false);
 
     const handleBack = () => {
       const prevStep = currentStep - 1;
@@ -317,36 +320,48 @@ const MultiStepForm = React.forwardRef<HTMLDivElement, MultiStepFormProps>(
     const hasLastStepSelection = selections[formSteps.length - 1] !== undefined;
 
     const handleComplete = async () => {
-      if (finalStep) {
-        // If no form, just use selections and show success
+      if (isSubmitting) return;
+      setIsSubmitting(true);
+      try {
+        // Call onComplete first to validate
         const isValid = await onComplete(selections);
-        if (isValid) {
-          setShowSuccess(true);
+        if (!isValid) {
+          setIsSubmitting(false);
+          return;
         }
-      } else {
-        // Send data to API
+
+        // Generate agent_id: agent_name-user_id-timestamp
+        const timestamp = Math.floor(Date.now() / 1000);
+        const agentId = `${store.agentName
+          .toLowerCase()
+          .replace(/\s+/g, "-")}-${store.userId}-${timestamp}`;
+
+        // Send data to API and wait for it to at least start
         const response = await fetch("/api/agent/create", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(store),
+          body: JSON.stringify({
+            ...store,
+            agent_id: agentId,
+          }),
         });
 
-        // Handle response
-        const data = await response.json();
-        if (data.success) {
-          await onComplete(selections);
-        } else {
-          console.error("Failed to create agent:", data);
-        }
+        // Start processing response but don't wait for it
+        response.json().catch(console.error);
+
+        // Navigate to create status page with agent_id
+        router.replace(`/create?agentId=${agentId}`);
+      } catch (error) {
+        console.error("Error starting agent creation:", error);
+        setIsSubmitting(false);
       }
     };
 
     const shouldShowOptions =
       stepOptions && (!isSuccessStep || (!children && !finalStep));
-    const shouldShowComplete =
-      isLastStep && !showSuccess && !children;
+    const shouldShowComplete = isLastStep && !showSuccess && !children;
 
     React.useEffect(() => {
       if (isLastStep) {
@@ -412,7 +427,10 @@ const MultiStepForm = React.forwardRef<HTMLDivElement, MultiStepFormProps>(
                       </Button>
                     )}
                     {shouldShowComplete && (
-                      <Button onClick={handleComplete} disabled={!canFinish}>
+                      <Button
+                        onClick={handleComplete}
+                        disabled={!canFinish || isSubmitting}
+                      >
                         Create Agent
                       </Button>
                     )}

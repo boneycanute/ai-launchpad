@@ -1,25 +1,15 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { MultiStepLoader } from "@/components/ui/multi-step-loader";
-import { IconSquareRoundedX } from "@tabler/icons-react";
-import { useAgentStore } from "@/store/agent-store";
-import { useAgentStatus } from "@/hooks/use-agent-status";
-import { CreationState } from "@/lib/types/agent";
+import { CreationState } from "../api/agent/create/route";
 
-// Map creation states to user-friendly messages
-const stateMessages: Record<CreationState, string> = {
-  storing_initial_config: "Storing initial configuration...",
-  creating_vectordb: "Creating vector database...",
-  updating_config: "Storing final configuration...",
-  deploying_agent: "Deploying your AI agent...",
-  finalizing_agent: "Running final checks...",
-  completed: "Your AI agent is ready!",
-  failed: "Failed to create agent",
-};
+interface CreationStatus {
+  state: CreationState;
+  updated_at: string;
+}
 
-// Order of states for the loader
 const stateOrder: CreationState[] = [
   "storing_initial_config",
   "creating_vectordb",
@@ -29,65 +19,104 @@ const stateOrder: CreationState[] = [
   "completed",
 ];
 
+const stateMessages: Record<CreationState, string> = {
+  storing_initial_config: "Storing initial configuration...",
+  creating_vectordb: "Creating vector database...",
+  updating_config: "Updating configuration...",
+  deploying_agent: "Deploying agent...",
+  finalizing_agent: "Finalizing agent...",
+  completed: "Agent creation completed!",
+  failed: "Agent creation failed",
+};
+
 export default function CreatePage() {
+  const [status, setStatus] = useState<CreationStatus | null>(null);
+  const [error, setError] = useState<string | null>(null);
   const router = useRouter();
   const searchParams = useSearchParams();
   const agentId = searchParams.get("agentId");
-  const [currentStep, setCurrentStep] = useState(0);
-
-  const { progress: status, error } = useAgentStatus(agentId || "");
 
   useEffect(() => {
     if (!agentId) {
-      router.push("/");
+      router.replace("/");
       return;
     }
 
-    if (status?.state === "failed") {
-      const errorMessage = encodeURIComponent(
-        status.error || "Agent creation failed"
-      );
-      router.push(`/error?error=${errorMessage}`);
-      return;
-    }
+    const interval = setInterval(async () => {
+      try {
+        const response = await fetch(`/api/agent/status/${agentId}`);
+        if (!response.ok) {
+          throw new Error("Failed to fetch status");
+        }
 
-    if (status?.state) {
-      const stepIndex = stateOrder.indexOf(status.state);
-      if (stepIndex !== -1) {
-        setCurrentStep(stepIndex);
+        const data = await response.json();
+
+        if (data.error) {
+          setError(data.error);
+          clearInterval(interval);
+          return;
+        }
+
+        setStatus(data.progress);
+
+        // Handle completion
+        if (data.progress.state === "completed") {
+          clearInterval(interval);
+          // Navigate to the agent's page or dashboard
+          setTimeout(() => {
+            router.replace(`/agent/${agentId}`);
+          }, 1000); // Give user a moment to see completion
+        }
+
+        // Handle failure
+        if (data.progress.state === "failed") {
+          clearInterval(interval);
+          setError("Agent creation failed. Please try again.");
+        }
+      } catch (error) {
+        console.error("Error fetching status:", error);
+        setError("Failed to fetch status. Please refresh the page.");
       }
+    }, 1000);
 
-      if (status.state === "completed") {
-        // Redirect to the agent page or dashboard
-        router.push(`/agent/${agentId}`);
-      }
-    }
-  }, [status, agentId, router]);
+    return () => clearInterval(interval);
+  }, [agentId, router]);
 
-  if (!agentId) return null;
+  if (!agentId) {
+    return null; // Will redirect in useEffect
+  }
+
+  if (error) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen p-4">
+        <div className="text-red-500 font-medium">{error}</div>
+        <button
+          onClick={() => router.replace("/")}
+          className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+        >
+          Back to Home
+        </button>
+      </div>
+    );
+  }
+
+  // Calculate current step index based on status
+  const currentStepIndex = status ? stateOrder.indexOf(status.state) : 0;
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-4">
       <div className="w-full max-w-2xl space-y-8">
-        <h1 className="text-2xl font-bold text-center text-gray-900">
-          Creating Your AI Agent
-        </h1>
         <MultiStepLoader
           loadingStates={stateOrder.map((state) => ({
             text: stateMessages[state],
-            process: async () => {
-              // Wait for the current state to match or pass this state
-              return (
-                status?.state === state ||
-                (status?.state && stateOrder.indexOf(status.state) > stateOrder.indexOf(state))
-              );
-            },
+            // No process function, we'll control the state purely through status
           }))}
-          loading={!!status && status.state !== "completed" && status.state !== "failed"}
+          loading={true}
+          currentStep={currentStepIndex} // Pass the current step explicitly
           onComplete={() => {
             // Only redirect if we're actually completed
             if (status?.state === "completed") {
-              router.push(`/agent/${agentId}`);
+              router.replace(`/agent/${agentId}`);
             }
           }}
         />

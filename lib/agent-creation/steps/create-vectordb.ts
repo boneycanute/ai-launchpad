@@ -1,19 +1,33 @@
+import { updateAgentStatus } from "../utils";
+
 interface VectorDBConfig {
   collectionId: string;
   documentCount: number;
 }
 
-export async function createVectorDB(documentUrls: string[]): Promise<VectorDBConfig> {
-  if (documentUrls.length === 0) {
-    return null;
+interface CreateVectorDBParams {
+  agentId: string;
+}
+
+export async function createVectorDB({ agentId }: CreateVectorDBParams): Promise<VectorDBConfig | null> {
+  try {
+    // Update status to current step
+    await updateAgentStatus(agentId, "creating_vectordb");
+
+    // Simulate processing time (5 seconds)
+    await new Promise(resolve => setTimeout(resolve, 5000));
+
+    // Update to next step
+    await updateAgentStatus(agentId, "updating_config");
+
+    // Return dummy data
+    return {
+      collectionId: `collection_${Date.now()}`,
+      documentCount: 0
+    };
+  } catch (error) {
+    // Update status to failed if there's an error
+    await updateAgentStatus(agentId, "failed");
+    throw error;
   }
-
-  // Simulate vector DB creation (5 seconds)
-  await new Promise(resolve => setTimeout(resolve, 5000));
-
-  // Return simulated vector DB config
-  return {
-    collectionId: `collection_${Date.now()}`,
-    documentCount: documentUrls.length
-  };
 }

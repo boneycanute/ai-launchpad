@@ -21,29 +21,21 @@ async function updateProgress(agentId: string, state: CreationState) {
 
 export async function POST(request: Request) {
   try {
-    // Debug the raw request
-    console.log(
-      "Request headers:",
-      Object.fromEntries(request.headers.entries())
-    );
-    const rawBody = await request.text();
-    console.log("Raw request body:", rawBody);
-
     // Parse the body
-    const body = JSON.parse(rawBody);
+    const body = await request.json();
     console.log("Parsed request body:", body);
 
-    // Generate a simple ID
-    const agentId = `agent_${Date.now()}`;
+    // Use the provided agent_id from the request
+    const agentId = body.agent_id;
 
     // Start the process asynchronously
     (async () => {
       try {
         // Step 1: Store initial configuration
-        await updateProgress(agentId, "storing_initial_config");
         const initialConfig = await storeInitialConfig({
+          agent_id: agentId,
           name: body.agentName,
-          user_id: body.userId, // This matches the interface in store-initial-config.ts
+          user_id: body.userId,
           description: body.description,
           primaryModel: body.primaryModel,
           fallbackModel: body.fallbackModel,
@@ -58,57 +50,41 @@ export async function POST(request: Request) {
           isPublic: body.isPublic || false,
         });
 
-        // Step 2: Create vector DB (if documents exist)
-        if (body.knowledgeBase?.length > 0) {
-          await updateProgress(agentId, "creating_vectordb");
-          const documentUrls = body.knowledgeBase.map(
-            (doc: { url: any }) => doc.url
-          );
-          await createVectorDB(documentUrls);
-        }
+        // Step 2: Create vector DB (placeholder)
+        await createVectorDB({
+          agentId,
+        });
 
-        // Step 3: Update configuration
-        await updateProgress(agentId, "updating_config");
+        // Step 3: Update config (placeholder)
         await updateConfig({
-          id: initialConfig.id, // Use the ID from initialConfig
-          documentUrls:
-            body.knowledgeBase?.map((doc: { url: any }) => doc.url) || [],
-          logoUrl: body.agentIcon?.url,
-          vectorDbConfig: null,
+          agentId,
+          id: agentId,
         });
 
-        // Step 4: Deploy agent
-        await updateProgress(agentId, "deploying_agent");
-        const deployment = await deployAgent({
-          agentId: initialConfig.id, // Use the ID from initialConfig
-          name: body.agentName,
-          vectorDbConfig: null,
+        // Step 4: Deploy agent (placeholder)
+        await deployAgent({
+          agentId,
         });
 
-        // Step 5: Finalize
-        await updateProgress(agentId, "finalizing_agent");
+        // Step 5: Finalize agent (placeholder)
         await finalizeAgent({
-          agentId: initialConfig.id, // Use the ID from initialConfig
-          deploymentUrl: deployment.deploymentUrl,
+          agentId,
         });
-
-        await updateProgress(agentId, "completed");
       } catch (error) {
         console.error("Agent creation failed:", error);
-        await updateProgress(agentId, "failed");
       }
     })();
 
-    // Return immediately with the agent ID
+    // Return success response immediately
     return NextResponse.json({
       success: true,
-      agentId,
       message: "Agent creation started",
+      agent_id: agentId,
     });
   } catch (error) {
-    console.error("Failed to start agent creation:", error);
+    console.error("Error processing request:", error);
     return NextResponse.json(
-      { success: false, message: "Failed to start agent creation" },
+      { error: "Failed to process request" },
       { status: 500 }
     );
   }

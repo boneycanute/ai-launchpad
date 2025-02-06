@@ -1,17 +1,33 @@
-interface FinalizeAgentParams {
-  agentId: string;
-  deploymentUrl: string;
+import { updateAgentStatus } from "../utils";
+
+interface FinalizeConfig {
+  status: string;
+  timestamp: string;
 }
 
-export async function finalizeAgent(params: FinalizeAgentParams) {
-  // Simulate finalization (2 seconds)
-  await new Promise(resolve => setTimeout(resolve, 2000));
+interface FinalizeAgentParams {
+  agentId: string;
+}
 
-  // Return simulated data
-  return {
-    id: params.agentId,
-    deployment_url: params.deploymentUrl,
-    status: "active",
-    updated_at: new Date().toISOString(),
-  };
+export async function finalizeAgent({ agentId }: FinalizeAgentParams): Promise<FinalizeConfig> {
+  try {
+    // Update status to current step
+    await updateAgentStatus(agentId, "finalizing_agent");
+
+    // Simulate finalization time (2 seconds)
+    await new Promise(resolve => setTimeout(resolve, 2000));
+
+    // Update to completed
+    await updateAgentStatus(agentId, "completed");
+
+    // Return dummy data
+    return {
+      status: "success",
+      timestamp: new Date().toISOString()
+    };
+  } catch (error) {
+    // Update status to failed if there's an error
+    await updateAgentStatus(agentId, "failed");
+    throw error;
+  }
 }

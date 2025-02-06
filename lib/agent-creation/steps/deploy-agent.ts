@@ -1,22 +1,33 @@
+import { updateAgentStatus } from "../utils";
+
+interface DeploymentConfig {
+  deploymentId: string;
+  status: string;
+}
+
 interface DeployAgentParams {
   agentId: string;
-  name: string;
-  vectorDbConfig?: {
-    collectionId: string;
-    documentCount: number;
-  } | null;
 }
 
-interface DeploymentResult {
-  deploymentUrl: string;
-}
+export async function deployAgent({ agentId }: DeployAgentParams): Promise<DeploymentConfig> {
+  try {
+    // Update status to current step
+    await updateAgentStatus(agentId, "deploying_agent");
 
-export async function deployAgent(params: DeployAgentParams): Promise<DeploymentResult> {
-  // Simulate deployment (10 seconds)
-  await new Promise(resolve => setTimeout(resolve, 10000));
+    // Simulate deployment time (3 seconds)
+    await new Promise(resolve => setTimeout(resolve, 3000));
 
-  // Return simulated deployment URL
-  return {
-    deploymentUrl: `https://${params.name.toLowerCase().replace(/\s+/g, '-')}-${params.agentId}.vercel.app`
-  };
+    // Update to next step
+    await updateAgentStatus(agentId, "finalizing_agent");
+
+    // Return dummy data
+    return {
+      deploymentId: `deploy_${Date.now()}`,
+      status: "success"
+    };
+  } catch (error) {
+    // Update status to failed if there's an error
+    await updateAgentStatus(agentId, "failed");
+    throw error;
+  }
 }

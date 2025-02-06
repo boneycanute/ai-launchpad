@@ -37,7 +37,6 @@ const CheckFilled = ({ className }: { className?: string }) => {
 
 type LoadingState = {
   text: string;
-  process?: () => Promise<boolean>;
 };
 
 const LoaderCore = ({
@@ -51,7 +50,7 @@ const LoaderCore = ({
     <div className="flex relative justify-start max-w-xl mx-auto flex-col mt-40">
       {loadingStates.map((loadingState, index) => {
         const distance = Math.abs(index - value);
-        const opacity = Math.max(1 - distance * 0.2, 0); // Minimum opacity is 0, keep it 0.2 if you're sane.
+        const opacity = Math.max(1 - distance * 0.2, 0);
 
         return (
           <motion.div
@@ -93,48 +92,20 @@ const LoaderCore = ({
 export const MultiStepLoader = ({
   loadingStates,
   loading,
+  currentStep = 0,
   onComplete,
 }: {
   loadingStates: LoadingState[];
   loading?: boolean;
+  currentStep?: number;
   onComplete?: () => void;
 }) => {
-  const [currentState, setCurrentState] = useState(0);
-  const [error, setError] = useState<string | null>(null);
-
   useEffect(() => {
-    if (!loading) {
-      setCurrentState(0);
-      setError(null);
-      return;
+    // Call onComplete when we reach the last step
+    if (currentStep === loadingStates.length - 1) {
+      onComplete?.();
     }
-
-    const runProcess = async () => {
-      if (currentState >= loadingStates.length) {
-        onComplete?.();
-        return;
-      }
-
-      const currentProcess = loadingStates[currentState].process;
-      if (currentProcess) {
-        try {
-          const success = await currentProcess();
-          if (success) {
-            setCurrentState(prev => prev + 1);
-          } else {
-            setError('Process failed');
-          }
-        } catch (err) {
-          setError(err instanceof Error ? err.message : 'Process failed');
-        }
-      } else {
-        // If no process is defined, move to next state after a short delay
-        setTimeout(() => setCurrentState(prev => prev + 1), 1000);
-      }
-    };
-
-    runProcess();
-  }, [currentState, loading, loadingStates, onComplete]);
+  }, [currentStep, loadingStates.length, onComplete]);
 
   return (
     <AnimatePresence mode="wait">
@@ -146,12 +117,7 @@ export const MultiStepLoader = ({
           className="w-full h-full fixed inset-0 z-[100] flex items-center justify-center backdrop-blur-2xl"
         >
           <div className="h-96 relative">
-            <LoaderCore value={currentState} loadingStates={loadingStates} />
-            {error && (
-              <div className="text-red-500 text-center mt-4">
-                Error: {error}
-              </div>
-            )}
+            <LoaderCore value={currentStep} loadingStates={loadingStates} />
           </div>
           <div className="bg-gradient-to-t inset-x-0 z-20 bottom-0 bg-white dark:bg-black h-full absolute [mask-image:radial-gradient(900px_at_center,transparent_30%,white)]" />
         </motion.div>

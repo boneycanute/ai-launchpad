@@ -482,36 +482,10 @@ export default function Home() {
 
   const handleComplete = useCallback(
     async (selections: Record<number | string, string>) => {
-      try {
-        const response = await fetch("/api/agent/create", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            name: store.agentName,
-            user_id: store.userId,
-            documentUrls: store.knowledgeBase.map((file) => file.url),
-            logoUrl: store.agentIcon?.url,
-          }),
-        });
-
-        const data = await response.json();
-
-        if (data.success) {
-          // Redirect to the creation status page with the agent ID
-          router.push(`/create?agentId=${data.agentId}`);
-          return true;
-        } else {
-          console.error("Failed to create agent:", data.message);
-          return false;
-        }
-      } catch (error) {
-        console.error("Error creating agent:", error);
-        return false;
-      }
+      // Always return true to allow navigation
+      return true;
     },
-    [store, router]
+    [] // Empty dependency array since we don't use any dependencies
   );
 
   return (

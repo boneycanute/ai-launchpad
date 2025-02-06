@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { CreationState } from "../../create/route";
+import { createClient } from "@/utils/supabase/server";
 
 // Total delays from the creation steps:
 // - store-initial-config: 3s
@@ -13,37 +14,48 @@ export async function GET(
   request: Request,
   context: { params: { agentId: string } }
 ) {
-  const { agentId } = await context.params;
+  try {
+    // Await the params to fix the Next.js warning
+    const { agentId } = await Promise.resolve(context.params);
 
-  // Extract timestamp from agent ID (format: agent_[timestamp])
-  const timestamp = parseInt(agentId.split("_")[1]);
-  const elapsedSeconds = (Date.now() - timestamp) / 1000;
+    const supabase = await createClient(true);
+    const { data, error } = await supabase
+      .from("agents")
+      .select("status, updated_at")
+      .eq("agent_id", agentId)
+      .single();
 
-  let state: CreationState;
+    if (error) {
+      console.error("Error fetching agent status:", error);
+      return NextResponse.json(
+        { error: "Failed to fetch agent status" },
+        { status: 500 }
+      );
+    }
 
-  if (elapsedSeconds < 3) {
-    state = "storing_initial_config";
-  } else if (elapsedSeconds < 8) {
-    // 3 + 5
-    state = "creating_vectordb";
-  } else if (elapsedSeconds < 10) {
-    // 3 + 5 + 2
-    state = "updating_config";
-  } else if (elapsedSeconds < 20) {
-    // 3 + 5 + 2 + 10
-    state = "deploying_agent";
-  } else if (elapsedSeconds < 22) {
-    // 3 + 5 + 2 + 10 + 2
-    state = "finalizing_agent";
-  } else {
-    state = "completed";
+    // If no data found, return initial state
+    if (!data) {
+      return NextResponse.json({
+        success: true,
+        progress: {
+          state: "storing_initial_config" as CreationState,
+          updated_at: new Date().toISOString(),
+        },
+      });
+    }
+
+    return NextResponse.json({
+      success: true,
+      progress: {
+        state: data.status as CreationState,
+        updated_at: data.updated_at,
+      },
+    });
+  } catch (error) {
+    console.error("Unexpected error:", error);
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 }
+    );
   }
-
-  return NextResponse.json({
-    success: true,
-    progress: {
-      state,
-      updated_at: new Date().toISOString(),
-    },
-  });
 }
