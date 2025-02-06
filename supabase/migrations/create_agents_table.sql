@@ -9,25 +9,24 @@ create table "public"."agents" (
   -- Basic Information
   "user_id" text not null,
   "agent_name" text not null,
-  "description" text,
+  "description" text not null default '',
   "primary_model" text not null check (primary_model in ('openai', 'claude', 'deepseek')),
   "fallback_model" text not null check (fallback_model in ('openai', 'claude', 'deepseek')),
 
   -- Capabilities
-  "system_prompt" text,
-  "knowledge_base" jsonb default '{"files": []}'::jsonb,
+  "system_prompt" text not null default '',
+  "knowledge_base" jsonb not null default '{"files": []}'::jsonb,
 
   -- Appearance
   "agent_icon" jsonb,
-  "user_message_color" text,
-  "agent_message_color" text,
-  "opening_message" text,
-  "quick_messages" jsonb default '[]'::jsonb,
+  "user_message_color" text not null default '#F0F9FF',
+  "agent_message_color" text not null default '#E0F2FE',
+  "opening_message" text not null default '',
+  "quick_messages" jsonb not null default '[]'::jsonb,
 
   -- RAG Configuration
   "vector_db_config" jsonb,
-  "document_urls" jsonb default '[]'::jsonb,
-  "embedding_model" text,
+  "document_urls" jsonb not null default '[]'::jsonb,
 
   -- Creation Progress
   "creation_progress" jsonb not null default '{

@@ -3,7 +3,7 @@
 import { Brain, Brush, Info, Puzzle, Settings } from "lucide-react";
 import { useCallback } from "react";
 import { useRouter } from "next/navigation";
-import MultiStepForm from "@/components/ui/multi-step-form";
+import { MultiStepForm } from "@/components/ui/multi-step-form";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -193,7 +193,7 @@ export default function Home() {
                   Upload documents to give your agent specialized knowledge
                 </p>
                 <FileUploadField type="knowledge" />
-                
+
                 {store.knowledgeBase.length > 0 && (
                   <div className="mt-4 space-y-2">
                     <Label>Uploaded Documents</Label>
@@ -241,21 +241,25 @@ export default function Home() {
                   Upload an avatar image for your agent
                 </p>
                 <FileUploadField type="avatar" />
-                
+
                 {store.agentIcon && (
                   <div className="mt-4">
                     <div className="flex items-center justify-between p-2 border rounded-md">
-                      <span className="text-sm truncate">{store.agentIcon.name}</span>
+                      <span className="text-sm truncate">
+                        {store.agentIcon.name}
+                      </span>
                       <Button
                         variant="ghost"
                         size="icon"
-                        onClick={() => store.setAppearance(
-                          undefined,
-                          store.userMessageColor,
-                          store.agentMessageColor,
-                          store.openingMessage,
-                          store.quickMessages
-                        )}
+                        onClick={() =>
+                          store.setAppearance(
+                            undefined,
+                            store.userMessageColor,
+                            store.agentMessageColor,
+                            store.openingMessage,
+                            store.quickMessages
+                          )
+                        }
                       >
                         <X className="h-4 w-4" />
                       </Button>
@@ -270,13 +274,15 @@ export default function Home() {
                   id="opening-message"
                   placeholder="Enter opening message"
                   value={store.openingMessage}
-                  onChange={(e) => store.setAppearance(
-                    store.agentIcon,
-                    store.userMessageColor,
-                    store.agentMessageColor,
-                    e.target.value,
-                    store.quickMessages
-                  )}
+                  onChange={(e) =>
+                    store.setAppearance(
+                      store.agentIcon,
+                      store.userMessageColor,
+                      store.agentMessageColor,
+                      e.target.value,
+                      store.quickMessages
+                    )
+                  }
                 />
               </div>
 
@@ -446,22 +452,26 @@ export default function Home() {
           component: (
             <div className="space-y-4 p-2">
               <pre className="p-4 bg-secondary/50 rounded-lg overflow-auto">
-                {JSON.stringify({
-                  userId: store.userId,
-                  agentName: store.agentName,
-                  description: store.description,
-                  primaryModel: store.primaryModel,
-                  fallbackModel: store.fallbackModel,
-                  systemPrompt: store.systemPrompt,
-                  knowledgeBase: store.knowledgeBase,
-                  agentIcon: store.agentIcon,
-                  userMessageColor: store.userMessageColor,
-                  agentMessageColor: store.agentMessageColor,
-                  openingMessage: store.openingMessage,
-                  quickMessages: store.quickMessages,
-                  isPaid: store.isPaid,
-                  isPublic: store.isPublic
-                }, null, 2)}
+                {JSON.stringify(
+                  {
+                    userId: store.userId,
+                    agentName: store.agentName,
+                    description: store.description,
+                    primaryModel: store.primaryModel,
+                    fallbackModel: store.fallbackModel,
+                    systemPrompt: store.systemPrompt,
+                    knowledgeBase: store.knowledgeBase,
+                    agentIcon: store.agentIcon,
+                    userMessageColor: store.userMessageColor,
+                    agentMessageColor: store.agentMessageColor,
+                    openingMessage: store.openingMessage,
+                    quickMessages: store.quickMessages,
+                    isPaid: store.isPaid,
+                    isPublic: store.isPublic,
+                  },
+                  null,
+                  2
+                )}
               </pre>
             </div>
           ),
@@ -473,31 +483,31 @@ export default function Home() {
   const handleComplete = useCallback(
     async (selections: Record<number | string, string>) => {
       try {
-        const response = await fetch('/api/agent/create', {
-          method: 'POST',
+        const response = await fetch("/api/agent/create", {
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
           body: JSON.stringify({
             name: store.agentName,
             user_id: store.userId,
-            documentUrls: store.knowledgeBase.map(file => file.url),
+            documentUrls: store.knowledgeBase.map((file) => file.url),
             logoUrl: store.agentIcon?.url,
           }),
         });
 
         const data = await response.json();
-        
+
         if (data.success) {
           // Redirect to the creation status page with the agent ID
           router.push(`/create?agentId=${data.agentId}`);
           return true;
         } else {
-          console.error('Failed to create agent:', data.message);
+          console.error("Failed to create agent:", data.message);
           return false;
         }
       } catch (error) {
-        console.error('Error creating agent:', error);
+        console.error("Error creating agent:", error);
         return false;
       }
     },

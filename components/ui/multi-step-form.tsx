@@ -5,6 +5,7 @@ import { ChevronLeftIcon, LucideIcon } from "lucide-react";
 import Image from "next/image";
 import * as React from "react";
 import { create } from "zustand";
+import { useAgentStore } from "@/store/agent-store";
 
 import { cn } from "@/lib/utils";
 
@@ -204,6 +205,7 @@ const FormCard = React.forwardRef<HTMLDivElement, FormCardProps>(
               </div>
             );
           }
+
           return (
             <OptionCard
               key={option.id}
@@ -211,7 +213,9 @@ const FormCard = React.forwardRef<HTMLDivElement, FormCardProps>(
               description={option.description}
               icon={option.icon}
               image={option.image}
-              onClick={() => setSelection(currentStep, option.id, 5)}
+              onClick={() =>
+                setSelection(currentStep, option.id, options.length)
+              }
               variant={variant}
               cardClassName={cardClassName}
               imageClassName={imageClassName}
@@ -230,10 +234,13 @@ interface StepOptions {
   options: FormStep["items"];
 }
 
-interface MultiStepFormProps {
+interface MultiStepFormProps
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, "title"> {
   title?: React.ReactNode;
   formSteps: FormStep[];
-  onComplete: (selections: Record<number | string, string>) => boolean;
+  onComplete: (
+    selections: Record<number | string, string>
+  ) => boolean | Promise<boolean>;
   variant?: "default" | "compact";
   cardClassName?: string;
   imageClassName?: string;
@@ -267,32 +274,27 @@ const MultiStepForm = React.forwardRef<HTMLDivElement, MultiStepFormProps>(
     ref
   ) => {
     const { currentStep, setStep, selections } = useFormStore();
+    const store = useAgentStore();
     const [canFinish, setCanFinish] = React.useState(false);
     const [showSuccess, setShowSuccess] = React.useState(false);
 
-    // Set hasForm on mount
-    React.useEffect(() => {
-      useFormStore.setState({ hasForm: Boolean(children) });
-    }, [children]);
-
     const handleBack = () => {
-      if (showSuccess) {
-        setShowSuccess(false);
-        return;
-      }
-      if (currentStep > 0) {
-        onPrevStep?.(currentStep);
-        setStep(currentStep - 1);
+      const prevStep = currentStep - 1;
+      if (prevStep >= 0) {
+        setStep(prevStep);
+        if (onPrevStep) {
+          onPrevStep(prevStep);
+        }
       }
     };
 
     const handleNext = () => {
-      if (
-        currentStep < formSteps.length - 1 &&
-        (!isStepValid || isStepValid(currentStep))
-      ) {
-        onNextStep?.(currentStep);
-        setStep(currentStep + 1);
+      const nextStep = currentStep + 1;
+      if (nextStep < formSteps.length) {
+        setStep(nextStep);
+        if (onNextStep) {
+          onNextStep(nextStep);
+        }
       }
     };
 
@@ -314,137 +316,109 @@ const MultiStepForm = React.forwardRef<HTMLDivElement, MultiStepFormProps>(
     const stepOptions = getStepOptions(currentStep, selections);
     const hasLastStepSelection = selections[formSteps.length - 1] !== undefined;
 
-    const handleComplete = () => {
+    const handleComplete = async () => {
       if (finalStep) {
         // If no form, just use selections and show success
-        const isValid = onComplete(selections);
+        const isValid = await onComplete(selections);
         if (isValid) {
           setShowSuccess(true);
         }
       } else {
-        onComplete(selections);
+        // Send data to API
+        const response = await fetch("/api/agent/create", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(store),
+        });
+
+        // Handle response
+        const data = await response.json();
+        if (data.success) {
+          await onComplete(selections);
+        } else {
+          console.error("Failed to create agent:", data);
+        }
       }
     };
 
     const shouldShowOptions =
       stepOptions && (!isSuccessStep || (!children && !finalStep));
     const shouldShowComplete =
-      isLastStep && !showSuccess && hasLastStepSelection && !children;
+      isLastStep && !showSuccess && !children;
 
     React.useEffect(() => {
       if (isLastStep) {
-        const hasSelection = selections[currentStep] !== undefined;
-        setCanFinish(hasSelection);
+        // Always enable the button on the last step since validation is handled by isStepValid
+        setCanFinish(true);
       }
-    }, [isLastStep, currentStep, selections]);
+    }, [isLastStep]);
 
     const isNextDisabled = isStepValid ? !isStepValid(currentStep) : false;
 
     return (
       <div
         ref={ref}
-        className={cn("flex flex-col items-center", className)}
+        className={cn("flex flex-col items-center w-full", className)}
         {...props}
       >
-        <div className="w-full max-w-5xl p-2 min-h-screen h-screen">
-          <Card className="w-full mx-auto p-6 shadow-lg p-2 md:p-6 h-full">
-            <div className="mb-8 p-4 md:p-0">
-              <div className="flex items-center justify-between mb-4">
-                <div className="w-20">
-                  {currentStep > 0 ? (
-                    <Button
-                      variant="link"
-                      onClick={handleBack}
-                      className="mr-4 p-0"
-                    >
-                      <ChevronLeftIcon className="h-5 w-5" />
-                      Back
-                    </Button>
-                  ) : (
-                    <div className="invisible">
-                      <Button variant="link" className="mr-4 p-0">
-                        <ChevronLeftIcon className="h-5 w-5" />
-                        Back
-                      </Button>
+        <div className="w-full max-w-5xl p-2">
+          <Card className="w-full mx-auto shadow-lg">
+            <div className="p-6">
+              {title && (
+                <div className="mb-8 text-center">
+                  <h1 className="text-2xl font-bold">{title}</h1>
+                </div>
+              )}
+              <Progress
+                value={((currentStep + 1) / formSteps.length) * 100}
+                className="h-2 mb-8"
+              />
+
+              <div className="flex flex-col space-y-8">
+                <div className="min-h-[400px]">
+                  {shouldShowOptions && stepOptions && (
+                    <div className="space-y-4">
+                      <h2 className="text-xl font-semibold text-center">
+                        {stepOptions.title}
+                      </h2>
+                      <FormCard
+                        options={stepOptions.options}
+                        variant={variant}
+                        cardClassName={cardClassName}
+                        imageClassName={imageClassName}
+                        iconClassName={iconClassName}
+                      />
                     </div>
                   )}
+                  {isSuccessStep && children}
+                  {isSuccessStep && finalStep && showSuccess && finalStep}
                 </div>
-                {title && <div className="flex items-center">{title}</div>}
-                <div className="text-sm font-medium text-muted-foreground w-20 text-right">
-                  {isSuccessStep
-                    ? `${formSteps.length}/${formSteps.length}`
-                    : `${currentStep + 1}/${formSteps.length}`}
+
+                <div className="flex justify-between pt-4 border-t">
+                  <Button
+                    variant="ghost"
+                    onClick={handleBack}
+                    disabled={currentStep === 0}
+                  >
+                    <ChevronLeftIcon className="h-4 w-4 mr-2" />
+                    Back
+                  </Button>
+                  <div className="flex gap-4">
+                    {!isLastStep && (
+                      <Button onClick={handleNext} disabled={isNextDisabled}>
+                        Next
+                      </Button>
+                    )}
+                    {shouldShowComplete && (
+                      <Button onClick={handleComplete} disabled={!canFinish}>
+                        Create Agent
+                      </Button>
+                    )}
+                  </div>
                 </div>
               </div>
-              <Progress
-                value={
-                  isSuccessStep
-                    ? 100
-                    : ((currentStep + 1) / formSteps.length) * 100
-                }
-                className="h-2"
-              />
-              <div className="mt-4 text-center">
-                {!isSuccessStep && stepOptions && (
-                  <h1 className="text-2xl font-semibold mb-2">
-                    {stepOptions.title}
-                  </h1>
-                )}
-                {formSteps[currentStep]?.description && (
-                  <p className="text-sm text-muted-foreground mx-auto max-w-md">
-                    {formSteps[currentStep].description}
-                  </p>
-                )}
-              </div>
-            </div>
-
-            <AnimatePresence mode="wait" initial={false}>
-              <motion.div
-                key={currentStep}
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
-                transition={{ duration: 0.15 }}
-                className="flex-1"
-              >
-                {showSuccess ? (
-                  finalStep
-                ) : isSuccessStep && children ? (
-                  children
-                ) : shouldShowOptions ? (
-                  <FormCard
-                    options={stepOptions?.options || []}
-                    variant={variant}
-                    totalSteps={formSteps.length}
-                    cardClassName={cardClassName}
-                    imageClassName={imageClassName}
-                    iconClassName={iconClassName}
-                    key={`form-card-${currentStep}`}
-                  />
-                ) : null}
-              </motion.div>
-            </AnimatePresence>
-
-            <div className="flex justify-between mt-8">
-              <Button
-                variant="outline"
-                onClick={handleBack}
-                disabled={currentStep === 0}
-              >
-                Previous
-              </Button>
-              {isLastStep ? (
-                <Button
-                  onClick={handleComplete}
-                  disabled={isStepValid && !isStepValid(currentStep)}
-                >
-                  Create Agent
-                </Button>
-              ) : (
-                <Button onClick={handleNext} disabled={isNextDisabled}>
-                  Next
-                </Button>
-              )}
             </div>
           </Card>
         </div>
@@ -454,4 +428,4 @@ const MultiStepForm = React.forwardRef<HTMLDivElement, MultiStepFormProps>(
 );
 MultiStepForm.displayName = "MultiStepForm";
 
-export default MultiStepForm;
+export { MultiStepForm };

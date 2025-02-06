@@ -21,7 +21,17 @@ async function updateProgress(agentId: string, state: CreationState) {
 
 export async function POST(request: Request) {
   try {
-    const body = await request.json();
+    // Debug the raw request
+    console.log(
+      "Request headers:",
+      Object.fromEntries(request.headers.entries())
+    );
+    const rawBody = await request.text();
+    console.log("Raw request body:", rawBody);
+
+    // Parse the body
+    const body = JSON.parse(rawBody);
+    console.log("Parsed request body:", body);
 
     // Generate a simple ID
     const agentId = `agent_${Date.now()}`;
@@ -31,40 +41,54 @@ export async function POST(request: Request) {
       try {
         // Step 1: Store initial configuration
         await updateProgress(agentId, "storing_initial_config");
-        await storeInitialConfig({
-          name: body.name,
-          user_id: body.user_id,
-          documentUrls: body.documentUrls,
-          logoUrl: body.logoUrl,
+        const initialConfig = await storeInitialConfig({
+          name: body.agentName,
+          user_id: body.userId, // This matches the interface in store-initial-config.ts
+          description: body.description,
+          primaryModel: body.primaryModel,
+          fallbackModel: body.fallbackModel,
+          systemPrompt: body.systemPrompt,
+          knowledgeBase: body.knowledgeBase || [],
+          agentIcon: body.agentIcon || null,
+          userMessageColor: body.userMessageColor,
+          agentMessageColor: body.agentMessageColor,
+          openingMessage: body.openingMessage,
+          quickMessages: body.quickMessages || [],
+          isPaid: body.isPaid || false,
+          isPublic: body.isPublic || false,
         });
 
         // Step 2: Create vector DB (if documents exist)
-        if (body.documentUrls?.length > 0) {
+        if (body.knowledgeBase?.length > 0) {
           await updateProgress(agentId, "creating_vectordb");
-          await createVectorDB(body.documentUrls);
+          const documentUrls = body.knowledgeBase.map(
+            (doc: { url: any }) => doc.url
+          );
+          await createVectorDB(documentUrls);
         }
 
         // Step 3: Update configuration
         await updateProgress(agentId, "updating_config");
         await updateConfig({
-          id: agentId,
-          documentUrls: body.documentUrls,
-          logoUrl: body.logoUrl,
+          id: initialConfig.id, // Use the ID from initialConfig
+          documentUrls:
+            body.knowledgeBase?.map((doc: { url: any }) => doc.url) || [],
+          logoUrl: body.agentIcon?.url,
           vectorDbConfig: null,
         });
 
         // Step 4: Deploy agent
         await updateProgress(agentId, "deploying_agent");
         const deployment = await deployAgent({
-          agentId,
-          name: body.name,
+          agentId: initialConfig.id, // Use the ID from initialConfig
+          name: body.agentName,
           vectorDbConfig: null,
         });
 
         // Step 5: Finalize
         await updateProgress(agentId, "finalizing_agent");
         await finalizeAgent({
-          agentId,
+          agentId: initialConfig.id, // Use the ID from initialConfig
           deploymentUrl: deployment.deploymentUrl,
         });
 
