@@ -1,0 +1,67 @@
+[2025-02-07T05:21:28.294Z] [INFO] === Vector DB Creation Process Started ===
+[2025-02-07T05:21:28.294Z] [INFO] Starting vector DB creation
+{
+  "agentId": "neo-test-user-123-1738905686",
+  "userId": "test-user-123"
+}
+[2025-02-07T05:21:28.296Z] [DEBUG] Initializing S3 client with config:
+{
+  "region": "Set",
+  "accessKeyId": "Set",
+  "secretAccessKey": "Set",
+  "bucketName": "Set"
+}
+[2025-02-07T05:21:28.667Z] [INFO] Using Pinecone index: agent-launchpad, namespace: test-user-123_neo-test-user-123-1738905686
+[2025-02-07T05:21:28.667Z] [DEBUG] Initializing OpenAI embeddings
+[2025-02-07T05:21:28.668Z] [INFO] Processing file: The Ultimate n8n Starter Kit (2025).pdf
+[2025-02-07T05:21:28.784Z] [INFO] Getting document loader for file: The Ultimate n8n Starter Kit (2025).pdf
+[2025-02-07T05:21:28.784Z] [DEBUG] File extension: pdf
+[2025-02-07T05:21:28.784Z] [DEBUG] Extracted S3 key: Neo/knowledge_doc_1738905677217.pdf
+[2025-02-07T05:21:28.785Z] [INFO] Attempting to fetch file from S3:
+{
+  "bucket": "metaschool-launchpad",
+  "key": "Neo/knowledge_doc_1738905677217.pdf",
+  "fileExtension": "pdf"
+}
+[2025-02-07T05:21:28.968Z] [ERROR] Error loading file from S3:
+{
+  "error": {
+    "name": "NoSuchKey",
+    "message": "The specified key does not exist.",
+    "stack": "NoSuchKey: The specified key does not exist.\n    at de_NoSuchKeyRes (C:\\Users\\Bones\\Projects\\launchpad4\\ai-launchpad\\node_modules\\@aws-sdk\\client-s3\\dist-cjs\\index.js:5045:21)\n    at de_CommandError (C:\\Users\\Bones\\Projects\\launchpad4\\ai-launchpad\\node_modules\\@aws-sdk\\client-s3\\dist-cjs\\index.js:4944:19)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at async C:\\Users\\Bones\\Projects\\launchpad4\\ai-launchpad\\node_modules\\@smithy\\middleware-serde\\dist-cjs\\index.js:35:20\n    at async C:\\Users\\Bones\\Projects\\launchpad4\\ai-launchpad\\node_modules\\@aws-sdk\\middleware-sdk-s3\\dist-cjs\\index.js:483:18\n    at async C:\\Users\\Bones\\Projects\\launchpad4\\ai-launchpad\\node_modules\\@smithy\\middleware-retry\\dist-cjs\\index.js:321:38\n    at async C:\\Users\\Bones\\Projects\\launchpad4\\ai-launchpad\\node_modules\\@aws-sdk\\middleware-sdk-s3\\dist-cjs\\index.js:109:22\n    at async C:\\Users\\Bones\\Projects\\launchpad4\\ai-launchpad\\node_modules\\@aws-sdk\\middleware-sdk-s3\\dist-cjs\\index.js:136:14\n    at async C:\\Users\\Bones\\Projects\\launchpad4\\ai-launchpad\\node_modules\\@aws-sdk\\middleware-logger\\dist-cjs\\index.js:33:22\n    at async getDocumentLoader (C:\\Users\\Bones\\Projects\\launchpad4\\ai-launchpad\\.next\\server\\chunks\\[root of the server]__6be5b4._.js:427:26)\n    at async createVectorDB (C:\\Users\\Bones\\Projects\\launchpad4\\ai-launchpad\\.next\\server\\chunks\\[root of the server]__6be5b4._.js:593:32)\n    at async C:\\Users\\Bones\\Projects\\launchpad4\\ai-launchpad\\.next\\server\\chunks\\[root of the server]__6be5b4._.js:841:17"
+  },
+  "requestDetails": {
+    "bucket": "metaschool-launchpad",
+    "key": "Neo/knowledge_doc_1738905677217.pdf",
+    "fileExtension": "pdf"
+  },
+  "awsConfig": {
+    "region": "Set",
+    "accessKeyId": "Set",
+    "secretAccessKey": "Set"
+  }
+}
+[2025-02-07T05:21:28.969Z] [ERROR] Error processing file The Ultimate n8n Starter Kit (2025).pdf:
+{
+  "name": "NoSuchKey",
+  "$fault": "client",
+  "$metadata": {
+    "httpStatusCode": 404,
+    "requestId": "21K037GCK4C15JPN",
+    "extendedRequestId": "lvpK6HT9x0wkS2khNeS+55n7+XWJWpW9ciaI0ev69nOn9D+KU6Wc7KudzvySrzcy3x4TGzHAPOY=",
+    "attempts": 1,
+    "totalRetryDelay": 0
+  },
+  "Code": "NoSuchKey",
+  "Key": "Neo/knowledge_doc_1738905677217.pdf",
+  "RequestId": "21K037GCK4C15JPN",
+  "HostId": "lvpK6HT9x0wkS2khNeS+55n7+XWJWpW9ciaI0ev69nOn9D+KU6Wc7KudzvySrzcy3x4TGzHAPOY=",
+  "message": "The specified key does not exist."
+}
+[2025-02-07T05:21:29.473Z] [INFO] Vector DB creation completed successfully
+{
+  "namespace": "test-user-123_neo-test-user-123-1738905686",
+  "documentCount": 0,
+  "documents": [],
+  "status": "active"
+}

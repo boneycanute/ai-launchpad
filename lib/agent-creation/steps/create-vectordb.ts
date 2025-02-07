@@ -7,6 +7,7 @@ import { PDFLoader } from "@langchain/community/document_loaders/fs/pdf";
 import { CSVLoader } from "@langchain/community/document_loaders/fs/csv";
 import { TextLoader } from "langchain/document_loaders/fs/text";
 import { S3Client, GetObjectCommand } from "@aws-sdk/client-s3";
+import { logger } from "@/lib/utils/logger";
 
 // Define interfaces for type safety
 interface KnowledgeBaseFile {
@@ -38,81 +39,159 @@ async function updateAgentStatus(agentId: string, status: string) {
 
 // Initialize S3 client
 function getS3Client() {
+  // Log AWS configuration state
+  logger.debug("Initializing S3 client with config:", {
+    region: process.env.AWS_REGION ? "Set" : "Missing",
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID ? "Set" : "Missing",
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY ? "Set" : "Missing",
+    bucketName: process.env.AWS_S3_BUCKET_NAME ? "Set" : "Missing",
+  });
+
+  if (
+    !process.env.AWS_REGION ||
+    !process.env.AWS_ACCESS_KEY_ID ||
+    !process.env.AWS_SECRET_ACCESS_KEY
+  ) {
+    logger.error("Missing required AWS credentials:", {
+      region: !process.env.AWS_REGION ? "Missing" : "Set",
+      accessKeyId: !process.env.AWS_ACCESS_KEY_ID ? "Missing" : "Set",
+      secretAccessKey: !process.env.AWS_SECRET_ACCESS_KEY ? "Missing" : "Set",
+    });
+    throw new Error("Missing required AWS credentials");
+  }
+
   return new S3Client({
-    region: process.env.AWS_REGION!,
+    region: process.env.AWS_REGION,
     credentials: {
-      accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
-      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
+      accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
     },
   });
 }
 
 // Get appropriate document loader based on file type
 async function getDocumentLoader(file: KnowledgeBaseFile, s3Client: S3Client) {
+  logger.info(`Getting document loader for file: ${file.name}`);
   const fileExtension = file.name.split(".").pop()?.toLowerCase();
+  logger.debug("File extension:", fileExtension);
 
+  const url = new URL(file.url);
+  logger.debug("Full URL:", url);
   // Extract the key from the full URL
-  const urlPath = new URL(file.url).pathname;
-  const key = urlPath.startsWith("/") ? urlPath.slice(1) : urlPath;
+  const key = url.pathname.substring(1);
+  logger.debug("Extracted S3 key:", key);
 
-  // Create get object command with just the path
   const getObjectCommand = new GetObjectCommand({
-    Bucket: process.env.AWS_BUCKET_NAME!,
+    Bucket: process.env.AWS_S3_BUCKET_NAME!,
     Key: key,
   });
 
   try {
+    logger.info(`Attempting to fetch file from S3:`, {
+      bucket: process.env.AWS_S3_BUCKET_NAME,
+      key: key,
+      fileExtension,
+    });
+
     // Get file from S3
     const response = await s3Client.send(getObjectCommand);
     const buffer = await response.Body?.transformToByteArray();
 
     if (!buffer) {
-      throw new Error("Failed to get file content from S3");
+      const error = new Error("Failed to get file content from S3");
+      logger.error(`No buffer received for file:`, {
+        key,
+        bucket: process.env.AWS_S3_BUCKET_NAME,
+        responseMetadata: response.$metadata,
+      });
+      throw error;
     }
+
+    logger.info(`Successfully fetched file from S3:`, {
+      key,
+      size: buffer.length,
+      metadata: response.$metadata,
+    });
 
     switch (fileExtension) {
       case "pdf":
+        logger.debug("Creating PDF loader");
         return new PDFLoader(new Blob([buffer], { type: "application/pdf" }), {
           splitPages: false,
         });
       case "csv":
+        logger.debug("Creating CSV loader");
         const csvText = new TextDecoder().decode(buffer);
         return new CSVLoader(new Blob([csvText], { type: "text/csv" }));
-      default: // txt, md, etc.
+      default:
+        logger.debug("Creating default text loader");
         const text = new TextDecoder().decode(buffer);
         return new TextLoader(new Blob([text], { type: "text/plain" }));
     }
   } catch (error) {
-    console.error(`Error loading file from S3:`, error);
+    // Enhanced error logging
+    logger.error("Error loading file from S3:", {
+      error:
+        error instanceof Error
+          ? {
+              name: error.name,
+              message: error.message,
+              stack: error.stack,
+            }
+          : error,
+      requestDetails: {
+        bucket: process.env.AWS_S3_BUCKET_NAME,
+        key,
+        fileExtension,
+      },
+      awsConfig: {
+        region: process.env.AWS_REGION ? "Set" : "Missing",
+        accessKeyId: process.env.AWS_ACCESS_KEY_ID ? "Set" : "Missing",
+        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY ? "Set" : "Missing",
+      },
+    });
     throw error;
   }
 }
 
 // Process document into chunks with metadata
 async function processDocument(doc: Document, file: KnowledgeBaseFile) {
+  logger.info(`Processing document: ${file.name}`);
   const splitter = new RecursiveCharacterTextSplitter({
     chunkSize: 1000,
     chunkOverlap: 100,
   });
 
+  logger.debug("Splitting document into chunks");
   const chunks = await splitter.splitDocuments([doc]);
+  logger.info(`Created ${chunks.length} chunks from document`);
 
-  return chunks.map((chunk, index) => ({
-    ...chunk,
-    metadata: {
-      ...chunk.metadata,
-      source: file.name,
-      fileType: file.type,
-      chunkIndex: index,
-      timestamp: Date.now(),
-      charCount: chunk.pageContent.length,
-      tokenCount: Math.ceil(chunk.pageContent.length / 4), // Rough estimation
-      documentId: `${file.name}_${Date.now()}`,
-      lastUpdated: new Date().toISOString(),
-      language: "en", // You might want to detect this
-      processingStatus: "complete",
-    },
-  }));
+  return chunks.map((chunk, index) => {
+    const processedChunk = {
+      pageContent: chunk.pageContent,
+      metadata: {
+        source: file.name,
+        fileType: file.type,
+        chunkIndex: index,
+        timestamp: Date.now(),
+        charCount: chunk.pageContent.length,
+        tokenCount: Math.ceil(chunk.pageContent.length / 4),
+        documentId: `${file.name}_${Date.now()}`,
+        ...Object.entries(chunk.metadata).reduce(
+          (acc, [key, value]) => ({
+            ...acc,
+            [key]: typeof value === "object" ? JSON.stringify(value) : value,
+          }),
+          {}
+        ),
+      },
+    };
+    logger.debug(`Processed chunk ${index + 1}/${chunks.length}`, {
+      chunkSize: processedChunk.pageContent.length,
+      metadata: processedChunk.metadata,
+    });
+    return processedChunk;
+  });
 }
 
 // Main vector database creation function
@@ -121,6 +200,8 @@ export async function createVectorDB({
   userId,
   knowledgeBase,
 }: CreateVectorDBParams): Promise<VectorDBConfig | null> {
+  const logFile = logger.initializeLog(agentId);
+  logger.info("Starting vector DB creation", { agentId, userId });
   const supabase = await createClient(true);
   const pinecone = new Pinecone({
     apiKey: process.env.PINECONE_API_KEY!,
@@ -135,6 +216,7 @@ export async function createVectorDB({
 
     // Handle case with no knowledge base
     if (!knowledgeBase || knowledgeBase.length === 0) {
+      logger.info("No knowledge base provided, creating empty config");
       const config = {
         namespace: `${userId}_${agentId}`,
         documentCount: 0,
@@ -159,12 +241,15 @@ export async function createVectorDB({
 
     const indexName = process.env.PINECONE_INDEX_NAME;
     if (!indexName) {
+      logger.error("PINECONE_INDEX_NAME environment variable not set");
       throw new Error("PINECONE_INDEX_NAME is not set");
     }
     const index = pinecone.index(indexName);
     const namespace = `${userId}_${agentId}`;
+    logger.info(`Using Pinecone index: ${indexName}, namespace: ${namespace}`);
 
     // Initialize OpenAI embeddings
+    logger.debug("Initializing OpenAI embeddings");
     const embeddings = new OpenAIEmbeddings({
       modelName: "text-embedding-3-small",
       openAIApiKey: process.env.OPENAI_API_KEY,
@@ -176,6 +261,7 @@ export async function createVectorDB({
     // Process each document
     for (const file of knowledgeBase) {
       try {
+        logger.info(`Processing file: ${file.name}`);
         // Update progress
         await supabase
           .from("agents")
@@ -192,40 +278,44 @@ export async function createVectorDB({
 
         // Get appropriate document loader
         const loader = await getDocumentLoader(file, s3Client);
+        logger.debug("Loading document content");
+        const docs = await loader.load();
+        logger.info(`Loaded document with ${docs.length} pages/sections`);
 
-        // Load and split document
-        const rawDoc = await loader.load();
-        const processedChunks = await processDocument(rawDoc[0], file);
+        // Process the document into chunks
+        logger.debug("Processing document chunks");
+        const processedChunks = await processDocument(docs[0], file);
+        logger.info(`Created ${processedChunks.length} chunks for processing`);
 
-        // Generate embeddings for chunks
+        // Generate embeddings and upsert to Pinecone
+        logger.debug("Generating embeddings for chunks");
         const vectors = await Promise.all(
-          processedChunks.map(async (chunk, index) => {
-            const vector = await embeddings.embedQuery(chunk.pageContent);
+          processedChunks.map(async (chunk, i) => {
+            const embedding = await embeddings.embedQuery(chunk.pageContent);
+            logger.debug(
+              `Generated embedding for chunk ${i + 1}/${processedChunks.length}`
+            );
             return {
-              id: `${file.name}_${chunk.metadata.chunkIndex}_${Date.now()}`,
-              values: vector,
-              metadata: {
-                ...chunk.metadata,
-                vectorId: `${file.name}_${index}_${Date.now()}`,
-                embeddingModel: "text-embedding-3-small",
-                embeddingTimestamp: Date.now(),
-              },
+              id: `${file.name}_${i}_${Date.now()}`,
+              values: embedding,
+              metadata: chunk.metadata,
             };
           })
         );
 
-        // Upsert vectors to Pinecone in batches
+        logger.info(`Upserting ${vectors.length} vectors to Pinecone`);
+        // Upsert vectors in batches to avoid rate limits
         const batchSize = 100;
         for (let i = 0; i < vectors.length; i += batchSize) {
           const batch = vectors.slice(i, i + batchSize);
-          await index.upsert(batch);
+          await index.upsert(batch.map((vector) => ({ ...vector, namespace })));
         }
 
-        processedDocuments.push(file.name);
         totalProcessedDocuments++;
+        processedDocuments.push(file.name);
+        logger.info(`Successfully processed file: ${file.name}`);
       } catch (error) {
-        console.error(`Error processing file ${file.name}:`, error);
-
+        logger.error(`Error processing file ${file.name}:`, error);
         // Update progress with error
         await supabase
           .from("agents")
@@ -272,9 +362,10 @@ export async function createVectorDB({
 
     await updateAgentStatus(agentId, "updating_config");
 
+    logger.info("Vector DB creation completed successfully", vectorDBConfig);
     return vectorDBConfig;
   } catch (error) {
-    console.error("Error creating vector database:", error);
+    logger.error("Error creating vector database:", error);
     await updateAgentStatus(agentId, "failed");
 
     // Update error status in database

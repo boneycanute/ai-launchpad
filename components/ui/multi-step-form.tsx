@@ -379,7 +379,7 @@ const MultiStepForm = React.forwardRef<HTMLDivElement, MultiStepFormProps>(
         {...props}
       >
         <div className="w-full max-w-5xl p-2">
-          <Card className="w-full mx-auto shadow-lg">
+          <Card className="w-full mx-auto shadow-2xl rounded-xl">
             <div className="p-6">
               {title && (
                 <div className="mb-8 text-center">
