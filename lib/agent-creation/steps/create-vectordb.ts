@@ -246,7 +246,14 @@ export async function createVectorDB({
     }
     const index = pinecone.index(indexName);
     const namespace = `${userId}_${agentId}`;
-    logger.info(`Using Pinecone index: ${indexName}, namespace: ${namespace}`);
+
+    const initialStats = await index.describeIndexStats();
+    logger.info("Initial index stats:", {
+      totalRecordCount: initialStats.totalRecordCount,
+      existingNamespaces: initialStats.namespaces
+        ? Object.keys(initialStats.namespaces)
+        : [],
+    });
 
     // Initialize OpenAI embeddings
     logger.debug("Initializing OpenAI embeddings");
@@ -302,39 +309,83 @@ export async function createVectorDB({
             };
           })
         );
-
         logger.info(`Upserting ${vectors.length} vectors to Pinecone`);
         // Upsert vectors in batches to avoid rate limits
         const batchSize = 100;
         for (let i = 0; i < vectors.length; i += batchSize) {
           const batch = vectors.slice(i, i + batchSize);
-          await index.upsert(batch.map((vector) => ({ ...vector, namespace })));
+          try {
+            logger.info(
+              `Uploading batch ${Math.floor(i / batchSize) + 1} of ${Math.ceil(
+                vectors.length / batchSize
+              )}`,
+              {
+                start: i,
+                end: Math.min(i + batchSize, vectors.length),
+                namespace,
+                vectorCount: batch.length,
+              }
+            );
+
+            // Call upsert with the namespace
+            await index.namespace(namespace).upsert(batch);
+
+            logger.info(
+              `Successfully uploaded batch ${Math.floor(i / batchSize) + 1}`
+            );
+          } catch (error) {
+            logger.error(`Error uploading batch to Pinecone:`, {
+              error:
+                error instanceof Error
+                  ? {
+                      name: error.name,
+                      message: error.message,
+                      stack: error.stack,
+                    }
+                  : error,
+              batchDetails: {
+                batchNumber: Math.floor(i / batchSize) + 1,
+                vectorCount: batch.length,
+                namespace,
+              },
+            });
+            throw error;
+          }
         }
 
-        totalProcessedDocuments++;
         processedDocuments.push(file.name);
-        logger.info(`Successfully processed file: ${file.name}`);
+        totalProcessedDocuments++;
       } catch (error) {
         logger.error(`Error processing file ${file.name}:`, error);
-        // Update progress with error
-        await supabase
-          .from("agents")
-          .update({
-            creation_progress: {
-              state: "creating_vectordb",
-              error: `Failed to process ${file.name}: ${
-                error instanceof Error ? error.message : "Unknown error"
-              }`,
-              current: totalProcessedDocuments,
-              total: knowledgeBase.length,
-              updated_at: new Date().toISOString(),
-            },
-          })
-          .eq("id", agentId);
-
-        // Continue with next file
-        continue;
+        throw error;
       }
+    }
+
+    // Add namespace verification before preparing return config
+    if (totalProcessedDocuments > 0) {
+      const finalStats = await index.describeIndexStats();
+      logger.info("Final index stats:", {
+        namespace,
+        namespaceStats: finalStats.namespaces?.[namespace],
+        allNamespaces: finalStats.namespaces
+          ? Object.keys(finalStats.namespaces)
+          : [],
+        totalRecordCount: finalStats.totalRecordCount,
+      });
+
+      // [INFO] : Okay. So the thing is the namespace does get created, but it takes time for it to reflect. So rather than putting in a delay here, so as to wait for the index creation, because it just calls or cheques it even before the creation process, like it takes a small delay. So I am removing this part, but if it needs to be checked, we will add some delay and maybe cheque it
+      // if (!finalStats.namespaces?.[namespace]) {
+      //   const error = new Error(
+      //     `Namespace ${namespace} was not created successfully`
+      //   );
+      //   logger.error("Namespace creation failed:", {
+      //     expectedNamespace: namespace,
+      //     existingNamespaces: finalStats.namespaces
+      //       ? Object.keys(finalStats.namespaces)
+      //       : [],
+      //   });
+      //   throw error;
+      // }
     }
 
     // Prepare return configuration

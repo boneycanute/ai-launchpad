@@ -1,0 +1,87 @@
+[2025-02-07T07:19:43.321Z] [INFO] === Vector DB Creation Process Started ===
+[2025-02-07T07:19:43.323Z] [INFO] Starting vector DB creation
+{
+  "agentId": "chet-geepity-test-user-123-1738912780",
+  "userId": "test-user-123"
+}
+[2025-02-07T07:19:43.326Z] [DEBUG] Initializing S3 client with config:
+{
+  "region": "Set",
+  "accessKeyId": "Set",
+  "secretAccessKey": "Set",
+  "bucketName": "Set"
+}
+[2025-02-07T07:19:46.429Z] [INFO] Initial index stats:
+{
+  "totalRecordCount": 204,
+  "existingNamespaces": [
+    "test-user-123_neo-test-user-123-1738912020",
+    "",
+    "test-user-123_neo-test-user-123-1738910333"
+  ]
+}
+[2025-02-07T07:19:46.430Z] [DEBUG] Initializing OpenAI embeddings
+[2025-02-07T07:19:46.431Z] [INFO] Processing file: pdf-test.pdf
+[2025-02-07T07:19:46.627Z] [INFO] Getting document loader for file: pdf-test.pdf
+[2025-02-07T07:19:46.627Z] [DEBUG] File extension: pdf
+[2025-02-07T07:19:46.628Z] [DEBUG] Full URL:
+"https://metaschool-launchpad.s3.ap-south-1.amazonaws.com/test-user-123/Chet%20Geepity/knowledge_doc_1738912772384.pdf"
+[2025-02-07T07:19:46.628Z] [DEBUG] Extracted S3 key: test-user-123/Chet%20Geepity/knowledge_doc_1738912772384.pdf
+[2025-02-07T07:19:46.629Z] [INFO] Attempting to fetch file from S3:
+{
+  "bucket": "metaschool-launchpad",
+  "key": "test-user-123/Chet%20Geepity/knowledge_doc_1738912772384.pdf",
+  "fileExtension": "pdf"
+}
+[2025-02-07T07:19:46.763Z] [ERROR] Error loading file from S3:
+{
+  "error": {
+    "name": "NoSuchKey",
+    "message": "The specified key does not exist.",
+    "stack": "NoSuchKey: The specified key does not exist.\n    at de_NoSuchKeyRes (C:\\Users\\Bones\\Projects\\launchpad4\\ai-launchpad\\node_modules\\@aws-sdk\\client-s3\\dist-cjs\\index.js:5045:21)\n    at de_CommandError (C:\\Users\\Bones\\Projects\\launchpad4\\ai-launchpad\\node_modules\\@aws-sdk\\client-s3\\dist-cjs\\index.js:4944:19)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at async C:\\Users\\Bones\\Projects\\launchpad4\\ai-launchpad\\node_modules\\@smithy\\middleware-serde\\dist-cjs\\index.js:35:20\n    at async C:\\Users\\Bones\\Projects\\launchpad4\\ai-launchpad\\node_modules\\@aws-sdk\\middleware-sdk-s3\\dist-cjs\\index.js:483:18\n    at async C:\\Users\\Bones\\Projects\\launchpad4\\ai-launchpad\\node_modules\\@smithy\\middleware-retry\\dist-cjs\\index.js:321:38\n    at async C:\\Users\\Bones\\Projects\\launchpad4\\ai-launchpad\\node_modules\\@aws-sdk\\middleware-sdk-s3\\dist-cjs\\index.js:109:22\n    at async C:\\Users\\Bones\\Projects\\launchpad4\\ai-launchpad\\node_modules\\@aws-sdk\\middleware-sdk-s3\\dist-cjs\\index.js:136:14\n    at async C:\\Users\\Bones\\Projects\\launchpad4\\ai-launchpad\\node_modules\\@aws-sdk\\middleware-logger\\dist-cjs\\index.js:33:22\n    at async getDocumentLoader (C:\\Users\\Bones\\Projects\\launchpad4\\ai-launchpad\\.next\\server\\chunks\\[root of the server]__6be5b4._.js:429:26)\n    at async createVectorDB (C:\\Users\\Bones\\Projects\\launchpad4\\ai-launchpad\\.next\\server\\chunks\\[root of the server]__6be5b4._.js:599:32)\n    at async C:\\Users\\Bones\\Projects\\launchpad4\\ai-launchpad\\.next\\server\\chunks\\[root of the server]__6be5b4._.js:875:17"
+  },
+  "requestDetails": {
+    "bucket": "metaschool-launchpad",
+    "key": "test-user-123/Chet%20Geepity/knowledge_doc_1738912772384.pdf",
+    "fileExtension": "pdf"
+  },
+  "awsConfig": {
+    "region": "Set",
+    "accessKeyId": "Set",
+    "secretAccessKey": "Set"
+  }
+}
+[2025-02-07T07:19:46.764Z] [ERROR] Error processing file pdf-test.pdf:
+{
+  "name": "NoSuchKey",
+  "$fault": "client",
+  "$metadata": {
+    "httpStatusCode": 404,
+    "requestId": "SGQV39H7Q04KCDH7",
+    "extendedRequestId": "oZFmZLjW2PNkI999VIu9/U2VdwoL2fBgENaAbnUu2nKagJp2ZwDW/OG/t0mQRghOUShisJ3bCeQ=",
+    "attempts": 1,
+    "totalRetryDelay": 0
+  },
+  "Code": "NoSuchKey",
+  "Key": "test-user-123/Chet%20Geepity/knowledge_doc_1738912772384.pdf",
+  "RequestId": "SGQV39H7Q04KCDH7",
+  "HostId": "oZFmZLjW2PNkI999VIu9/U2VdwoL2fBgENaAbnUu2nKagJp2ZwDW/OG/t0mQRghOUShisJ3bCeQ=",
+  "message": "The specified key does not exist."
+}
+[2025-02-07T07:19:46.764Z] [ERROR] Error creating vector database:
+{
+  "name": "NoSuchKey",
+  "$fault": "client",
+  "$metadata": {
+    "httpStatusCode": 404,
+    "requestId": "SGQV39H7Q04KCDH7",
+    "extendedRequestId": "oZFmZLjW2PNkI999VIu9/U2VdwoL2fBgENaAbnUu2nKagJp2ZwDW/OG/t0mQRghOUShisJ3bCeQ=",
+    "attempts": 1,
+    "totalRetryDelay": 0
+  },
+  "Code": "NoSuchKey",
+  "Key": "test-user-123/Chet%20Geepity/knowledge_doc_1738912772384.pdf",
+  "RequestId": "SGQV39H7Q04KCDH7",
+  "HostId": "oZFmZLjW2PNkI999VIu9/U2VdwoL2fBgENaAbnUu2nKagJp2ZwDW/OG/t0mQRghOUShisJ3bCeQ=",
+  "message": "The specified key does not exist."
+}

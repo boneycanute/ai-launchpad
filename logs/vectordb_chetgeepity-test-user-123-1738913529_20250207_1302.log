@@ -1,0 +1,103 @@
+[2025-02-07T07:32:12.725Z] [INFO] === Vector DB Creation Process Started ===
+[2025-02-07T07:32:12.726Z] [INFO] Starting vector DB creation
+{
+  "agentId": "chetgeepity-test-user-123-1738913529",
+  "userId": "test-user-123"
+}
+[2025-02-07T07:32:12.728Z] [DEBUG] Initializing S3 client with config:
+{
+  "region": "Set",
+  "accessKeyId": "Set",
+  "secretAccessKey": "Set",
+  "bucketName": "Set"
+}
+[2025-02-07T07:32:15.794Z] [INFO] Initial index stats:
+{
+  "totalRecordCount": 204,
+  "existingNamespaces": [
+    "test-user-123_neo-test-user-123-1738912020",
+    "",
+    "test-user-123_neo-test-user-123-1738910333"
+  ]
+}
+[2025-02-07T07:32:15.795Z] [DEBUG] Initializing OpenAI embeddings
+[2025-02-07T07:32:15.796Z] [INFO] Processing file: pdf-test.pdf
+[2025-02-07T07:32:15.909Z] [INFO] Getting document loader for file: pdf-test.pdf
+[2025-02-07T07:32:15.910Z] [DEBUG] File extension: pdf
+[2025-02-07T07:32:15.910Z] [DEBUG] Full URL:
+"https://metaschool-launchpad.s3.ap-south-1.amazonaws.com/test-user-123/ChetGeepity/knowledge_doc_1738913522128.pdf"
+[2025-02-07T07:32:15.910Z] [DEBUG] Extracted S3 key: test-user-123/ChetGeepity/knowledge_doc_1738913522128.pdf
+[2025-02-07T07:32:15.911Z] [INFO] Attempting to fetch file from S3:
+{
+  "bucket": "metaschool-launchpad",
+  "key": "test-user-123/ChetGeepity/knowledge_doc_1738913522128.pdf",
+  "fileExtension": "pdf"
+}
+[2025-02-07T07:32:16.148Z] [INFO] Successfully fetched file from S3:
+{
+  "key": "test-user-123/ChetGeepity/knowledge_doc_1738913522128.pdf",
+  "size": 20597,
+  "metadata": {
+    "httpStatusCode": 200,
+    "requestId": "HW459KQNH4D0HM48",
+    "extendedRequestId": "nGM9dgwMZVu6Y3zcP8CsGy+eM+Y+howzUZVqpA7nvr30wsrbKigfRZPmaUTXlIQbgq6xItDvJDHuNeor4X+vXA==",
+    "attempts": 1,
+    "totalRetryDelay": 0
+  }
+}
+[2025-02-07T07:32:16.149Z] [DEBUG] Creating PDF loader
+[2025-02-07T07:32:16.149Z] [DEBUG] Loading document content
+[2025-02-07T07:32:16.264Z] [INFO] Loaded document with 1 pages/sections
+[2025-02-07T07:32:16.265Z] [DEBUG] Processing document chunks
+[2025-02-07T07:32:16.266Z] [INFO] Processing document: pdf-test.pdf
+[2025-02-07T07:32:16.266Z] [DEBUG] Splitting document into chunks
+[2025-02-07T07:32:16.267Z] [INFO] Created 1 chunks from document
+[2025-02-07T07:32:16.267Z] [DEBUG] Processed chunk 1/1
+{
+  "chunkSize": 387,
+  "metadata": {
+    "source": "blob",
+    "fileType": "application/pdf",
+    "chunkIndex": 0,
+    "timestamp": 1738913536267,
+    "charCount": 387,
+    "tokenCount": 97,
+    "documentId": "pdf-test.pdf_1738913536267",
+    "blobType": "application/pdf",
+    "pdf": "{\"version\":\"1.10.100\",\"info\":{\"PDFFormatVersion\":\"1.6\",\"IsAcroFormPresent\":false,\"IsXFAPresent\":false,\"Title\":\" PDF Test Page\",\"Author\":\"Yukon Department of Education\",\"Creator\":\"Acrobat PDFMaker 7.0.7 for Word\",\"Producer\":\"Acrobat Distiller 7.0.5 (Windows)\",\"CreationDate\":\"D:20080604154400-07'00'\",\"ModDate\":\"D:20080604154736-07'00'\"},\"metadata\":null,\"totalPages\":1}",
+    "loc": "{\"lines\":{\"from\":3,\"to\":15}}"
+  }
+}
+[2025-02-07T07:32:16.268Z] [INFO] Created 1 chunks for processing
+[2025-02-07T07:32:16.268Z] [DEBUG] Generating embeddings for chunks
+[2025-02-07T07:32:17.155Z] [DEBUG] Generated embedding for chunk 1/1
+[2025-02-07T07:32:17.156Z] [INFO] Upserting 1 vectors to Pinecone
+[2025-02-07T07:32:17.156Z] [INFO] Uploading batch 1 of 1
+{
+  "start": 0,
+  "end": 1,
+  "namespace": "test-user-123_chetgeepity-test-user-123-1738913529",
+  "vectorCount": 1
+}
+[2025-02-07T07:32:17.864Z] [INFO] Successfully uploaded batch 1
+[2025-02-07T07:32:18.169Z] [INFO] Final index stats:
+{
+  "namespace": "test-user-123_chetgeepity-test-user-123-1738913529",
+  "allNamespaces": [
+    "test-user-123_neo-test-user-123-1738912020",
+    "",
+    "test-user-123_neo-test-user-123-1738910333"
+  ],
+  "totalRecordCount": 204
+}
+[2025-02-07T07:32:18.169Z] [ERROR] Namespace creation failed:
+{
+  "expectedNamespace": "test-user-123_chetgeepity-test-user-123-1738913529",
+  "existingNamespaces": [
+    "test-user-123_neo-test-user-123-1738912020",
+    "",
+    "test-user-123_neo-test-user-123-1738910333"
+  ]
+}
+[2025-02-07T07:32:18.170Z] [ERROR] Error creating vector database:
+{}
