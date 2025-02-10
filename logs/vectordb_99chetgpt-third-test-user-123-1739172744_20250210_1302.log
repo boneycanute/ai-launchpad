@@ -1,0 +1,1359 @@
+[2025-02-10T07:32:25.542Z] [INFO] === Vector DB Creation Process Started ===
+[2025-02-10T07:32:25.543Z] [INFO] Starting vector DB creation
+{
+  "agentId": "99chetgpt-third-test-user-123-1739172744",
+  "userId": "test-user-123"
+}
+[2025-02-10T07:32:25.544Z] [DEBUG] Initializing S3 client with config:
+{
+  "region": "Set",
+  "accessKeyId": "Set",
+  "secretAccessKey": "Set",
+  "bucketName": "Set"
+}
+[2025-02-10T07:32:28.088Z] [INFO] Initial index stats:
+{
+  "totalRecordCount": 370,
+  "existingNamespaces": [
+    "test-user-123_10_chetgeepeetea-test-user-123-1739165334",
+    "test-user-123_123_chetgeepity-test-user-123-1739168871",
+    "test-user-123_chetgeepity-test-user-123-1739167334",
+    "test-user-123_002_chetgeepity-test-user-123-1739168201",
+    "test-user-123_99chetgpt-test-user-123-1739171234"
+  ]
+}
+[2025-02-10T07:32:28.089Z] [DEBUG] Initializing OpenAI embeddings
+[2025-02-10T07:32:28.090Z] [INFO] Processing file: The Ultimate n8n Starter Kit (2025).pdf
+[2025-02-10T07:32:28.203Z] [INFO] Getting document loader for file: The Ultimate n8n Starter Kit (2025).pdf
+[2025-02-10T07:32:28.204Z] [DEBUG] File extension: pdf
+[2025-02-10T07:32:28.204Z] [DEBUG] Full URL:
+"https://metaschool-launchpad.s3.ap-south-1.amazonaws.com/test-user-123/99ChetGPT%20third/knowledge_doc_1739172738294.pdf"
+[2025-02-10T07:32:28.205Z] [DEBUG] Extracted S3 key: test-user-123/99ChetGPT third/knowledge_doc_1739172738294.pdf
+[2025-02-10T07:32:28.206Z] [INFO] Attempting to fetch file from S3:
+{
+  "bucket": "metaschool-launchpad",
+  "key": "test-user-123/99ChetGPT third/knowledge_doc_1739172738294.pdf",
+  "fileExtension": "pdf"
+}
+[2025-02-10T07:32:28.788Z] [INFO] Successfully fetched file from S3:
+{
+  "key": "test-user-123/99ChetGPT third/knowledge_doc_1739172738294.pdf",
+  "size": 787579,
+  "metadata": {
+    "httpStatusCode": 200,
+    "requestId": "WXMN4YD9RATJPQ90",
+    "extendedRequestId": "SlCsZK8ouUfme3b5EysTwPrtUuIosyCN8mCJ60kpR+huoI4iD7GWh5u+VJPkI3xoQz8Bf51r109JGg+w7PguUw==",
+    "attempts": 1,
+    "totalRetryDelay": 0
+  }
+}
+[2025-02-10T07:32:28.789Z] [DEBUG] Creating PDF loader
+[2025-02-10T07:32:28.790Z] [DEBUG] Loading document content
+[2025-02-10T07:32:29.214Z] [INFO] Loaded document with 1 pages/sections
+[2025-02-10T07:32:29.214Z] [DEBUG] Processing document chunks
+[2025-02-10T07:32:29.215Z] [INFO] Processing document: The Ultimate n8n Starter Kit (2025).pdf
+[2025-02-10T07:32:29.215Z] [DEBUG] Splitting document into chunks
+[2025-02-10T07:32:29.219Z] [INFO] Created 74 chunks from document
+[2025-02-10T07:32:29.220Z] [DEBUG] Processed chunk 1/74
+{
+  "chunkSize": 545,
+  "metadata": {
+    "source": "blob",
+    "fileType": "application/pdf",
+    "chunkIndex": 0,
+    "timestamp": 1739172749220,
+    "charCount": 545,
+    "tokenCount": 137,
+    "documentId": "The Ultimate n8n Starter Kit (2025).pdf_1739172749220",
+    "blobType": "application/pdf",
+    "pdf": "{\"version\":\"1.10.100\",\"info\":{\"PDFFormatVersion\":\"1.4\",\"IsAcroFormPresent\":false,\"IsXFAPresent\":false,\"Title\":\"The Ultimate n8n Starter Kit (2025)\",\"Producer\":\"Skia/PDF m133 Google Docs Renderer\"},\"metadata\":null,\"totalPages\":36}",
+    "loc": "{\"lines\":{\"from\":2,\"to\":22}}"
+  }
+}
+[2025-02-10T07:32:29.221Z] [DEBUG] Processed chunk 2/74
+{
+  "chunkSize": 936,
+  "metadata": {
+    "source": "blob",
+    "fileType": "application/pdf",
+    "chunkIndex": 1,
+    "timestamp": 1739172749221,
+    "charCount": 936,
+    "tokenCount": 234,
+    "documentId": "The Ultimate n8n Starter Kit (2025).pdf_1739172749221",
+    "blobType": "application/pdf",
+    "pdf": "{\"version\":\"1.10.100\",\"info\":{\"PDFFormatVersion\":\"1.4\",\"IsAcroFormPresent\":false,\"IsXFAPresent\":false,\"Title\":\"The Ultimate n8n Starter Kit (2025)\",\"Producer\":\"Skia/PDF m133 Google Docs Renderer\"},\"metadata\":null,\"totalPages\":36}",
+    "loc": "{\"lines\":{\"from\":25,\"to\":47}}"
+  }
+}
+[2025-02-10T07:32:29.221Z] [DEBUG] Processed chunk 3/74
+{
+  "chunkSize": 726,
+  "metadata": {
+    "source": "blob",
+    "fileType": "application/pdf",
+    "chunkIndex": 2,
+    "timestamp": 1739172749221,
+    "charCount": 726,
+    "tokenCount": 182,
+    "documentId": "The Ultimate n8n Starter Kit (2025).pdf_1739172749221",
+    "blobType": "application/pdf",
+    "pdf": "{\"version\":\"1.10.100\",\"info\":{\"PDFFormatVersion\":\"1.4\",\"IsAcroFormPresent\":false,\"IsXFAPresent\":false,\"Title\":\"The Ultimate n8n Starter Kit (2025)\",\"Producer\":\"Skia/PDF m133 Google Docs Renderer\"},\"metadata\":null,\"totalPages\":36}",
+    "loc": "{\"lines\":{\"from\":46,\"to\":59}}"
+  }
+}
+[2025-02-10T07:32:29.222Z] [DEBUG] Processed chunk 4/74
+{
+  "chunkSize": 934,
+  "metadata": {
+    "source": "blob",
+    "fileType": "application/pdf",
+    "chunkIndex": 3,
+    "timestamp": 1739172749222,
+    "charCount": 934,
+    "tokenCount": 234,
+    "documentId": "The Ultimate n8n Starter Kit (2025).pdf_1739172749222",
+    "blobType": "application/pdf",
+    "pdf": "{\"version\":\"1.10.100\",\"info\":{\"PDFFormatVersion\":\"1.4\",\"IsAcroFormPresent\":false,\"IsXFAPresent\":false,\"Title\":\"The Ultimate n8n Starter Kit (2025)\",\"Producer\":\"Skia/PDF m133 Google Docs Renderer\"},\"metadata\":null,\"totalPages\":36}",
+    "loc": "{\"lines\":{\"from\":63,\"to\":80}}"
+  }
+}
+[2025-02-10T07:32:29.223Z] [DEBUG] Processed chunk 5/74
+{
+  "chunkSize": 959,
+  "metadata": {
+    "source": "blob",
+    "fileType": "application/pdf",
+    "chunkIndex": 4,
+    "timestamp": 1739172749223,
+    "charCount": 959,
+    "tokenCount": 240,
+    "documentId": "The Ultimate n8n Starter Kit (2025).pdf_1739172749223",
+    "blobType": "application/pdf",
+    "pdf": "{\"version\":\"1.10.100\",\"info\":{\"PDFFormatVersion\":\"1.4\",\"IsAcroFormPresent\":false,\"IsXFAPresent\":false,\"Title\":\"The Ultimate n8n Starter Kit (2025)\",\"Producer\":\"Skia/PDF m133 Google Docs Renderer\"},\"metadata\":null,\"totalPages\":36}",
+    "loc": "{\"lines\":{\"from\":79,\"to\":95}}"
+  }
+}
+[2025-02-10T07:32:29.223Z] [DEBUG] Processed chunk 6/74
+{
+  "chunkSize": 381,
+  "metadata": {
+    "source": "blob",
+    "fileType": "application/pdf",
+    "chunkIndex": 5,
+    "timestamp": 1739172749223,
+    "charCount": 381,
+    "tokenCount": 96,
+    "documentId": "The Ultimate n8n Starter Kit (2025).pdf_1739172749223",
+    "blobType": "application/pdf",
+    "pdf": "{\"version\":\"1.10.100\",\"info\":{\"PDFFormatVersion\":\"1.4\",\"IsAcroFormPresent\":false,\"IsXFAPresent\":false,\"Title\":\"The Ultimate n8n Starter Kit (2025)\",\"Producer\":\"Skia/PDF m133 Google Docs Renderer\"},\"metadata\":null,\"totalPages\":36}",
+    "loc": "{\"lines\":{\"from\":94,\"to\":99}}"
+  }
+}
+[2025-02-10T07:32:29.224Z] [DEBUG] Processed chunk 7/74
+{
+  "chunkSize": 982,
+  "metadata": {
+    "source": "blob",
+    "fileType": "application/pdf",
+    "chunkIndex": 6,
+    "timestamp": 1739172749223,
+    "charCount": 982,
+    "tokenCount": 246,
+    "documentId": "The Ultimate n8n Starter Kit (2025).pdf_1739172749223",
+    "blobType": "application/pdf",
+    "pdf": "{\"version\":\"1.10.100\",\"info\":{\"PDFFormatVersion\":\"1.4\",\"IsAcroFormPresent\":false,\"IsXFAPresent\":false,\"Title\":\"The Ultimate n8n Starter Kit (2025)\",\"Producer\":\"Skia/PDF m133 Google Docs Renderer\"},\"metadata\":null,\"totalPages\":36}",
+    "loc": "{\"lines\":{\"from\":103,\"to\":118}}"
+  }
+}
+[2025-02-10T07:32:29.224Z] [DEBUG] Processed chunk 8/74
+{
+  "chunkSize": 970,
+  "metadata": {
+    "source": "blob",
+    "fileType": "application/pdf",
+    "chunkIndex": 7,
+    "timestamp": 1739172749224,
+    "charCount": 970,
+    "tokenCount": 243,
+    "documentId": "The Ultimate n8n Starter Kit (2025).pdf_1739172749224",
+    "blobType": "application/pdf",
+    "pdf": "{\"version\":\"1.10.100\",\"info\":{\"PDFFormatVersion\":\"1.4\",\"IsAcroFormPresent\":false,\"IsXFAPresent\":false,\"Title\":\"The Ultimate n8n Starter Kit (2025)\",\"Producer\":\"Skia/PDF m133 Google Docs Renderer\"},\"metadata\":null,\"totalPages\":36}",
+    "loc": "{\"lines\":{\"from\":118,\"to\":135}}"
+  }
+}
+[2025-02-10T07:32:29.224Z] [DEBUG] Processed chunk 9/74
+{
+  "chunkSize": 692,
+  "metadata": {
+    "source": "blob",
+    "fileType": "application/pdf",
+    "chunkIndex": 8,
+    "timestamp": 1739172749224,
+    "charCount": 692,
+    "tokenCount": 173,
+    "documentId": "The Ultimate n8n Starter Kit (2025).pdf_1739172749224",
+    "blobType": "application/pdf",
+    "pdf": "{\"version\":\"1.10.100\",\"info\":{\"PDFFormatVersion\":\"1.4\",\"IsAcroFormPresent\":false,\"IsXFAPresent\":false,\"Title\":\"The Ultimate n8n Starter Kit (2025)\",\"Producer\":\"Skia/PDF m133 Google Docs Renderer\"},\"metadata\":null,\"totalPages\":36}",
+    "loc": "{\"lines\":{\"from\":135,\"to\":146}}"
+  }
+}
+[2025-02-10T07:32:29.225Z] [DEBUG] Processed chunk 10/74
+{
+  "chunkSize": 971,
+  "metadata": {
+    "source": "blob",
+    "fileType": "application/pdf",
+    "chunkIndex": 9,
+    "timestamp": 1739172749225,
+    "charCount": 971,
+    "tokenCount": 243,
+    "documentId": "The Ultimate n8n Starter Kit (2025).pdf_1739172749225",
+    "blobType": "application/pdf",
+    "pdf": "{\"version\":\"1.10.100\",\"info\":{\"PDFFormatVersion\":\"1.4\",\"IsAcroFormPresent\":false,\"IsXFAPresent\":false,\"Title\":\"The Ultimate n8n Starter Kit (2025)\",\"Producer\":\"Skia/PDF m133 Google Docs Renderer\"},\"metadata\":null,\"totalPages\":36}",
+    "loc": "{\"lines\":{\"from\":149,\"to\":175}}"
+  }
+}
+[2025-02-10T07:32:29.225Z] [DEBUG] Processed chunk 11/74
+{
+  "chunkSize": 105,
+  "metadata": {
+    "source": "blob",
+    "fileType": "application/pdf",
+    "chunkIndex": 10,
+    "timestamp": 1739172749225,
+    "charCount": 105,
+    "tokenCount": 27,
+    "documentId": "The Ultimate n8n Starter Kit (2025).pdf_1739172749225",
+    "blobType": "application/pdf",
+    "pdf": "{\"version\":\"1.10.100\",\"info\":{\"PDFFormatVersion\":\"1.4\",\"IsAcroFormPresent\":false,\"IsXFAPresent\":false,\"Title\":\"The Ultimate n8n Starter Kit (2025)\",\"Producer\":\"Skia/PDF m133 Google Docs Renderer\"},\"metadata\":null,\"totalPages\":36}",
+    "loc": "{\"lines\":{\"from\":174,\"to\":177}}"
+  }
+}
+[2025-02-10T07:32:29.225Z] [DEBUG] Processed chunk 12/74
+{
+  "chunkSize": 925,
+  "metadata": {
+    "source": "blob",
+    "fileType": "application/pdf",
+    "chunkIndex": 11,
+    "timestamp": 1739172749225,
+    "charCount": 925,
+    "tokenCount": 232,
+    "documentId": "The Ultimate n8n Starter Kit (2025).pdf_1739172749225",
+    "blobType": "application/pdf",
+    "pdf": "{\"version\":\"1.10.100\",\"info\":{\"PDFFormatVersion\":\"1.4\",\"IsAcroFormPresent\":false,\"IsXFAPresent\":false,\"Title\":\"The Ultimate n8n Starter Kit (2025)\",\"Producer\":\"Skia/PDF m133 Google Docs Renderer\"},\"metadata\":null,\"totalPages\":36}",
+    "loc": "{\"lines\":{\"from\":180,\"to\":195}}"
+  }
+}
+[2025-02-10T07:32:29.226Z] [DEBUG] Processed chunk 13/74
+{
+  "chunkSize": 967,
+  "metadata": {
+    "source": "blob",
+    "fileType": "application/pdf",
+    "chunkIndex": 12,
+    "timestamp": 1739172749226,
+    "charCount": 967,
+    "tokenCount": 242,
+    "documentId": "The Ultimate n8n Starter Kit (2025).pdf_1739172749226",
+    "blobType": "application/pdf",
+    "pdf": "{\"version\":\"1.10.100\",\"info\":{\"PDFFormatVersion\":\"1.4\",\"IsAcroFormPresent\":false,\"IsXFAPresent\":false,\"Title\":\"The Ultimate n8n Starter Kit (2025)\",\"Producer\":\"Skia/PDF m133 Google Docs Renderer\"},\"metadata\":null,\"totalPages\":36}",
+    "loc": "{\"lines\":{\"from\":195,\"to\":213}}"
+  }
+}
+[2025-02-10T07:32:29.226Z] [DEBUG] Processed chunk 14/74
+{
+  "chunkSize": 989,
+  "metadata": {
+    "source": "blob",
+    "fileType": "application/pdf",
+    "chunkIndex": 13,
+    "timestamp": 1739172749226,
+    "charCount": 989,
+    "tokenCount": 248,
+    "documentId": "The Ultimate n8n Starter Kit (2025).pdf_1739172749226",
+    "blobType": "application/pdf",
+    "pdf": "{\"version\":\"1.10.100\",\"info\":{\"PDFFormatVersion\":\"1.4\",\"IsAcroFormPresent\":false,\"IsXFAPresent\":false,\"Title\":\"The Ultimate n8n Starter Kit (2025)\",\"Producer\":\"Skia/PDF m133 Google Docs Renderer\"},\"metadata\":null,\"totalPages\":36}",
+    "loc": "{\"lines\":{\"from\":216,\"to\":239}}"
+  }
+}
+[2025-02-10T07:32:29.227Z] [DEBUG] Processed chunk 15/74
+{
+  "chunkSize": 861,
+  "metadata": {
+    "source": "blob",
+    "fileType": "application/pdf",
+    "chunkIndex": 14,
+    "timestamp": 1739172749227,
+    "charCount": 861,
+    "tokenCount": 216,
+    "documentId": "The Ultimate n8n Starter Kit (2025).pdf_1739172749227",
+    "blobType": "application/pdf",
+    "pdf": "{\"version\":\"1.10.100\",\"info\":{\"PDFFormatVersion\":\"1.4\",\"IsAcroFormPresent\":false,\"IsXFAPresent\":false,\"Title\":\"The Ultimate n8n Starter Kit (2025)\",\"Producer\":\"Skia/PDF m133 Google Docs Renderer\"},\"metadata\":null,\"totalPages\":36}",
+    "loc": "{\"lines\":{\"from\":239,\"to\":253}}"
+  }
+}
+[2025-02-10T07:32:29.227Z] [DEBUG] Processed chunk 16/74
+{
+  "chunkSize": 965,
+  "metadata": {
+    "source": "blob",
+    "fileType": "application/pdf",
+    "chunkIndex": 15,
+    "timestamp": 1739172749227,
+    "charCount": 965,
+    "tokenCount": 242,
+    "documentId": "The Ultimate n8n Starter Kit (2025).pdf_1739172749227",
+    "blobType": "application/pdf",
+    "pdf": "{\"version\":\"1.10.100\",\"info\":{\"PDFFormatVersion\":\"1.4\",\"IsAcroFormPresent\":false,\"IsXFAPresent\":false,\"Title\":\"The Ultimate n8n Starter Kit (2025)\",\"Producer\":\"Skia/PDF m133 Google Docs Renderer\"},\"metadata\":null,\"totalPages\":36}",
+    "loc": "{\"lines\":{\"from\":256,\"to\":278}}"
+  }
+}
+[2025-02-10T07:32:29.228Z] [DEBUG] Processed chunk 17/74
+{
+  "chunkSize": 99,
+  "metadata": {
+    "source": "blob",
+    "fileType": "application/pdf",
+    "chunkIndex": 16,
+    "timestamp": 1739172749227,
+    "charCount": 99,
+    "tokenCount": 25,
+    "documentId": "The Ultimate n8n Starter Kit (2025).pdf_1739172749227",
+    "blobType": "application/pdf",
+    "pdf": "{\"version\":\"1.10.100\",\"info\":{\"PDFFormatVersion\":\"1.4\",\"IsAcroFormPresent\":false,\"IsXFAPresent\":false,\"Title\":\"The Ultimate n8n Starter Kit (2025)\",\"Producer\":\"Skia/PDF m133 Google Docs Renderer\"},\"metadata\":null,\"totalPages\":36}",
+    "loc": "{\"lines\":{\"from\":278,\"to\":279}}"
+  }
+}
+[2025-02-10T07:32:29.228Z] [DEBUG] Processed chunk 18/74
+{
+  "chunkSize": 976,
+  "metadata": {
+    "source": "blob",
+    "fileType": "application/pdf",
+    "chunkIndex": 17,
+    "timestamp": 1739172749228,
+    "charCount": 976,
+    "tokenCount": 244,
+    "documentId": "The Ultimate n8n Starter Kit (2025).pdf_1739172749228",
+    "blobType": "application/pdf",
+    "pdf": "{\"version\":\"1.10.100\",\"info\":{\"PDFFormatVersion\":\"1.4\",\"IsAcroFormPresent\":false,\"IsXFAPresent\":false,\"Title\":\"The Ultimate n8n Starter Kit (2025)\",\"Producer\":\"Skia/PDF m133 Google Docs Renderer\"},\"metadata\":null,\"totalPages\":36}",
+    "loc": "{\"lines\":{\"from\":283,\"to\":303}}"
+  }
+}
+[2025-02-10T07:32:29.228Z] [DEBUG] Processed chunk 19/74
+{
+  "chunkSize": 189,
+  "metadata": {
+    "source": "blob",
+    "fileType": "application/pdf",
+    "chunkIndex": 18,
+    "timestamp": 1739172749228,
+    "charCount": 189,
+    "tokenCount": 48,
+    "documentId": "The Ultimate n8n Starter Kit (2025).pdf_1739172749228",
+    "blobType": "application/pdf",
+    "pdf": "{\"version\":\"1.10.100\",\"info\":{\"PDFFormatVersion\":\"1.4\",\"IsAcroFormPresent\":false,\"IsXFAPresent\":false,\"Title\":\"The Ultimate n8n Starter Kit (2025)\",\"Producer\":\"Skia/PDF m133 Google Docs Renderer\"},\"metadata\":null,\"totalPages\":36}",
+    "loc": "{\"lines\":{\"from\":303,\"to\":307}}"
+  }
+}
+[2025-02-10T07:32:29.229Z] [DEBUG] Processed chunk 20/74
+{
+  "chunkSize": 489,
+  "metadata": {
+    "source": "blob",
+    "fileType": "application/pdf",
+    "chunkIndex": 19,
+    "timestamp": 1739172749229,
+    "charCount": 489,
+    "tokenCount": 123,
+    "documentId": "The Ultimate n8n Starter Kit (2025).pdf_1739172749229",
+    "blobType": "application/pdf",
+    "pdf": "{\"version\":\"1.10.100\",\"info\":{\"PDFFormatVersion\":\"1.4\",\"IsAcroFormPresent\":false,\"IsXFAPresent\":false,\"Title\":\"The Ultimate n8n Starter Kit (2025)\",\"Producer\":\"Skia/PDF m133 Google Docs Renderer\"},\"metadata\":null,\"totalPages\":36}",
+    "loc": "{\"lines\":{\"from\":310,\"to\":321}}"
+  }
+}
+[2025-02-10T07:32:29.229Z] [DEBUG] Processed chunk 21/74
+{
+  "chunkSize": 981,
+  "metadata": {
+    "source": "blob",
+    "fileType": "application/pdf",
+    "chunkIndex": 20,
+    "timestamp": 1739172749229,
+    "charCount": 981,
+    "tokenCount": 246,
+    "documentId": "The Ultimate n8n Starter Kit (2025).pdf_1739172749229",
+    "blobType": "application/pdf",
+    "pdf": "{\"version\":\"1.10.100\",\"info\":{\"PDFFormatVersion\":\"1.4\",\"IsAcroFormPresent\":false,\"IsXFAPresent\":false,\"Title\":\"The Ultimate n8n Starter Kit (2025)\",\"Producer\":\"Skia/PDF m133 Google Docs Renderer\"},\"metadata\":null,\"totalPages\":36}",
+    "loc": "{\"lines\":{\"from\":326,\"to\":351}}"
+  }
+}
+[2025-02-10T07:32:29.230Z] [DEBUG] Processed chunk 22/74
+{
+  "chunkSize": 182,
+  "metadata": {
+    "source": "blob",
+    "fileType": "application/pdf",
+    "chunkIndex": 21,
+    "timestamp": 1739172749230,
+    "charCount": 182,
+    "tokenCount": 46,
+    "documentId": "The Ultimate n8n Starter Kit (2025).pdf_1739172749230",
+    "blobType": "application/pdf",
+    "pdf": "{\"version\":\"1.10.100\",\"info\":{\"PDFFormatVersion\":\"1.4\",\"IsAcroFormPresent\":false,\"IsXFAPresent\":false,\"Title\":\"The Ultimate n8n Starter Kit (2025)\",\"Producer\":\"Skia/PDF m133 Google Docs Renderer\"},\"metadata\":null,\"totalPages\":36}",
+    "loc": "{\"lines\":{\"from\":350,\"to\":353}}"
+  }
+}
+[2025-02-10T07:32:29.230Z] [DEBUG] Processed chunk 23/74
+{
+  "chunkSize": 968,
+  "metadata": {
+    "source": "blob",
+    "fileType": "application/pdf",
+    "chunkIndex": 22,
+    "timestamp": 1739172749230,
+    "charCount": 968,
+    "tokenCount": 242,
+    "documentId": "The Ultimate n8n Starter Kit (2025).pdf_1739172749230",
+    "blobType": "application/pdf",
+    "pdf": "{\"version\":\"1.10.100\",\"info\":{\"PDFFormatVersion\":\"1.4\",\"IsAcroFormPresent\":false,\"IsXFAPresent\":false,\"Title\":\"The Ultimate n8n Starter Kit (2025)\",\"Producer\":\"Skia/PDF m133 Google Docs Renderer\"},\"metadata\":null,\"totalPages\":36}",
+    "loc": "{\"lines\":{\"from\":356,\"to\":372}}"
+  }
+}
+[2025-02-10T07:32:29.230Z] [DEBUG] Processed chunk 24/74
+{
+  "chunkSize": 883,
+  "metadata": {
+    "source": "blob",
+    "fileType": "application/pdf",
+    "chunkIndex": 23,
+    "timestamp": 1739172749230,
+    "charCount": 883,
+    "tokenCount": 221,
+    "documentId": "The Ultimate n8n Starter Kit (2025).pdf_1739172749230",
+    "blobType": "application/pdf",
+    "pdf": "{\"version\":\"1.10.100\",\"info\":{\"PDFFormatVersion\":\"1.4\",\"IsAcroFormPresent\":false,\"IsXFAPresent\":false,\"Title\":\"The Ultimate n8n Starter Kit (2025)\",\"Producer\":\"Skia/PDF m133 Google Docs Renderer\"},\"metadata\":null,\"totalPages\":36}",
+    "loc": "{\"lines\":{\"from\":372,\"to\":399}}"
+  }
+}
+[2025-02-10T07:32:29.231Z] [DEBUG] Processed chunk 25/74
+{
+  "chunkSize": 992,
+  "metadata": {
+    "source": "blob",
+    "fileType": "application/pdf",
+    "chunkIndex": 24,
+    "timestamp": 1739172749231,
+    "charCount": 992,
+    "tokenCount": 248,
+    "documentId": "The Ultimate n8n Starter Kit (2025).pdf_1739172749231",
+    "blobType": "application/pdf",
+    "pdf": "{\"version\":\"1.10.100\",\"info\":{\"PDFFormatVersion\":\"1.4\",\"IsAcroFormPresent\":false,\"IsXFAPresent\":false,\"Title\":\"The Ultimate n8n Starter Kit (2025)\",\"Producer\":\"Skia/PDF m133 Google Docs Renderer\"},\"metadata\":null,\"totalPages\":36}",
+    "loc": "{\"lines\":{\"from\":402,\"to\":432}}"
+  }
+}
+[2025-02-10T07:32:29.231Z] [DEBUG] Processed chunk 26/74
+{
+  "chunkSize": 300,
+  "metadata": {
+    "source": "blob",
+    "fileType": "application/pdf",
+    "chunkIndex": 25,
+    "timestamp": 1739172749231,
+    "charCount": 300,
+    "tokenCount": 75,
+    "documentId": "The Ultimate n8n Starter Kit (2025).pdf_1739172749231",
+    "blobType": "application/pdf",
+    "pdf": "{\"version\":\"1.10.100\",\"info\":{\"PDFFormatVersion\":\"1.4\",\"IsAcroFormPresent\":false,\"IsXFAPresent\":false,\"Title\":\"The Ultimate n8n Starter Kit (2025)\",\"Producer\":\"Skia/PDF m133 Google Docs Renderer\"},\"metadata\":null,\"totalPages\":36}",
+    "loc": "{\"lines\":{\"from\":432,\"to\":441}}"
+  }
+}
+[2025-02-10T07:32:29.231Z] [DEBUG] Processed chunk 27/74
+{
+  "chunkSize": 946,
+  "metadata": {
+    "source": "blob",
+    "fileType": "application/pdf",
+    "chunkIndex": 26,
+    "timestamp": 1739172749231,
+    "charCount": 946,
+    "tokenCount": 237,
+    "documentId": "The Ultimate n8n Starter Kit (2025).pdf_1739172749231",
+    "blobType": "application/pdf",
+    "pdf": "{\"version\":\"1.10.100\",\"info\":{\"PDFFormatVersion\":\"1.4\",\"IsAcroFormPresent\":false,\"IsXFAPresent\":false,\"Title\":\"The Ultimate n8n Starter Kit (2025)\",\"Producer\":\"Skia/PDF m133 Google Docs Renderer\"},\"metadata\":null,\"totalPages\":36}",
+    "loc": "{\"lines\":{\"from\":444,\"to\":468}}"
+  }
+}
+[2025-02-10T07:32:29.232Z] [DEBUG] Processed chunk 28/74
+{
+  "chunkSize": 549,
+  "metadata": {
+    "source": "blob",
+    "fileType": "application/pdf",
+    "chunkIndex": 27,
+    "timestamp": 1739172749232,
+    "charCount": 549,
+    "tokenCount": 138,
+    "documentId": "The Ultimate n8n Starter Kit (2025).pdf_1739172749232",
+    "blobType": "application/pdf",
+    "pdf": "{\"version\":\"1.10.100\",\"info\":{\"PDFFormatVersion\":\"1.4\",\"IsAcroFormPresent\":false,\"IsXFAPresent\":false,\"Title\":\"The Ultimate n8n Starter Kit (2025)\",\"Producer\":\"Skia/PDF m133 Google Docs Renderer\"},\"metadata\":null,\"totalPages\":36}",
+    "loc": "{\"lines\":{\"from\":467,\"to\":481}}"
+  }
+}
+[2025-02-10T07:32:29.232Z] [DEBUG] Processed chunk 29/74
+{
+  "chunkSize": 978,
+  "metadata": {
+    "source": "blob",
+    "fileType": "application/pdf",
+    "chunkIndex": 28,
+    "timestamp": 1739172749232,
+    "charCount": 978,
+    "tokenCount": 245,
+    "documentId": "The Ultimate n8n Starter Kit (2025).pdf_1739172749232",
+    "blobType": "application/pdf",
+    "pdf": "{\"version\":\"1.10.100\",\"info\":{\"PDFFormatVersion\":\"1.4\",\"IsAcroFormPresent\":false,\"IsXFAPresent\":false,\"Title\":\"The Ultimate n8n Starter Kit (2025)\",\"Producer\":\"Skia/PDF m133 Google Docs Renderer\"},\"metadata\":null,\"totalPages\":36}",
+    "loc": "{\"lines\":{\"from\":485,\"to\":511}}"
+  }
+}
+[2025-02-10T07:32:29.233Z] [DEBUG] Processed chunk 30/74
+{
+  "chunkSize": 312,
+  "metadata": {
+    "source": "blob",
+    "fileType": "application/pdf",
+    "chunkIndex": 29,
+    "timestamp": 1739172749233,
+    "charCount": 312,
+    "tokenCount": 78,
+    "documentId": "The Ultimate n8n Starter Kit (2025).pdf_1739172749233",
+    "blobType": "application/pdf",
+    "pdf": "{\"version\":\"1.10.100\",\"info\":{\"PDFFormatVersion\":\"1.4\",\"IsAcroFormPresent\":false,\"IsXFAPresent\":false,\"Title\":\"The Ultimate n8n Starter Kit (2025)\",\"Producer\":\"Skia/PDF m133 Google Docs Renderer\"},\"metadata\":null,\"totalPages\":36}",
+    "loc": "{\"lines\":{\"from\":509,\"to\":520}}"
+  }
+}
+[2025-02-10T07:32:29.233Z] [DEBUG] Processed chunk 31/74
+{
+  "chunkSize": 982,
+  "metadata": {
+    "source": "blob",
+    "fileType": "application/pdf",
+    "chunkIndex": 30,
+    "timestamp": 1739172749233,
+    "charCount": 982,
+    "tokenCount": 246,
+    "documentId": "The Ultimate n8n Starter Kit (2025).pdf_1739172749233",
+    "blobType": "application/pdf",
+    "pdf": "{\"version\":\"1.10.100\",\"info\":{\"PDFFormatVersion\":\"1.4\",\"IsAcroFormPresent\":false,\"IsXFAPresent\":false,\"Title\":\"The Ultimate n8n Starter Kit (2025)\",\"Producer\":\"Skia/PDF m133 Google Docs Renderer\"},\"metadata\":null,\"totalPages\":36}",
+    "loc": "{\"lines\":{\"from\":523,\"to\":549}}"
+  }
+}
+[2025-02-10T07:32:29.234Z] [DEBUG] Processed chunk 32/74
+{
+  "chunkSize": 770,
+  "metadata": {
+    "source": "blob",
+    "fileType": "application/pdf",
+    "chunkIndex": 31,
+    "timestamp": 1739172749233,
+    "charCount": 770,
+    "tokenCount": 193,
+    "documentId": "The Ultimate n8n Starter Kit (2025).pdf_1739172749234",
+    "blobType": "application/pdf",
+    "pdf": "{\"version\":\"1.10.100\",\"info\":{\"PDFFormatVersion\":\"1.4\",\"IsAcroFormPresent\":false,\"IsXFAPresent\":false,\"Title\":\"The Ultimate n8n Starter Kit (2025)\",\"Producer\":\"Skia/PDF m133 Google Docs Renderer\"},\"metadata\":null,\"totalPages\":36}",
+    "loc": "{\"lines\":{\"from\":547,\"to\":570}}"
+  }
+}
+[2025-02-10T07:32:29.234Z] [DEBUG] Processed chunk 33/74
+{
+  "chunkSize": 973,
+  "metadata": {
+    "source": "blob",
+    "fileType": "application/pdf",
+    "chunkIndex": 32,
+    "timestamp": 1739172749234,
+    "charCount": 973,
+    "tokenCount": 244,
+    "documentId": "The Ultimate n8n Starter Kit (2025).pdf_1739172749234",
+    "blobType": "application/pdf",
+    "pdf": "{\"version\":\"1.10.100\",\"info\":{\"PDFFormatVersion\":\"1.4\",\"IsAcroFormPresent\":false,\"IsXFAPresent\":false,\"Title\":\"The Ultimate n8n Starter Kit (2025)\",\"Producer\":\"Skia/PDF m133 Google Docs Renderer\"},\"metadata\":null,\"totalPages\":36}",
+    "loc": "{\"lines\":{\"from\":573,\"to\":610}}"
+  }
+}
+[2025-02-10T07:32:29.234Z] [DEBUG] Processed chunk 34/74
+{
+  "chunkSize": 929,
+  "metadata": {
+    "source": "blob",
+    "fileType": "application/pdf",
+    "chunkIndex": 33,
+    "timestamp": 1739172749234,
+    "charCount": 929,
+    "tokenCount": 233,
+    "documentId": "The Ultimate n8n Starter Kit (2025).pdf_1739172749234",
+    "blobType": "application/pdf",
+    "pdf": "{\"version\":\"1.10.100\",\"info\":{\"PDFFormatVersion\":\"1.4\",\"IsAcroFormPresent\":false,\"IsXFAPresent\":false,\"Title\":\"The Ultimate n8n Starter Kit (2025)\",\"Producer\":\"Skia/PDF m133 Google Docs Renderer\"},\"metadata\":null,\"totalPages\":36}",
+    "loc": "{\"lines\":{\"from\":614,\"to\":634}}"
+  }
+}
+[2025-02-10T07:32:29.235Z] [DEBUG] Processed chunk 35/74
+{
+  "chunkSize": 756,
+  "metadata": {
+    "source": "blob",
+    "fileType": "application/pdf",
+    "chunkIndex": 34,
+    "timestamp": 1739172749235,
+    "charCount": 756,
+    "tokenCount": 189,
+    "documentId": "The Ultimate n8n Starter Kit (2025).pdf_1739172749235",
+    "blobType": "application/pdf",
+    "pdf": "{\"version\":\"1.10.100\",\"info\":{\"PDFFormatVersion\":\"1.4\",\"IsAcroFormPresent\":false,\"IsXFAPresent\":false,\"Title\":\"The Ultimate n8n Starter Kit (2025)\",\"Producer\":\"Skia/PDF m133 Google Docs Renderer\"},\"metadata\":null,\"totalPages\":36}",
+    "loc": "{\"lines\":{\"from\":632,\"to\":647}}"
+  }
+}
+[2025-02-10T07:32:29.236Z] [DEBUG] Processed chunk 36/74
+{
+  "chunkSize": 978,
+  "metadata": {
+    "source": "blob",
+    "fileType": "application/pdf",
+    "chunkIndex": 35,
+    "timestamp": 1739172749236,
+    "charCount": 978,
+    "tokenCount": 245,
+    "documentId": "The Ultimate n8n Starter Kit (2025).pdf_1739172749236",
+    "blobType": "application/pdf",
+    "pdf": "{\"version\":\"1.10.100\",\"info\":{\"PDFFormatVersion\":\"1.4\",\"IsAcroFormPresent\":false,\"IsXFAPresent\":false,\"Title\":\"The Ultimate n8n Starter Kit (2025)\",\"Producer\":\"Skia/PDF m133 Google Docs Renderer\"},\"metadata\":null,\"totalPages\":36}",
+    "loc": "{\"lines\":{\"from\":650,\"to\":666}}"
+  }
+}
+[2025-02-10T07:32:29.237Z] [DEBUG] Processed chunk 37/74
+{
+  "chunkSize": 932,
+  "metadata": {
+    "source": "blob",
+    "fileType": "application/pdf",
+    "chunkIndex": 36,
+    "timestamp": 1739172749237,
+    "charCount": 932,
+    "tokenCount": 233,
+    "documentId": "The Ultimate n8n Starter Kit (2025).pdf_1739172749237",
+    "blobType": "application/pdf",
+    "pdf": "{\"version\":\"1.10.100\",\"info\":{\"PDFFormatVersion\":\"1.4\",\"IsAcroFormPresent\":false,\"IsXFAPresent\":false,\"Title\":\"The Ultimate n8n Starter Kit (2025)\",\"Producer\":\"Skia/PDF m133 Google Docs Renderer\"},\"metadata\":null,\"totalPages\":36}",
+    "loc": "{\"lines\":{\"from\":666,\"to\":686}}"
+  }
+}
+[2025-02-10T07:32:29.238Z] [DEBUG] Processed chunk 38/74
+{
+  "chunkSize": 352,
+  "metadata": {
+    "source": "blob",
+    "fileType": "application/pdf",
+    "chunkIndex": 37,
+    "timestamp": 1739172749238,
+    "charCount": 352,
+    "tokenCount": 88,
+    "documentId": "The Ultimate n8n Starter Kit (2025).pdf_1739172749238",
+    "blobType": "application/pdf",
+    "pdf": "{\"version\":\"1.10.100\",\"info\":{\"PDFFormatVersion\":\"1.4\",\"IsAcroFormPresent\":false,\"IsXFAPresent\":false,\"Title\":\"The Ultimate n8n Starter Kit (2025)\",\"Producer\":\"Skia/PDF m133 Google Docs Renderer\"},\"metadata\":null,\"totalPages\":36}",
+    "loc": "{\"lines\":{\"from\":685,\"to\":690}}"
+  }
+}
+[2025-02-10T07:32:29.239Z] [DEBUG] Processed chunk 39/74
+{
+  "chunkSize": 994,
+  "metadata": {
+    "source": "blob",
+    "fileType": "application/pdf",
+    "chunkIndex": 38,
+    "timestamp": 1739172749239,
+    "charCount": 994,
+    "tokenCount": 249,
+    "documentId": "The Ultimate n8n Starter Kit (2025).pdf_1739172749239",
+    "blobType": "application/pdf",
+    "pdf": "{\"version\":\"1.10.100\",\"info\":{\"PDFFormatVersion\":\"1.4\",\"IsAcroFormPresent\":false,\"IsXFAPresent\":false,\"Title\":\"The Ultimate n8n Starter Kit (2025)\",\"Producer\":\"Skia/PDF m133 Google Docs Renderer\"},\"metadata\":null,\"totalPages\":36}",
+    "loc": "{\"lines\":{\"from\":695,\"to\":712}}"
+  }
+}
+[2025-02-10T07:32:29.239Z] [DEBUG] Processed chunk 40/74
+{
+  "chunkSize": 684,
+  "metadata": {
+    "source": "blob",
+    "fileType": "application/pdf",
+    "chunkIndex": 39,
+    "timestamp": 1739172749239,
+    "charCount": 684,
+    "tokenCount": 171,
+    "documentId": "The Ultimate n8n Starter Kit (2025).pdf_1739172749239",
+    "blobType": "application/pdf",
+    "pdf": "{\"version\":\"1.10.100\",\"info\":{\"PDFFormatVersion\":\"1.4\",\"IsAcroFormPresent\":false,\"IsXFAPresent\":false,\"Title\":\"The Ultimate n8n Starter Kit (2025)\",\"Producer\":\"Skia/PDF m133 Google Docs Renderer\"},\"metadata\":null,\"totalPages\":36}",
+    "loc": "{\"lines\":{\"from\":712,\"to\":725}}"
+  }
+}
+[2025-02-10T07:32:29.240Z] [DEBUG] Processed chunk 41/74
+{
+  "chunkSize": 990,
+  "metadata": {
+    "source": "blob",
+    "fileType": "application/pdf",
+    "chunkIndex": 40,
+    "timestamp": 1739172749240,
+    "charCount": 990,
+    "tokenCount": 248,
+    "documentId": "The Ultimate n8n Starter Kit (2025).pdf_1739172749240",
+    "blobType": "application/pdf",
+    "pdf": "{\"version\":\"1.10.100\",\"info\":{\"PDFFormatVersion\":\"1.4\",\"IsAcroFormPresent\":false,\"IsXFAPresent\":false,\"Title\":\"The Ultimate n8n Starter Kit (2025)\",\"Producer\":\"Skia/PDF m133 Google Docs Renderer\"},\"metadata\":null,\"totalPages\":36}",
+    "loc": "{\"lines\":{\"from\":728,\"to\":747}}"
+  }
+}
+[2025-02-10T07:32:29.240Z] [DEBUG] Processed chunk 42/74
+{
+  "chunkSize": 556,
+  "metadata": {
+    "source": "blob",
+    "fileType": "application/pdf",
+    "chunkIndex": 41,
+    "timestamp": 1739172749240,
+    "charCount": 556,
+    "tokenCount": 139,
+    "documentId": "The Ultimate n8n Starter Kit (2025).pdf_1739172749240",
+    "blobType": "application/pdf",
+    "pdf": "{\"version\":\"1.10.100\",\"info\":{\"PDFFormatVersion\":\"1.4\",\"IsAcroFormPresent\":false,\"IsXFAPresent\":false,\"Title\":\"The Ultimate n8n Starter Kit (2025)\",\"Producer\":\"Skia/PDF m133 Google Docs Renderer\"},\"metadata\":null,\"totalPages\":36}",
+    "loc": "{\"lines\":{\"from\":747,\"to\":759}}"
+  }
+}
+[2025-02-10T07:32:29.241Z] [DEBUG] Processed chunk 43/74
+{
+  "chunkSize": 973,
+  "metadata": {
+    "source": "blob",
+    "fileType": "application/pdf",
+    "chunkIndex": 42,
+    "timestamp": 1739172749241,
+    "charCount": 973,
+    "tokenCount": 244,
+    "documentId": "The Ultimate n8n Starter Kit (2025).pdf_1739172749241",
+    "blobType": "application/pdf",
+    "pdf": "{\"version\":\"1.10.100\",\"info\":{\"PDFFormatVersion\":\"1.4\",\"IsAcroFormPresent\":false,\"IsXFAPresent\":false,\"Title\":\"The Ultimate n8n Starter Kit (2025)\",\"Producer\":\"Skia/PDF m133 Google Docs Renderer\"},\"metadata\":null,\"totalPages\":36}",
+    "loc": "{\"lines\":{\"from\":762,\"to\":780}}"
+  }
+}
+[2025-02-10T07:32:29.241Z] [DEBUG] Processed chunk 44/74
+{
+  "chunkSize": 904,
+  "metadata": {
+    "source": "blob",
+    "fileType": "application/pdf",
+    "chunkIndex": 43,
+    "timestamp": 1739172749241,
+    "charCount": 904,
+    "tokenCount": 226,
+    "documentId": "The Ultimate n8n Starter Kit (2025).pdf_1739172749241",
+    "blobType": "application/pdf",
+    "pdf": "{\"version\":\"1.10.100\",\"info\":{\"PDFFormatVersion\":\"1.4\",\"IsAcroFormPresent\":false,\"IsXFAPresent\":false,\"Title\":\"The Ultimate n8n Starter Kit (2025)\",\"Producer\":\"Skia/PDF m133 Google Docs Renderer\"},\"metadata\":null,\"totalPages\":36}",
+    "loc": "{\"lines\":{\"from\":780,\"to\":794}}"
+  }
+}
+[2025-02-10T07:32:29.242Z] [DEBUG] Processed chunk 45/74
+{
+  "chunkSize": 975,
+  "metadata": {
+    "source": "blob",
+    "fileType": "application/pdf",
+    "chunkIndex": 44,
+    "timestamp": 1739172749242,
+    "charCount": 975,
+    "tokenCount": 244,
+    "documentId": "The Ultimate n8n Starter Kit (2025).pdf_1739172749242",
+    "blobType": "application/pdf",
+    "pdf": "{\"version\":\"1.10.100\",\"info\":{\"PDFFormatVersion\":\"1.4\",\"IsAcroFormPresent\":false,\"IsXFAPresent\":false,\"Title\":\"The Ultimate n8n Starter Kit (2025)\",\"Producer\":\"Skia/PDF m133 Google Docs Renderer\"},\"metadata\":null,\"totalPages\":36}",
+    "loc": "{\"lines\":{\"from\":797,\"to\":811}}"
+  }
+}
+[2025-02-10T07:32:29.242Z] [DEBUG] Processed chunk 46/74
+{
+  "chunkSize": 980,
+  "metadata": {
+    "source": "blob",
+    "fileType": "application/pdf",
+    "chunkIndex": 45,
+    "timestamp": 1739172749242,
+    "charCount": 980,
+    "tokenCount": 245,
+    "documentId": "The Ultimate n8n Starter Kit (2025).pdf_1739172749242",
+    "blobType": "application/pdf",
+    "pdf": "{\"version\":\"1.10.100\",\"info\":{\"PDFFormatVersion\":\"1.4\",\"IsAcroFormPresent\":false,\"IsXFAPresent\":false,\"Title\":\"The Ultimate n8n Starter Kit (2025)\",\"Producer\":\"Skia/PDF m133 Google Docs Renderer\"},\"metadata\":null,\"totalPages\":36}",
+    "loc": "{\"lines\":{\"from\":811,\"to\":827}}"
+  }
+}
+[2025-02-10T07:32:29.243Z] [DEBUG] Processed chunk 47/74
+{
+  "chunkSize": 65,
+  "metadata": {
+    "source": "blob",
+    "fileType": "application/pdf",
+    "chunkIndex": 46,
+    "timestamp": 1739172749243,
+    "charCount": 65,
+    "tokenCount": 17,
+    "documentId": "The Ultimate n8n Starter Kit (2025).pdf_1739172749243",
+    "blobType": "application/pdf",
+    "pdf": "{\"version\":\"1.10.100\",\"info\":{\"PDFFormatVersion\":\"1.4\",\"IsAcroFormPresent\":false,\"IsXFAPresent\":false,\"Title\":\"The Ultimate n8n Starter Kit (2025)\",\"Producer\":\"Skia/PDF m133 Google Docs Renderer\"},\"metadata\":null,\"totalPages\":36}",
+    "loc": "{\"lines\":{\"from\":826,\"to\":828}}"
+  }
+}
+[2025-02-10T07:32:29.243Z] [DEBUG] Processed chunk 48/74
+{
+  "chunkSize": 928,
+  "metadata": {
+    "source": "blob",
+    "fileType": "application/pdf",
+    "chunkIndex": 47,
+    "timestamp": 1739172749243,
+    "charCount": 928,
+    "tokenCount": 232,
+    "documentId": "The Ultimate n8n Starter Kit (2025).pdf_1739172749243",
+    "blobType": "application/pdf",
+    "pdf": "{\"version\":\"1.10.100\",\"info\":{\"PDFFormatVersion\":\"1.4\",\"IsAcroFormPresent\":false,\"IsXFAPresent\":false,\"Title\":\"The Ultimate n8n Starter Kit (2025)\",\"Producer\":\"Skia/PDF m133 Google Docs Renderer\"},\"metadata\":null,\"totalPages\":36}",
+    "loc": "{\"lines\":{\"from\":831,\"to\":847}}"
+  }
+}
+[2025-02-10T07:32:29.244Z] [DEBUG] Processed chunk 49/74
+{
+  "chunkSize": 964,
+  "metadata": {
+    "source": "blob",
+    "fileType": "application/pdf",
+    "chunkIndex": 48,
+    "timestamp": 1739172749244,
+    "charCount": 964,
+    "tokenCount": 241,
+    "documentId": "The Ultimate n8n Starter Kit (2025).pdf_1739172749244",
+    "blobType": "application/pdf",
+    "pdf": "{\"version\":\"1.10.100\",\"info\":{\"PDFFormatVersion\":\"1.4\",\"IsAcroFormPresent\":false,\"IsXFAPresent\":false,\"Title\":\"The Ultimate n8n Starter Kit (2025)\",\"Producer\":\"Skia/PDF m133 Google Docs Renderer\"},\"metadata\":null,\"totalPages\":36}",
+    "loc": "{\"lines\":{\"from\":846,\"to\":863}}"
+  }
+}
+[2025-02-10T07:32:29.244Z] [DEBUG] Processed chunk 50/74
+{
+  "chunkSize": 192,
+  "metadata": {
+    "source": "blob",
+    "fileType": "application/pdf",
+    "chunkIndex": 49,
+    "timestamp": 1739172749244,
+    "charCount": 192,
+    "tokenCount": 48,
+    "documentId": "The Ultimate n8n Starter Kit (2025).pdf_1739172749244",
+    "blobType": "application/pdf",
+    "pdf": "{\"version\":\"1.10.100\",\"info\":{\"PDFFormatVersion\":\"1.4\",\"IsAcroFormPresent\":false,\"IsXFAPresent\":false,\"Title\":\"The Ultimate n8n Starter Kit (2025)\",\"Producer\":\"Skia/PDF m133 Google Docs Renderer\"},\"metadata\":null,\"totalPages\":36}",
+    "loc": "{\"lines\":{\"from\":863,\"to\":866}}"
+  }
+}
+[2025-02-10T07:32:29.245Z] [DEBUG] Processed chunk 51/74
+{
+  "chunkSize": 958,
+  "metadata": {
+    "source": "blob",
+    "fileType": "application/pdf",
+    "chunkIndex": 50,
+    "timestamp": 1739172749245,
+    "charCount": 958,
+    "tokenCount": 240,
+    "documentId": "The Ultimate n8n Starter Kit (2025).pdf_1739172749245",
+    "blobType": "application/pdf",
+    "pdf": "{\"version\":\"1.10.100\",\"info\":{\"PDFFormatVersion\":\"1.4\",\"IsAcroFormPresent\":false,\"IsXFAPresent\":false,\"Title\":\"The Ultimate n8n Starter Kit (2025)\",\"Producer\":\"Skia/PDF m133 Google Docs Renderer\"},\"metadata\":null,\"totalPages\":36}",
+    "loc": "{\"lines\":{\"from\":870,\"to\":885}}"
+  }
+}
+[2025-02-10T07:32:29.245Z] [DEBUG] Processed chunk 52/74
+{
+  "chunkSize": 412,
+  "metadata": {
+    "source": "blob",
+    "fileType": "application/pdf",
+    "chunkIndex": 51,
+    "timestamp": 1739172749245,
+    "charCount": 412,
+    "tokenCount": 103,
+    "documentId": "The Ultimate n8n Starter Kit (2025).pdf_1739172749245",
+    "blobType": "application/pdf",
+    "pdf": "{\"version\":\"1.10.100\",\"info\":{\"PDFFormatVersion\":\"1.4\",\"IsAcroFormPresent\":false,\"IsXFAPresent\":false,\"Title\":\"The Ultimate n8n Starter Kit (2025)\",\"Producer\":\"Skia/PDF m133 Google Docs Renderer\"},\"metadata\":null,\"totalPages\":36}",
+    "loc": "{\"lines\":{\"from\":885,\"to\":891}}"
+  }
+}
+[2025-02-10T07:32:29.246Z] [DEBUG] Processed chunk 53/74
+{
+  "chunkSize": 935,
+  "metadata": {
+    "source": "blob",
+    "fileType": "application/pdf",
+    "chunkIndex": 52,
+    "timestamp": 1739172749246,
+    "charCount": 935,
+    "tokenCount": 234,
+    "documentId": "The Ultimate n8n Starter Kit (2025).pdf_1739172749246",
+    "blobType": "application/pdf",
+    "pdf": "{\"version\":\"1.10.100\",\"info\":{\"PDFFormatVersion\":\"1.4\",\"IsAcroFormPresent\":false,\"IsXFAPresent\":false,\"Title\":\"The Ultimate n8n Starter Kit (2025)\",\"Producer\":\"Skia/PDF m133 Google Docs Renderer\"},\"metadata\":null,\"totalPages\":36}",
+    "loc": "{\"lines\":{\"from\":898,\"to\":917}}"
+  }
+}
+[2025-02-10T07:32:29.246Z] [DEBUG] Processed chunk 54/74
+{
+  "chunkSize": 761,
+  "metadata": {
+    "source": "blob",
+    "fileType": "application/pdf",
+    "chunkIndex": 53,
+    "timestamp": 1739172749246,
+    "charCount": 761,
+    "tokenCount": 191,
+    "documentId": "The Ultimate n8n Starter Kit (2025).pdf_1739172749246",
+    "blobType": "application/pdf",
+    "pdf": "{\"version\":\"1.10.100\",\"info\":{\"PDFFormatVersion\":\"1.4\",\"IsAcroFormPresent\":false,\"IsXFAPresent\":false,\"Title\":\"The Ultimate n8n Starter Kit (2025)\",\"Producer\":\"Skia/PDF m133 Google Docs Renderer\"},\"metadata\":null,\"totalPages\":36}",
+    "loc": "{\"lines\":{\"from\":916,\"to\":936}}"
+  }
+}
+[2025-02-10T07:32:29.247Z] [DEBUG] Processed chunk 55/74
+{
+  "chunkSize": 977,
+  "metadata": {
+    "source": "blob",
+    "fileType": "application/pdf",
+    "chunkIndex": 54,
+    "timestamp": 1739172749247,
+    "charCount": 977,
+    "tokenCount": 245,
+    "documentId": "The Ultimate n8n Starter Kit (2025).pdf_1739172749247",
+    "blobType": "application/pdf",
+    "pdf": "{\"version\":\"1.10.100\",\"info\":{\"PDFFormatVersion\":\"1.4\",\"IsAcroFormPresent\":false,\"IsXFAPresent\":false,\"Title\":\"The Ultimate n8n Starter Kit (2025)\",\"Producer\":\"Skia/PDF m133 Google Docs Renderer\"},\"metadata\":null,\"totalPages\":36}",
+    "loc": "{\"lines\":{\"from\":939,\"to\":955}}"
+  }
+}
+[2025-02-10T07:32:29.247Z] [DEBUG] Processed chunk 56/74
+{
+  "chunkSize": 891,
+  "metadata": {
+    "source": "blob",
+    "fileType": "application/pdf",
+    "chunkIndex": 55,
+    "timestamp": 1739172749247,
+    "charCount": 891,
+    "tokenCount": 223,
+    "documentId": "The Ultimate n8n Starter Kit (2025).pdf_1739172749247",
+    "blobType": "application/pdf",
+    "pdf": "{\"version\":\"1.10.100\",\"info\":{\"PDFFormatVersion\":\"1.4\",\"IsAcroFormPresent\":false,\"IsXFAPresent\":false,\"Title\":\"The Ultimate n8n Starter Kit (2025)\",\"Producer\":\"Skia/PDF m133 Google Docs Renderer\"},\"metadata\":null,\"totalPages\":36}",
+    "loc": "{\"lines\":{\"from\":955,\"to\":970}}"
+  }
+}
+[2025-02-10T07:32:29.248Z] [DEBUG] Processed chunk 57/74
+{
+  "chunkSize": 928,
+  "metadata": {
+    "source": "blob",
+    "fileType": "application/pdf",
+    "chunkIndex": 56,
+    "timestamp": 1739172749248,
+    "charCount": 928,
+    "tokenCount": 232,
+    "documentId": "The Ultimate n8n Starter Kit (2025).pdf_1739172749248",
+    "blobType": "application/pdf",
+    "pdf": "{\"version\":\"1.10.100\",\"info\":{\"PDFFormatVersion\":\"1.4\",\"IsAcroFormPresent\":false,\"IsXFAPresent\":false,\"Title\":\"The Ultimate n8n Starter Kit (2025)\",\"Producer\":\"Skia/PDF m133 Google Docs Renderer\"},\"metadata\":null,\"totalPages\":36}",
+    "loc": "{\"lines\":{\"from\":973,\"to\":991}}"
+  }
+}
+[2025-02-10T07:32:29.248Z] [DEBUG] Processed chunk 58/74
+{
+  "chunkSize": 836,
+  "metadata": {
+    "source": "blob",
+    "fileType": "application/pdf",
+    "chunkIndex": 57,
+    "timestamp": 1739172749248,
+    "charCount": 836,
+    "tokenCount": 209,
+    "documentId": "The Ultimate n8n Starter Kit (2025).pdf_1739172749248",
+    "blobType": "application/pdf",
+    "pdf": "{\"version\":\"1.10.100\",\"info\":{\"PDFFormatVersion\":\"1.4\",\"IsAcroFormPresent\":false,\"IsXFAPresent\":false,\"Title\":\"The Ultimate n8n Starter Kit (2025)\",\"Producer\":\"Skia/PDF m133 Google Docs Renderer\"},\"metadata\":null,\"totalPages\":36}",
+    "loc": "{\"lines\":{\"from\":990,\"to\":1007}}"
+  }
+}
+[2025-02-10T07:32:29.249Z] [DEBUG] Processed chunk 59/74
+{
+  "chunkSize": 980,
+  "metadata": {
+    "source": "blob",
+    "fileType": "application/pdf",
+    "chunkIndex": 58,
+    "timestamp": 1739172749249,
+    "charCount": 980,
+    "tokenCount": 245,
+    "documentId": "The Ultimate n8n Starter Kit (2025).pdf_1739172749249",
+    "blobType": "application/pdf",
+    "pdf": "{\"version\":\"1.10.100\",\"info\":{\"PDFFormatVersion\":\"1.4\",\"IsAcroFormPresent\":false,\"IsXFAPresent\":false,\"Title\":\"The Ultimate n8n Starter Kit (2025)\",\"Producer\":\"Skia/PDF m133 Google Docs Renderer\"},\"metadata\":null,\"totalPages\":36}",
+    "loc": "{\"lines\":{\"from\":1010,\"to\":1032}}"
+  }
+}
+[2025-02-10T07:32:29.249Z] [DEBUG] Processed chunk 60/74
+{
+  "chunkSize": 850,
+  "metadata": {
+    "source": "blob",
+    "fileType": "application/pdf",
+    "chunkIndex": 59,
+    "timestamp": 1739172749249,
+    "charCount": 850,
+    "tokenCount": 213,
+    "documentId": "The Ultimate n8n Starter Kit (2025).pdf_1739172749249",
+    "blobType": "application/pdf",
+    "pdf": "{\"version\":\"1.10.100\",\"info\":{\"PDFFormatVersion\":\"1.4\",\"IsAcroFormPresent\":false,\"IsXFAPresent\":false,\"Title\":\"The Ultimate n8n Starter Kit (2025)\",\"Producer\":\"Skia/PDF m133 Google Docs Renderer\"},\"metadata\":null,\"totalPages\":36}",
+    "loc": "{\"lines\":{\"from\":1032,\"to\":1046}}"
+  }
+}
+[2025-02-10T07:32:29.250Z] [DEBUG] Processed chunk 61/74
+{
+  "chunkSize": 967,
+  "metadata": {
+    "source": "blob",
+    "fileType": "application/pdf",
+    "chunkIndex": 60,
+    "timestamp": 1739172749250,
+    "charCount": 967,
+    "tokenCount": 242,
+    "documentId": "The Ultimate n8n Starter Kit (2025).pdf_1739172749250",
+    "blobType": "application/pdf",
+    "pdf": "{\"version\":\"1.10.100\",\"info\":{\"PDFFormatVersion\":\"1.4\",\"IsAcroFormPresent\":false,\"IsXFAPresent\":false,\"Title\":\"The Ultimate n8n Starter Kit (2025)\",\"Producer\":\"Skia/PDF m133 Google Docs Renderer\"},\"metadata\":null,\"totalPages\":36}",
+    "loc": "{\"lines\":{\"from\":1050,\"to\":1069}}"
+  }
+}
+[2025-02-10T07:32:29.251Z] [DEBUG] Processed chunk 62/74
+{
+  "chunkSize": 291,
+  "metadata": {
+    "source": "blob",
+    "fileType": "application/pdf",
+    "chunkIndex": 61,
+    "timestamp": 1739172749251,
+    "charCount": 291,
+    "tokenCount": 73,
+    "documentId": "The Ultimate n8n Starter Kit (2025).pdf_1739172749251",
+    "blobType": "application/pdf",
+    "pdf": "{\"version\":\"1.10.100\",\"info\":{\"PDFFormatVersion\":\"1.4\",\"IsAcroFormPresent\":false,\"IsXFAPresent\":false,\"Title\":\"The Ultimate n8n Starter Kit (2025)\",\"Producer\":\"Skia/PDF m133 Google Docs Renderer\"},\"metadata\":null,\"totalPages\":36}",
+    "loc": "{\"lines\":{\"from\":1068,\"to\":1077}}"
+  }
+}
+[2025-02-10T07:32:29.251Z] [DEBUG] Processed chunk 63/74
+{
+  "chunkSize": 987,
+  "metadata": {
+    "source": "blob",
+    "fileType": "application/pdf",
+    "chunkIndex": 62,
+    "timestamp": 1739172749251,
+    "charCount": 987,
+    "tokenCount": 247,
+    "documentId": "The Ultimate n8n Starter Kit (2025).pdf_1739172749251",
+    "blobType": "application/pdf",
+    "pdf": "{\"version\":\"1.10.100\",\"info\":{\"PDFFormatVersion\":\"1.4\",\"IsAcroFormPresent\":false,\"IsXFAPresent\":false,\"Title\":\"The Ultimate n8n Starter Kit (2025)\",\"Producer\":\"Skia/PDF m133 Google Docs Renderer\"},\"metadata\":null,\"totalPages\":36}",
+    "loc": "{\"lines\":{\"from\":1080,\"to\":1098}}"
+  }
+}
+[2025-02-10T07:32:29.252Z] [DEBUG] Processed chunk 64/74
+{
+  "chunkSize": 633,
+  "metadata": {
+    "source": "blob",
+    "fileType": "application/pdf",
+    "chunkIndex": 63,
+    "timestamp": 1739172749252,
+    "charCount": 633,
+    "tokenCount": 159,
+    "documentId": "The Ultimate n8n Starter Kit (2025).pdf_1739172749252",
+    "blobType": "application/pdf",
+    "pdf": "{\"version\":\"1.10.100\",\"info\":{\"PDFFormatVersion\":\"1.4\",\"IsAcroFormPresent\":false,\"IsXFAPresent\":false,\"Title\":\"The Ultimate n8n Starter Kit (2025)\",\"Producer\":\"Skia/PDF m133 Google Docs Renderer\"},\"metadata\":null,\"totalPages\":36}",
+    "loc": "{\"lines\":{\"from\":1098,\"to\":1110}}"
+  }
+}
+[2025-02-10T07:32:29.252Z] [DEBUG] Processed chunk 65/74
+{
+  "chunkSize": 943,
+  "metadata": {
+    "source": "blob",
+    "fileType": "application/pdf",
+    "chunkIndex": 64,
+    "timestamp": 1739172749252,
+    "charCount": 943,
+    "tokenCount": 236,
+    "documentId": "The Ultimate n8n Starter Kit (2025).pdf_1739172749252",
+    "blobType": "application/pdf",
+    "pdf": "{\"version\":\"1.10.100\",\"info\":{\"PDFFormatVersion\":\"1.4\",\"IsAcroFormPresent\":false,\"IsXFAPresent\":false,\"Title\":\"The Ultimate n8n Starter Kit (2025)\",\"Producer\":\"Skia/PDF m133 Google Docs Renderer\"},\"metadata\":null,\"totalPages\":36}",
+    "loc": "{\"lines\":{\"from\":1113,\"to\":1128}}"
+  }
+}
+[2025-02-10T07:32:29.252Z] [DEBUG] Processed chunk 66/74
+{
+  "chunkSize": 331,
+  "metadata": {
+    "source": "blob",
+    "fileType": "application/pdf",
+    "chunkIndex": 65,
+    "timestamp": 1739172749252,
+    "charCount": 331,
+    "tokenCount": 83,
+    "documentId": "The Ultimate n8n Starter Kit (2025).pdf_1739172749252",
+    "blobType": "application/pdf",
+    "pdf": "{\"version\":\"1.10.100\",\"info\":{\"PDFFormatVersion\":\"1.4\",\"IsAcroFormPresent\":false,\"IsXFAPresent\":false,\"Title\":\"The Ultimate n8n Starter Kit (2025)\",\"Producer\":\"Skia/PDF m133 Google Docs Renderer\"},\"metadata\":null,\"totalPages\":36}",
+    "loc": "{\"lines\":{\"from\":1128,\"to\":1132}}"
+  }
+}
+[2025-02-10T07:32:29.253Z] [DEBUG] Processed chunk 67/74
+{
+  "chunkSize": 946,
+  "metadata": {
+    "source": "blob",
+    "fileType": "application/pdf",
+    "chunkIndex": 66,
+    "timestamp": 1739172749253,
+    "charCount": 946,
+    "tokenCount": 237,
+    "documentId": "The Ultimate n8n Starter Kit (2025).pdf_1739172749253",
+    "blobType": "application/pdf",
+    "pdf": "{\"version\":\"1.10.100\",\"info\":{\"PDFFormatVersion\":\"1.4\",\"IsAcroFormPresent\":false,\"IsXFAPresent\":false,\"Title\":\"The Ultimate n8n Starter Kit (2025)\",\"Producer\":\"Skia/PDF m133 Google Docs Renderer\"},\"metadata\":null,\"totalPages\":36}",
+    "loc": "{\"lines\":{\"from\":1138,\"to\":1154}}"
+  }
+}
+[2025-02-10T07:32:29.254Z] [DEBUG] Processed chunk 68/74
+{
+  "chunkSize": 882,
+  "metadata": {
+    "source": "blob",
+    "fileType": "application/pdf",
+    "chunkIndex": 67,
+    "timestamp": 1739172749254,
+    "charCount": 882,
+    "tokenCount": 221,
+    "documentId": "The Ultimate n8n Starter Kit (2025).pdf_1739172749254",
+    "blobType": "application/pdf",
+    "pdf": "{\"version\":\"1.10.100\",\"info\":{\"PDFFormatVersion\":\"1.4\",\"IsAcroFormPresent\":false,\"IsXFAPresent\":false,\"Title\":\"The Ultimate n8n Starter Kit (2025)\",\"Producer\":\"Skia/PDF m133 Google Docs Renderer\"},\"metadata\":null,\"totalPages\":36}",
+    "loc": "{\"lines\":{\"from\":1153,\"to\":1167}}"
+  }
+}
+[2025-02-10T07:32:29.254Z] [DEBUG] Processed chunk 69/74
+{
+  "chunkSize": 970,
+  "metadata": {
+    "source": "blob",
+    "fileType": "application/pdf",
+    "chunkIndex": 68,
+    "timestamp": 1739172749254,
+    "charCount": 970,
+    "tokenCount": 243,
+    "documentId": "The Ultimate n8n Starter Kit (2025).pdf_1739172749254",
+    "blobType": "application/pdf",
+    "pdf": "{\"version\":\"1.10.100\",\"info\":{\"PDFFormatVersion\":\"1.4\",\"IsAcroFormPresent\":false,\"IsXFAPresent\":false,\"Title\":\"The Ultimate n8n Starter Kit (2025)\",\"Producer\":\"Skia/PDF m133 Google Docs Renderer\"},\"metadata\":null,\"totalPages\":36}",
+    "loc": "{\"lines\":{\"from\":1173,\"to\":1190}}"
+  }
+}
+[2025-02-10T07:32:29.255Z] [DEBUG] Processed chunk 70/74
+{
+  "chunkSize": 966,
+  "metadata": {
+    "source": "blob",
+    "fileType": "application/pdf",
+    "chunkIndex": 69,
+    "timestamp": 1739172749255,
+    "charCount": 966,
+    "tokenCount": 242,
+    "documentId": "The Ultimate n8n Starter Kit (2025).pdf_1739172749255",
+    "blobType": "application/pdf",
+    "pdf": "{\"version\":\"1.10.100\",\"info\":{\"PDFFormatVersion\":\"1.4\",\"IsAcroFormPresent\":false,\"IsXFAPresent\":false,\"Title\":\"The Ultimate n8n Starter Kit (2025)\",\"Producer\":\"Skia/PDF m133 Google Docs Renderer\"},\"metadata\":null,\"totalPages\":36}",
+    "loc": "{\"lines\":{\"from\":1189,\"to\":1207}}"
+  }
+}
+[2025-02-10T07:32:29.255Z] [DEBUG] Processed chunk 71/74
+{
+  "chunkSize": 157,
+  "metadata": {
+    "source": "blob",
+    "fileType": "application/pdf",
+    "chunkIndex": 70,
+    "timestamp": 1739172749255,
+    "charCount": 157,
+    "tokenCount": 40,
+    "documentId": "The Ultimate n8n Starter Kit (2025).pdf_1739172749255",
+    "blobType": "application/pdf",
+    "pdf": "{\"version\":\"1.10.100\",\"info\":{\"PDFFormatVersion\":\"1.4\",\"IsAcroFormPresent\":false,\"IsXFAPresent\":false,\"Title\":\"The Ultimate n8n Starter Kit (2025)\",\"Producer\":\"Skia/PDF m133 Google Docs Renderer\"},\"metadata\":null,\"totalPages\":36}",
+    "loc": "{\"lines\":{\"from\":1206,\"to\":1208}}"
+  }
+}
+[2025-02-10T07:32:29.256Z] [DEBUG] Processed chunk 72/74
+{
+  "chunkSize": 939,
+  "metadata": {
+    "source": "blob",
+    "fileType": "application/pdf",
+    "chunkIndex": 71,
+    "timestamp": 1739172749256,
+    "charCount": 939,
+    "tokenCount": 235,
+    "documentId": "The Ultimate n8n Starter Kit (2025).pdf_1739172749256",
+    "blobType": "application/pdf",
+    "pdf": "{\"version\":\"1.10.100\",\"info\":{\"PDFFormatVersion\":\"1.4\",\"IsAcroFormPresent\":false,\"IsXFAPresent\":false,\"Title\":\"The Ultimate n8n Starter Kit (2025)\",\"Producer\":\"Skia/PDF m133 Google Docs Renderer\"},\"metadata\":null,\"totalPages\":36}",
+    "loc": "{\"lines\":{\"from\":1212,\"to\":1230}}"
+  }
+}
+[2025-02-10T07:32:29.256Z] [DEBUG] Processed chunk 73/74
+{
+  "chunkSize": 660,
+  "metadata": {
+    "source": "blob",
+    "fileType": "application/pdf",
+    "chunkIndex": 72,
+    "timestamp": 1739172749256,
+    "charCount": 660,
+    "tokenCount": 165,
+    "documentId": "The Ultimate n8n Starter Kit (2025).pdf_1739172749256",
+    "blobType": "application/pdf",
+    "pdf": "{\"version\":\"1.10.100\",\"info\":{\"PDFFormatVersion\":\"1.4\",\"IsAcroFormPresent\":false,\"IsXFAPresent\":false,\"Title\":\"The Ultimate n8n Starter Kit (2025)\",\"Producer\":\"Skia/PDF m133 Google Docs Renderer\"},\"metadata\":null,\"totalPages\":36}",
+    "loc": "{\"lines\":{\"from\":1230,\"to\":1245}}"
+  }
+}
+[2025-02-10T07:32:29.257Z] [DEBUG] Processed chunk 74/74
+{
+  "chunkSize": 749,
+  "metadata": {
+    "source": "blob",
+    "fileType": "application/pdf",
+    "chunkIndex": 73,
+    "timestamp": 1739172749257,
+    "charCount": 749,
+    "tokenCount": 188,
+    "documentId": "The Ultimate n8n Starter Kit (2025).pdf_1739172749257",
+    "blobType": "application/pdf",
+    "pdf": "{\"version\":\"1.10.100\",\"info\":{\"PDFFormatVersion\":\"1.4\",\"IsAcroFormPresent\":false,\"IsXFAPresent\":false,\"Title\":\"The Ultimate n8n Starter Kit (2025)\",\"Producer\":\"Skia/PDF m133 Google Docs Renderer\"},\"metadata\":null,\"totalPages\":36}",
+    "loc": "{\"lines\":{\"from\":1249,\"to\":1260}}"
+  }
+}
+[2025-02-10T07:32:29.257Z] [INFO] Created 74 chunks for processing
+[2025-02-10T07:32:29.258Z] [DEBUG] Generating embeddings for chunks
+[2025-02-10T07:32:30.026Z] [DEBUG] Generated embedding for chunk 2/74
+[2025-02-10T07:32:30.040Z] [DEBUG] Generated embedding for chunk 1/74
+[2025-02-10T07:32:30.766Z] [DEBUG] Generated embedding for chunk 4/74
+[2025-02-10T07:32:30.940Z] [DEBUG] Generated embedding for chunk 3/74
+[2025-02-10T07:32:31.462Z] [DEBUG] Generated embedding for chunk 5/74
+[2025-02-10T07:32:31.606Z] [DEBUG] Generated embedding for chunk 6/74
+[2025-02-10T07:32:32.177Z] [DEBUG] Generated embedding for chunk 7/74
+[2025-02-10T07:32:32.261Z] [DEBUG] Generated embedding for chunk 8/74
+[2025-02-10T07:32:32.883Z] [DEBUG] Generated embedding for chunk 9/74
+[2025-02-10T07:32:32.987Z] [DEBUG] Generated embedding for chunk 10/74
+[2025-02-10T07:32:33.498Z] [DEBUG] Generated embedding for chunk 11/74
+[2025-02-10T07:32:33.629Z] [DEBUG] Generated embedding for chunk 12/74
+[2025-02-10T07:32:34.022Z] [DEBUG] Generated embedding for chunk 14/74
+[2025-02-10T07:32:34.103Z] [DEBUG] Generated embedding for chunk 13/74
+[2025-02-10T07:32:34.515Z] [DEBUG] Generated embedding for chunk 15/74
+[2025-02-10T07:32:34.761Z] [DEBUG] Generated embedding for chunk 16/74
+[2025-02-10T07:32:35.142Z] [DEBUG] Generated embedding for chunk 17/74
+[2025-02-10T07:32:35.524Z] [DEBUG] Generated embedding for chunk 18/74
+[2025-02-10T07:32:35.760Z] [DEBUG] Generated embedding for chunk 19/74
+[2025-02-10T07:32:36.178Z] [DEBUG] Generated embedding for chunk 20/74
+[2025-02-10T07:32:36.480Z] [DEBUG] Generated embedding for chunk 21/74
+[2025-02-10T07:32:36.793Z] [DEBUG] Generated embedding for chunk 22/74
+[2025-02-10T07:32:37.402Z] [DEBUG] Generated embedding for chunk 23/74
+[2025-02-10T07:32:37.411Z] [DEBUG] Generated embedding for chunk 24/74
+[2025-02-10T07:32:38.130Z] [DEBUG] Generated embedding for chunk 25/74
+[2025-02-10T07:32:38.905Z] [DEBUG] Generated embedding for chunk 27/74
+[2025-02-10T07:32:39.410Z] [DEBUG] Generated embedding for chunk 26/74
+[2025-02-10T07:32:39.631Z] [DEBUG] Generated embedding for chunk 28/74
+[2025-02-10T07:32:40.119Z] [DEBUG] Generated embedding for chunk 29/74
+[2025-02-10T07:32:40.323Z] [DEBUG] Generated embedding for chunk 30/74
+[2025-02-10T07:32:40.759Z] [DEBUG] Generated embedding for chunk 31/74
+[2025-02-10T07:32:41.125Z] [DEBUG] Generated embedding for chunk 32/74
+[2025-02-10T07:32:41.380Z] [DEBUG] Generated embedding for chunk 33/74
+[2025-02-10T07:32:42.058Z] [DEBUG] Generated embedding for chunk 35/74
+[2025-02-10T07:32:42.534Z] [DEBUG] Generated embedding for chunk 34/74
+[2025-02-10T07:32:42.691Z] [DEBUG] Generated embedding for chunk 36/74
+[2025-02-10T07:32:43.130Z] [DEBUG] Generated embedding for chunk 37/74
+[2025-02-10T07:32:43.320Z] [DEBUG] Generated embedding for chunk 38/74
+[2025-02-10T07:32:43.831Z] [DEBUG] Generated embedding for chunk 39/74
+[2025-02-10T07:32:43.914Z] [DEBUG] Generated embedding for chunk 40/74
+[2025-02-10T07:32:44.437Z] [DEBUG] Generated embedding for chunk 41/74
+[2025-02-10T07:32:44.462Z] [DEBUG] Generated embedding for chunk 42/74
+[2025-02-10T07:32:45.163Z] [DEBUG] Generated embedding for chunk 44/74
+[2025-02-10T07:32:45.210Z] [DEBUG] Generated embedding for chunk 43/74
+[2025-02-10T07:32:45.813Z] [DEBUG] Generated embedding for chunk 45/74
+[2025-02-10T07:32:46.122Z] [DEBUG] Generated embedding for chunk 46/74
+[2025-02-10T07:32:46.492Z] [DEBUG] Generated embedding for chunk 47/74
+[2025-02-10T07:32:46.779Z] [DEBUG] Generated embedding for chunk 48/74
+[2025-02-10T07:32:47.196Z] [DEBUG] Generated embedding for chunk 49/74
+[2025-02-10T07:32:47.449Z] [DEBUG] Generated embedding for chunk 50/74
+[2025-02-10T07:32:47.954Z] [DEBUG] Generated embedding for chunk 51/74
+[2025-02-10T07:32:48.112Z] [DEBUG] Generated embedding for chunk 52/74
+[2025-02-10T07:32:48.577Z] [DEBUG] Generated embedding for chunk 53/74
+[2025-02-10T07:32:48.746Z] [DEBUG] Generated embedding for chunk 54/74
+[2025-02-10T07:32:49.349Z] [DEBUG] Generated embedding for chunk 55/74
+[2025-02-10T07:32:49.437Z] [DEBUG] Generated embedding for chunk 56/74
+[2025-02-10T07:32:50.019Z] [DEBUG] Generated embedding for chunk 57/74
+[2025-02-10T07:32:50.117Z] [DEBUG] Generated embedding for chunk 58/74
+[2025-02-10T07:32:50.677Z] [DEBUG] Generated embedding for chunk 59/74
+[2025-02-10T07:32:50.771Z] [DEBUG] Generated embedding for chunk 60/74
+[2025-02-10T07:32:51.265Z] [DEBUG] Generated embedding for chunk 61/74
+[2025-02-10T07:32:51.599Z] [DEBUG] Generated embedding for chunk 62/74
+[2025-02-10T07:32:51.913Z] [DEBUG] Generated embedding for chunk 63/74
+[2025-02-10T07:32:52.249Z] [DEBUG] Generated embedding for chunk 64/74
+[2025-02-10T07:32:52.551Z] [DEBUG] Generated embedding for chunk 65/74
+[2025-02-10T07:32:52.870Z] [DEBUG] Generated embedding for chunk 66/74
+[2025-02-10T07:32:53.198Z] [DEBUG] Generated embedding for chunk 67/74
+[2025-02-10T07:32:53.817Z] [DEBUG] Generated embedding for chunk 69/74
+[2025-02-10T07:32:54.078Z] [DEBUG] Generated embedding for chunk 68/74
+[2025-02-10T07:32:54.561Z] [DEBUG] Generated embedding for chunk 70/74
+[2025-02-10T07:32:54.749Z] [DEBUG] Generated embedding for chunk 71/74
+[2025-02-10T07:32:55.392Z] [DEBUG] Generated embedding for chunk 72/74
+[2025-02-10T07:32:55.427Z] [DEBUG] Generated embedding for chunk 73/74
+[2025-02-10T07:32:56.097Z] [DEBUG] Generated embedding for chunk 74/74
+[2025-02-10T07:32:56.098Z] [INFO] Upserting 74 vectors to Pinecone
+[2025-02-10T07:32:56.098Z] [INFO] Uploading batch 1 of 1
+{
+  "start": 0,
+  "end": 74,
+  "namespace": "test-user-123_99chetgpt-third-test-user-123-1739172744",
+  "vectorCount": 74
+}
+[2025-02-10T07:32:59.746Z] [INFO] Successfully uploaded batch 1
+[2025-02-10T07:32:59.987Z] [INFO] Final index stats:
+{
+  "namespace": "test-user-123_99chetgpt-third-test-user-123-1739172744",
+  "allNamespaces": [
+    "test-user-123_chetgeepity-test-user-123-1739167334",
+    "test-user-123_123_chetgeepity-test-user-123-1739168871",
+    "test-user-123_99chetgpt-test-user-123-1739171234",
+    "test-user-123_002_chetgeepity-test-user-123-1739168201",
+    "test-user-123_10_chetgeepeetea-test-user-123-1739165334"
+  ],
+  "totalRecordCount": 370
+}
+[2025-02-10T07:33:00.128Z] [INFO] Successfully updated agent configuration:
+{
+  "agentId": "99chetgpt-third-test-user-123-1739172744",
+  "data": null,
+  "vectorDBConfig": {
+    "namespace": "test-user-123_99chetgpt-third-test-user-123-1739172744",
+    "documentCount": 1,
+    "documents": [
+      "The Ultimate n8n Starter Kit (2025).pdf"
+    ],
+    "status": "active"
+  }
+}
+[2025-02-10T07:33:00.292Z] [INFO] Vector DB creation completed successfully
+{
+  "namespace": "test-user-123_99chetgpt-third-test-user-123-1739172744",
+  "documentCount": 1,
+  "documents": [
+    "The Ultimate n8n Starter Kit (2025).pdf"
+  ],
+  "status": "active"
+}

@@ -77,8 +77,8 @@ async function getDocumentLoader(file: KnowledgeBaseFile, s3Client: S3Client) {
 
   const url = new URL(file.url);
   logger.debug("Full URL:", url);
-  // Extract the key from the full URL
-  const key = url.pathname.substring(1);
+  // Extract the key from the full URL and decode URL-encoded characters
+  const key = decodeURIComponent(url.pathname.substring(1));
   logger.debug("Extracted S3 key:", key);
 
   const getObjectCommand = new GetObjectCommand({
