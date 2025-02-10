@@ -50,6 +50,8 @@ export async function POST(request: Request) {
           isPublic: body.isPublic || false,
         });
 
+        console.log("[Main route] Initial config stored:", initialConfig);
+
         // Step 2: Create vector DB (placeholder)
         await createVectorDB({
           agentId,

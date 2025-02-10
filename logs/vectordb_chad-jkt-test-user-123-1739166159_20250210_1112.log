@@ -1,0 +1,85 @@
+[2025-02-10T05:42:41.077Z] [INFO] === Vector DB Creation Process Started ===
+[2025-02-10T05:42:41.078Z] [INFO] Starting vector DB creation
+{
+  "agentId": "chad-jkt-test-user-123-1739166159",
+  "userId": "test-user-123"
+}
+[2025-02-10T05:42:41.080Z] [DEBUG] Initializing S3 client with config:
+{
+  "region": "Set",
+  "accessKeyId": "Set",
+  "secretAccessKey": "Set",
+  "bucketName": "Set"
+}
+[2025-02-10T05:42:43.550Z] [INFO] Initial index stats:
+{
+  "totalRecordCount": 74,
+  "existingNamespaces": [
+    "test-user-123_10_chetgeepeetea-test-user-123-1739165334"
+  ]
+}
+[2025-02-10T05:42:43.551Z] [DEBUG] Initializing OpenAI embeddings
+[2025-02-10T05:42:43.551Z] [INFO] Processing file: The Ultimate n8n Starter Kit (2025).pdf
+[2025-02-10T05:42:43.661Z] [INFO] Getting document loader for file: The Ultimate n8n Starter Kit (2025).pdf
+[2025-02-10T05:42:43.661Z] [DEBUG] File extension: pdf
+[2025-02-10T05:42:43.662Z] [DEBUG] Full URL:
+"https://metaschool-launchpad.s3.ap-south-1.amazonaws.com/test-user-123/Chad%20JKT/knowledge_doc_1739166148489.pdf"
+[2025-02-10T05:42:43.662Z] [DEBUG] Extracted S3 key: test-user-123/Chad%20JKT/knowledge_doc_1739166148489.pdf
+[2025-02-10T05:42:43.663Z] [INFO] Attempting to fetch file from S3:
+{
+  "bucket": "metaschool-launchpad",
+  "key": "test-user-123/Chad%20JKT/knowledge_doc_1739166148489.pdf",
+  "fileExtension": "pdf"
+}
+[2025-02-10T05:42:43.797Z] [ERROR] Error loading file from S3:
+{
+  "error": {
+    "name": "NoSuchKey",
+    "message": "The specified key does not exist.",
+    "stack": "NoSuchKey: The specified key does not exist.\n    at de_NoSuchKeyRes (C:\\Users\\Bones\\Projects\\launchpad6\\ai-launchpad\\node_modules\\@aws-sdk\\client-s3\\dist-cjs\\index.js:5045:21)\n    at de_CommandError (C:\\Users\\Bones\\Projects\\launchpad6\\ai-launchpad\\node_modules\\@aws-sdk\\client-s3\\dist-cjs\\index.js:4944:19)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at async C:\\Users\\Bones\\Projects\\launchpad6\\ai-launchpad\\node_modules\\@smithy\\middleware-serde\\dist-cjs\\index.js:35:20\n    at async C:\\Users\\Bones\\Projects\\launchpad6\\ai-launchpad\\node_modules\\@aws-sdk\\middleware-sdk-s3\\dist-cjs\\index.js:483:18\n    at async C:\\Users\\Bones\\Projects\\launchpad6\\ai-launchpad\\node_modules\\@smithy\\middleware-retry\\dist-cjs\\index.js:321:38\n    at async C:\\Users\\Bones\\Projects\\launchpad6\\ai-launchpad\\node_modules\\@aws-sdk\\middleware-sdk-s3\\dist-cjs\\index.js:109:22\n    at async C:\\Users\\Bones\\Projects\\launchpad6\\ai-launchpad\\node_modules\\@aws-sdk\\middleware-sdk-s3\\dist-cjs\\index.js:136:14\n    at async C:\\Users\\Bones\\Projects\\launchpad6\\ai-launchpad\\node_modules\\@aws-sdk\\middleware-logger\\dist-cjs\\index.js:33:22\n    at async getDocumentLoader (C:\\Users\\Bones\\Projects\\launchpad6\\ai-launchpad\\.next\\server\\chunks\\[root of the server]__6be5b4._.js:429:26)\n    at async createVectorDB (C:\\Users\\Bones\\Projects\\launchpad6\\ai-launchpad\\.next\\server\\chunks\\[root of the server]__6be5b4._.js:599:32)\n    at async C:\\Users\\Bones\\Projects\\launchpad6\\ai-launchpad\\.next\\server\\chunks\\[root of the server]__6be5b4._.js:881:17"
+  },
+  "requestDetails": {
+    "bucket": "metaschool-launchpad",
+    "key": "test-user-123/Chad%20JKT/knowledge_doc_1739166148489.pdf",
+    "fileExtension": "pdf"
+  },
+  "awsConfig": {
+    "region": "Set",
+    "accessKeyId": "Set",
+    "secretAccessKey": "Set"
+  }
+}
+[2025-02-10T05:42:43.798Z] [ERROR] Error processing file The Ultimate n8n Starter Kit (2025).pdf:
+{
+  "name": "NoSuchKey",
+  "$fault": "client",
+  "$metadata": {
+    "httpStatusCode": 404,
+    "requestId": "BH1Z0KTH25QT6RAE",
+    "extendedRequestId": "1nzz8I9U2adOI8mjOK3xBz6XhXygTKbjorCmi3GIvi/gLV1EWtCB20K9OmeYccnHFBkkMZjCJaQA6zcnrYb+2g==",
+    "attempts": 1,
+    "totalRetryDelay": 0
+  },
+  "Code": "NoSuchKey",
+  "Key": "test-user-123/Chad%20JKT/knowledge_doc_1739166148489.pdf",
+  "RequestId": "BH1Z0KTH25QT6RAE",
+  "HostId": "1nzz8I9U2adOI8mjOK3xBz6XhXygTKbjorCmi3GIvi/gLV1EWtCB20K9OmeYccnHFBkkMZjCJaQA6zcnrYb+2g==",
+  "message": "The specified key does not exist."
+}
+[2025-02-10T05:42:43.799Z] [ERROR] Error creating vector database:
+{
+  "name": "NoSuchKey",
+  "$fault": "client",
+  "$metadata": {
+    "httpStatusCode": 404,
+    "requestId": "BH1Z0KTH25QT6RAE",
+    "extendedRequestId": "1nzz8I9U2adOI8mjOK3xBz6XhXygTKbjorCmi3GIvi/gLV1EWtCB20K9OmeYccnHFBkkMZjCJaQA6zcnrYb+2g==",
+    "attempts": 1,
+    "totalRetryDelay": 0
+  },
+  "Code": "NoSuchKey",
+  "Key": "test-user-123/Chad%20JKT/knowledge_doc_1739166148489.pdf",
+  "RequestId": "BH1Z0KTH25QT6RAE",
+  "HostId": "1nzz8I9U2adOI8mjOK3xBz6XhXygTKbjorCmi3GIvi/gLV1EWtCB20K9OmeYccnHFBkkMZjCJaQA6zcnrYb+2g==",
+  "message": "The specified key does not exist."
+}

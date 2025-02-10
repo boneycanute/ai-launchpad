@@ -227,14 +227,15 @@ export async function createVectorDB({
       await supabase
         .from("agents")
         .update({
-          vector_db: config,
+          vector_db_config: config,
+          vector_db_data: config,
           creation_progress: {
             state: "creating_vectordb",
             message: "No knowledge base provided",
             updated_at: new Date().toISOString(),
           },
         })
-        .eq("id", agentId);
+        .eq("agent_id", agentId);
 
       return config;
     }
@@ -397,10 +398,11 @@ export async function createVectorDB({
     };
 
     // Update database with final configuration
-    await supabase
+    const { data, error } = await supabase
       .from("agents")
       .update({
-        vector_db: vectorDBConfig,
+        vector_db_config: vectorDBConfig,
+        vector_db_data: vectorDBConfig,
         creation_progress: {
           state: "updating_config",
           message: "Vector database created successfully",
@@ -409,7 +411,22 @@ export async function createVectorDB({
           updated_at: new Date().toISOString(),
         },
       })
-      .eq("id", agentId);
+      .eq("agent_id", agentId);
+
+    if (error) {
+      logger.error("Error updating Supabase:", {
+        error,
+        agentId,
+        vectorDBConfig,
+      });
+      throw new Error(`Failed to update agent configuration: ${error.message}`);
+    }
+
+    logger.info("Successfully updated agent configuration:", {
+      agentId,
+      data,
+      vectorDBConfig,
+    });
 
     await updateAgentStatus(agentId, "updating_config");
 

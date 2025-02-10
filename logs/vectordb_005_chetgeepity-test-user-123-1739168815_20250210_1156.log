@@ -1,0 +1,14 @@
+[2025-02-10T06:26:58.199Z] [INFO] === Vector DB Creation Process Started ===
+[2025-02-10T06:26:58.200Z] [INFO] Starting vector DB creation
+{
+  "agentId": "005_chetgeepity-test-user-123-1739168815",
+  "userId": "test-user-123"
+}
+[2025-02-10T06:26:58.202Z] [DEBUG] Initializing S3 client with config:
+{
+  "region": "Set",
+  "accessKeyId": "Set",
+  "secretAccessKey": "Set",
+  "bucketName": "Set"
+}
+[2025-02-10T06:26:58.320Z] [INFO] No knowledge base provided, creating empty config
