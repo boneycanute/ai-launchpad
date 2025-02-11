@@ -306,7 +306,10 @@ export async function createVectorDB({
             return {
               id: `${file.name}_${i}_${Date.now()}`,
               values: embedding,
-              metadata: chunk.metadata,
+              metadata: {
+                ...chunk.metadata,
+                content: chunk.pageContent  // Store the actual content
+              }
             };
           })
         );

@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { PartyPopper } from "lucide-react";
 
 export default function AgentsPage() {
-  const dummyAgentUrl = "https://ai-launchpad.vercel.app/agents/ag_7f3k9d2";
+  const dummyAgentUrl = "http://localhost:3000/<agent-id>";
 
   return (
     <div className="min-h-screen w-full flex items-center justify-center bg-gradient-to-br from-white to-gray-50">

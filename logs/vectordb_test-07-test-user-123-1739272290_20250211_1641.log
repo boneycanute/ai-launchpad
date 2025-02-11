@@ -1,0 +1,106 @@
+[2025-02-11T11:11:34.615Z] [INFO] === Vector DB Creation Process Started ===
+[2025-02-11T11:11:34.616Z] [INFO] Starting vector DB creation
+{
+  "agentId": "test-07-test-user-123-1739272290",
+  "userId": "test-user-123"
+}
+[2025-02-11T11:11:34.617Z] [DEBUG] Initializing S3 client with config:
+{
+  "region": "Set",
+  "accessKeyId": "Set",
+  "secretAccessKey": "Set",
+  "bucketName": "Set"
+}
+[2025-02-11T11:11:36.479Z] [INFO] Initial index stats:
+{
+  "totalRecordCount": 0,
+  "existingNamespaces": []
+}
+[2025-02-11T11:11:36.479Z] [DEBUG] Initializing OpenAI embeddings
+[2025-02-11T11:11:36.481Z] [INFO] Processing file: Password.pdf
+[2025-02-11T11:11:36.597Z] [INFO] Getting document loader for file: Password.pdf
+[2025-02-11T11:11:36.597Z] [DEBUG] File extension: pdf
+[2025-02-11T11:11:36.598Z] [DEBUG] Full URL:
+"https://metaschool-launchpad.s3.ap-south-1.amazonaws.com/test-user-123/Test%2007/knowledge_doc_1739272242760.pdf"
+[2025-02-11T11:11:36.599Z] [DEBUG] Extracted S3 key: test-user-123/Test 07/knowledge_doc_1739272242760.pdf
+[2025-02-11T11:11:36.599Z] [INFO] Attempting to fetch file from S3:
+{
+  "bucket": "metaschool-launchpad",
+  "key": "test-user-123/Test 07/knowledge_doc_1739272242760.pdf",
+  "fileExtension": "pdf"
+}
+[2025-02-11T11:11:37.205Z] [INFO] Successfully fetched file from S3:
+{
+  "key": "test-user-123/Test 07/knowledge_doc_1739272242760.pdf",
+  "size": 3878507,
+  "metadata": {
+    "httpStatusCode": 200,
+    "requestId": "KR4KC68RWZE4QWNS",
+    "extendedRequestId": "X1AlDD+0Xh/yRLzHg4swWFi8PuVAbtx+WMMqK65aSoO9sYPWDIZesaOnUIq7ZnR+3M6xglE0dHItnk88ycRsZQ==",
+    "attempts": 1,
+    "totalRetryDelay": 0
+  }
+}
+[2025-02-11T11:11:37.206Z] [DEBUG] Creating PDF loader
+[2025-02-11T11:11:37.208Z] [DEBUG] Loading document content
+[2025-02-11T11:11:37.439Z] [INFO] Loaded document with 1 pages/sections
+[2025-02-11T11:11:37.439Z] [DEBUG] Processing document chunks
+[2025-02-11T11:11:37.440Z] [INFO] Processing document: Password.pdf
+[2025-02-11T11:11:37.441Z] [DEBUG] Splitting document into chunks
+[2025-02-11T11:11:37.441Z] [INFO] Created 1 chunks from document
+[2025-02-11T11:11:37.442Z] [DEBUG] Processed chunk 1/1
+{
+  "chunkSize": 17,
+  "metadata": {
+    "source": "blob",
+    "fileType": "application/pdf",
+    "chunkIndex": 0,
+    "timestamp": 1739272297442,
+    "charCount": 17,
+    "tokenCount": 5,
+    "documentId": "Password.pdf_1739272297442",
+    "blobType": "application/pdf",
+    "pdf": "{\"version\":\"1.10.100\",\"info\":{\"PDFFormatVersion\":\"1.7\",\"IsAcroFormPresent\":false,\"IsXFAPresent\":false,\"Author\":\"boney Canute\",\"Creator\":\"Microsoft® Word 2021\",\"Producer\":\"Microsoft® Word 2021\",\"CreationDate\":\"D:20250211163413+05'30'\",\"ModDate\":\"D:20250211163413+05'30'\"},\"metadata\":{\"_metadata\":{\"pdf:producer\":\"Microsoft® Word 2021\",\"dc:creator\":\"boney Canute\",\"xmp:creatortool\":\"Microsoft® Word 2021\",\"xmp:createdate\":\"2025-02-11T16:34:13+05:30\",\"xmp:modifydate\":\"2025-02-11T16:34:13+05:30\",\"xmpmm:documentid\":\"uuid:4B710F5C-CDE7-488C-8A8C-CB2F7F1A6DC3\",\"xmpmm:instanceid\":\"uuid:4B710F5C-CDE7-488C-8A8C-CB2F7F1A6DC3\"}},\"totalPages\":1}",
+    "loc": "{\"lines\":{\"from\":1,\"to\":1}}"
+  }
+}
+[2025-02-11T11:11:37.442Z] [INFO] Created 1 chunks for processing
+[2025-02-11T11:11:37.443Z] [DEBUG] Generating embeddings for chunks
+[2025-02-11T11:11:38.790Z] [DEBUG] Generated embedding for chunk 1/1
+[2025-02-11T11:11:38.791Z] [INFO] Upserting 1 vectors to Pinecone
+[2025-02-11T11:11:38.792Z] [INFO] Uploading batch 1 of 1
+{
+  "start": 0,
+  "end": 1,
+  "namespace": "test-user-123_test-07-test-user-123-1739272290",
+  "vectorCount": 1
+}
+[2025-02-11T11:11:39.427Z] [INFO] Successfully uploaded batch 1
+[2025-02-11T11:11:39.669Z] [INFO] Final index stats:
+{
+  "namespace": "test-user-123_test-07-test-user-123-1739272290",
+  "allNamespaces": [],
+  "totalRecordCount": 0
+}
+[2025-02-11T11:11:39.804Z] [INFO] Successfully updated agent configuration:
+{
+  "agentId": "test-07-test-user-123-1739272290",
+  "data": null,
+  "vectorDBConfig": {
+    "namespace": "test-user-123_test-07-test-user-123-1739272290",
+    "documentCount": 1,
+    "documents": [
+      "Password.pdf"
+    ],
+    "status": "active"
+  }
+}
+[2025-02-11T11:11:39.983Z] [INFO] Vector DB creation completed successfully
+{
+  "namespace": "test-user-123_test-07-test-user-123-1739272290",
+  "documentCount": 1,
+  "documents": [
+    "Password.pdf"
+  ],
+  "status": "active"
+}

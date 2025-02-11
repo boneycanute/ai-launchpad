@@ -14,11 +14,6 @@ export type CreationState =
   | "completed"
   | "failed";
 
-// Simple console logging for now
-async function updateProgress(agentId: string, state: CreationState) {
-  console.log(`[${agentId}] Current state:`, state);
-}
-
 export async function POST(request: Request) {
   try {
     // Parse the body
