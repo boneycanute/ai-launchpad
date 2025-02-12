@@ -1,0 +1,203 @@
+[2025-02-12T06:21:22.689Z] [INFO] === Vector DB Creation Process Started ===
+[2025-02-12T06:21:22.690Z] [INFO] Starting vector DB creation
+{
+  "agentId": "finance-advisor-test-user-123-1739341281",
+  "userId": "test-user-123"
+}
+[2025-02-12T06:21:22.692Z] [DEBUG] Initializing S3 client with config:
+{
+  "region": "Set",
+  "accessKeyId": "Set",
+  "secretAccessKey": "Set",
+  "bucketName": "Set"
+}
+[2025-02-12T06:21:25.547Z] [INFO] Initial index stats:
+{
+  "totalRecordCount": 84,
+  "existingNamespaces": [
+    "test-user-123_test-08-test-user-123-1739272840",
+    "test-user-123_niko-test-user-123-1739274465",
+    "test-user-123_catpuccin-test-user-123-1739340098",
+    "test-user-123_test11-test-user-123-1739336633",
+    "test-user-123_test-07-test-user-123-1739272290"
+  ]
+}
+[2025-02-12T06:21:25.548Z] [DEBUG] Initializing OpenAI embeddings
+[2025-02-12T06:21:25.549Z] [INFO] Processing file: Finance Agent - Knowledge Base (1).csv
+[2025-02-12T06:21:25.650Z] [INFO] Getting document loader for file: Finance Agent - Knowledge Base (1).csv
+[2025-02-12T06:21:25.651Z] [DEBUG] File extension: csv
+[2025-02-12T06:21:25.651Z] [DEBUG] Full URL:
+"https://metaschool-launchpad.s3.ap-south-1.amazonaws.com/test-user-123/Finance%20Advisor/knowledge_doc_1739341268128.csv"
+[2025-02-12T06:21:25.652Z] [DEBUG] Extracted S3 key: test-user-123/Finance Advisor/knowledge_doc_1739341268128.csv
+[2025-02-12T06:21:25.652Z] [INFO] Attempting to fetch file from S3:
+{
+  "bucket": "metaschool-launchpad",
+  "key": "test-user-123/Finance Advisor/knowledge_doc_1739341268128.csv",
+  "fileExtension": "csv"
+}
+[2025-02-12T06:21:26.152Z] [INFO] Successfully fetched file from S3:
+{
+  "key": "test-user-123/Finance Advisor/knowledge_doc_1739341268128.csv",
+  "size": 1768171,
+  "metadata": {
+    "httpStatusCode": 200,
+    "requestId": "5EBQB4KPTZGMPK3H",
+    "extendedRequestId": "87EEPm5+6x5GnefbnCkTkmvF/+ZDGwXdsqoROrQOND3BxwipjzxQTwxbnN6zQgJnFGRsAMYRT3U=",
+    "attempts": 1,
+    "totalRetryDelay": 0
+  }
+}
+[2025-02-12T06:21:26.153Z] [DEBUG] Creating CSV loader
+[2025-02-12T06:21:26.160Z] [DEBUG] Loading document content
+[2025-02-12T06:21:26.179Z] [INFO] Loaded document with 262 pages/sections
+[2025-02-12T06:21:26.179Z] [DEBUG] Processing document chunks
+[2025-02-12T06:21:26.180Z] [INFO] Processing document: Finance Agent - Knowledge Base (1).csv
+[2025-02-12T06:21:26.181Z] [DEBUG] Splitting document into chunks
+[2025-02-12T06:21:26.182Z] [INFO] Created 6 chunks from document
+[2025-02-12T06:21:26.182Z] [DEBUG] Processed chunk 1/6
+{
+  "chunkSize": 641,
+  "metadata": {
+    "source": "blob",
+    "fileType": "text/csv",
+    "chunkIndex": 0,
+    "timestamp": 1739341286182,
+    "charCount": 641,
+    "tokenCount": 161,
+    "documentId": "Finance Agent - Knowledge Base (1).csv_1739341286182",
+    "blobType": "text/csv",
+    "line": 1,
+    "loc": "{\"lines\":{\"from\":1,\"to\":6}}"
+  }
+}
+[2025-02-12T06:21:26.183Z] [DEBUG] Processed chunk 2/6
+{
+  "chunkSize": 556,
+  "metadata": {
+    "source": "blob",
+    "fileType": "text/csv",
+    "chunkIndex": 1,
+    "timestamp": 1739341286183,
+    "charCount": 556,
+    "tokenCount": 139,
+    "documentId": "Finance Agent - Knowledge Base (1).csv_1739341286183",
+    "blobType": "text/csv",
+    "line": 1,
+    "loc": "{\"lines\":{\"from\":7,\"to\":7}}"
+  }
+}
+[2025-02-12T06:21:26.183Z] [DEBUG] Processed chunk 3/6
+{
+  "chunkSize": 577,
+  "metadata": {
+    "source": "blob",
+    "fileType": "text/csv",
+    "chunkIndex": 2,
+    "timestamp": 1739341286183,
+    "charCount": 577,
+    "tokenCount": 145,
+    "documentId": "Finance Agent - Knowledge Base (1).csv_1739341286183",
+    "blobType": "text/csv",
+    "line": 1,
+    "loc": "{\"lines\":{\"from\":9,\"to\":17}}"
+  }
+}
+[2025-02-12T06:21:26.184Z] [DEBUG] Processed chunk 4/6
+{
+  "chunkSize": 548,
+  "metadata": {
+    "source": "blob",
+    "fileType": "text/csv",
+    "chunkIndex": 3,
+    "timestamp": 1739341286184,
+    "charCount": 548,
+    "tokenCount": 137,
+    "documentId": "Finance Agent - Knowledge Base (1).csv_1739341286184",
+    "blobType": "text/csv",
+    "line": 1,
+    "loc": "{\"lines\":{\"from\":17,\"to\":22}}"
+  }
+}
+[2025-02-12T06:21:26.184Z] [DEBUG] Processed chunk 5/6
+{
+  "chunkSize": 997,
+  "metadata": {
+    "source": "blob",
+    "fileType": "text/csv",
+    "chunkIndex": 4,
+    "timestamp": 1739341286184,
+    "charCount": 997,
+    "tokenCount": 250,
+    "documentId": "Finance Agent - Knowledge Base (1).csv_1739341286184",
+    "blobType": "text/csv",
+    "line": 1,
+    "loc": "{\"lines\":{\"from\":22,\"to\":29}}"
+  }
+}
+[2025-02-12T06:21:26.185Z] [DEBUG] Processed chunk 6/6
+{
+  "chunkSize": 518,
+  "metadata": {
+    "source": "blob",
+    "fileType": "text/csv",
+    "chunkIndex": 5,
+    "timestamp": 1739341286185,
+    "charCount": 518,
+    "tokenCount": 130,
+    "documentId": "Finance Agent - Knowledge Base (1).csv_1739341286185",
+    "blobType": "text/csv",
+    "line": 1,
+    "loc": "{\"lines\":{\"from\":31,\"to\":34}}"
+  }
+}
+[2025-02-12T06:21:26.185Z] [INFO] Created 6 chunks for processing
+[2025-02-12T06:21:26.185Z] [DEBUG] Generating embeddings for chunks
+[2025-02-12T06:21:27.369Z] [DEBUG] Generated embedding for chunk 1/6
+[2025-02-12T06:21:27.447Z] [DEBUG] Generated embedding for chunk 2/6
+[2025-02-12T06:21:28.223Z] [DEBUG] Generated embedding for chunk 3/6
+[2025-02-12T06:21:28.305Z] [DEBUG] Generated embedding for chunk 4/6
+[2025-02-12T06:21:29.129Z] [DEBUG] Generated embedding for chunk 6/6
+[2025-02-12T06:21:29.153Z] [DEBUG] Generated embedding for chunk 5/6
+[2025-02-12T06:21:29.153Z] [INFO] Upserting 6 vectors to Pinecone
+[2025-02-12T06:21:29.154Z] [INFO] Uploading batch 1 of 1
+{
+  "start": 0,
+  "end": 6,
+  "namespace": "test-user-123_finance-advisor-test-user-123-1739341281",
+  "vectorCount": 6
+}
+[2025-02-12T06:21:30.241Z] [INFO] Successfully uploaded batch 1
+[2025-02-12T06:21:30.490Z] [INFO] Final index stats:
+{
+  "namespace": "test-user-123_finance-advisor-test-user-123-1739341281",
+  "allNamespaces": [
+    "test-user-123_test-07-test-user-123-1739272290",
+    "test-user-123_test-08-test-user-123-1739272840",
+    "test-user-123_test11-test-user-123-1739336633",
+    "test-user-123_catpuccin-test-user-123-1739340098",
+    "test-user-123_niko-test-user-123-1739274465"
+  ],
+  "totalRecordCount": 84
+}
+[2025-02-12T06:21:30.601Z] [INFO] Successfully updated agent configuration:
+{
+  "agentId": "finance-advisor-test-user-123-1739341281",
+  "data": null,
+  "vectorDBConfig": {
+    "namespace": "test-user-123_finance-advisor-test-user-123-1739341281",
+    "documentCount": 1,
+    "documents": [
+      "Finance Agent - Knowledge Base (1).csv"
+    ],
+    "status": "active"
+  }
+}
+[2025-02-12T06:21:30.791Z] [INFO] Vector DB creation completed successfully
+{
+  "namespace": "test-user-123_finance-advisor-test-user-123-1739341281",
+  "documentCount": 1,
+  "documents": [
+    "Finance Agent - Knowledge Base (1).csv"
+  ],
+  "status": "active"
+}

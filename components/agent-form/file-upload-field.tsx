@@ -49,7 +49,7 @@ export function FileUploadField({ type }: FileUploadFieldProps) {
         accept={
           type === "avatar"
             ? "image/*"
-            : "text/plain,application/pdf,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            : "text/plain,application/pdf,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,text/csv"
         }
       />
 

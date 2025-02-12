@@ -1,0 +1,55 @@
+[2025-02-12T06:17:00.559Z] [INFO] === Vector DB Creation Process Started ===
+[2025-02-12T06:17:00.560Z] [INFO] Starting vector DB creation
+{
+  "agentId": "finance-advisor-test-user-123-1739341018",
+  "userId": "test-user-123"
+}
+[2025-02-12T06:17:00.561Z] [DEBUG] Initializing S3 client with config:
+{
+  "region": "Set",
+  "accessKeyId": "Set",
+  "secretAccessKey": "Set",
+  "bucketName": "Set"
+}
+[2025-02-12T06:17:02.041Z] [INFO] Initial index stats:
+{
+  "totalRecordCount": 84,
+  "existingNamespaces": [
+    "test-user-123_test11-test-user-123-1739336633",
+    "test-user-123_test-08-test-user-123-1739272840",
+    "test-user-123_catpuccin-test-user-123-1739340098",
+    "test-user-123_niko-test-user-123-1739274465",
+    "test-user-123_test-07-test-user-123-1739272290"
+  ]
+}
+[2025-02-12T06:17:02.042Z] [DEBUG] Initializing OpenAI embeddings
+[2025-02-12T06:17:02.043Z] [INFO] Processing file: Finance Agent - Knowledge Base (1).csv
+[2025-02-12T06:17:02.169Z] [INFO] Getting document loader for file: Finance Agent - Knowledge Base (1).csv
+[2025-02-12T06:17:02.169Z] [DEBUG] File extension: csv
+[2025-02-12T06:17:02.170Z] [DEBUG] Full URL:
+"https://metaschool-launchpad.s3.ap-south-1.amazonaws.com/test-user-123/Finance%20Advisor/knowledge_doc_1739340997385.csv"
+[2025-02-12T06:17:02.170Z] [DEBUG] Extracted S3 key: test-user-123/Finance Advisor/knowledge_doc_1739340997385.csv
+[2025-02-12T06:17:02.171Z] [INFO] Attempting to fetch file from S3:
+{
+  "bucket": "metaschool-launchpad",
+  "key": "test-user-123/Finance Advisor/knowledge_doc_1739340997385.csv",
+  "fileExtension": "csv"
+}
+[2025-02-12T06:17:02.652Z] [INFO] Successfully fetched file from S3:
+{
+  "key": "test-user-123/Finance Advisor/knowledge_doc_1739340997385.csv",
+  "size": 1768171,
+  "metadata": {
+    "httpStatusCode": 200,
+    "requestId": "1YGCCT31EYEPSQBQ",
+    "extendedRequestId": "nrsZrFIs6d6dm6e3sjeamKaMIqu8W8mPFdeUBYGM26HlG7MwUPjEU+gdIjeN5FWQj9p2LvBWlVUik++TaI49ag==",
+    "attempts": 1,
+    "totalRetryDelay": 0
+  }
+}
+[2025-02-12T06:17:02.653Z] [DEBUG] Creating CSV loader
+[2025-02-12T06:17:02.661Z] [DEBUG] Loading document content
+[2025-02-12T06:17:02.738Z] [ERROR] Error processing file Finance Agent - Knowledge Base (1).csv:
+{}
+[2025-02-12T06:17:02.739Z] [ERROR] Error creating vector database:
+{}

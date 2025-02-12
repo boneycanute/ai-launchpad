@@ -1,0 +1,148 @@
+[2025-02-12T05:03:56.996Z] [INFO] === Vector DB Creation Process Started ===
+[2025-02-12T05:03:56.997Z] [INFO] Starting vector DB creation
+{
+  "agentId": "test11-test-user-123-1739336633",
+  "userId": "test-user-123"
+}
+[2025-02-12T05:03:56.998Z] [DEBUG] Initializing S3 client with config:
+{
+  "region": "Set",
+  "accessKeyId": "Set",
+  "secretAccessKey": "Set",
+  "bucketName": "Set"
+}
+[2025-02-12T05:03:59.484Z] [INFO] Initial index stats:
+{
+  "totalRecordCount": 78,
+  "existingNamespaces": [
+    "test-user-123_niko-test-user-123-1739274465",
+    "test-user-123_test-07-test-user-123-1739272290",
+    "test-user-123_test-08-test-user-123-1739272840"
+  ]
+}
+[2025-02-12T05:03:59.485Z] [DEBUG] Initializing OpenAI embeddings
+[2025-02-12T05:03:59.486Z] [INFO] Processing file: Secrets of the universe.pdf
+[2025-02-12T05:03:59.597Z] [INFO] Getting document loader for file: Secrets of the universe.pdf
+[2025-02-12T05:03:59.598Z] [DEBUG] File extension: pdf
+[2025-02-12T05:03:59.598Z] [DEBUG] Full URL:
+"https://metaschool-launchpad.s3.ap-south-1.amazonaws.com/test-user-123/test11/knowledge_doc_1739336581704.pdf"
+[2025-02-12T05:03:59.599Z] [DEBUG] Extracted S3 key: test-user-123/test11/knowledge_doc_1739336581704.pdf
+[2025-02-12T05:03:59.599Z] [INFO] Attempting to fetch file from S3:
+{
+  "bucket": "metaschool-launchpad",
+  "key": "test-user-123/test11/knowledge_doc_1739336581704.pdf",
+  "fileExtension": "pdf"
+}
+[2025-02-12T05:03:59.841Z] [INFO] Successfully fetched file from S3:
+{
+  "key": "test-user-123/test11/knowledge_doc_1739336581704.pdf",
+  "size": 121816,
+  "metadata": {
+    "httpStatusCode": 200,
+    "requestId": "D9FD7N5VNH9M1SW4",
+    "extendedRequestId": "YNO6Ya4/TtEgyotBEDgpCpMHez8CbFXCVdyV4m5vW1V5dIHar2vzySSs1tdA4qIVHDeVjjhFWvQZsNtROds1Xw==",
+    "attempts": 1,
+    "totalRetryDelay": 0
+  }
+}
+[2025-02-12T05:03:59.842Z] [DEBUG] Creating PDF loader
+[2025-02-12T05:03:59.843Z] [DEBUG] Loading document content
+[2025-02-12T05:04:00.016Z] [INFO] Loaded document with 1 pages/sections
+[2025-02-12T05:04:00.016Z] [DEBUG] Processing document chunks
+[2025-02-12T05:04:00.017Z] [INFO] Processing document: Secrets of the universe.pdf
+[2025-02-12T05:04:00.017Z] [DEBUG] Splitting document into chunks
+[2025-02-12T05:04:00.019Z] [INFO] Created 3 chunks from document
+[2025-02-12T05:04:00.020Z] [DEBUG] Processed chunk 1/3
+{
+  "chunkSize": 960,
+  "metadata": {
+    "source": "blob",
+    "fileType": "application/pdf",
+    "chunkIndex": 0,
+    "timestamp": 1739336640020,
+    "charCount": 960,
+    "tokenCount": 240,
+    "documentId": "Secrets of the universe.pdf_1739336640020",
+    "blobType": "application/pdf",
+    "pdf": "{\"version\":\"1.10.100\",\"info\":{\"PDFFormatVersion\":\"1.7\",\"IsAcroFormPresent\":false,\"IsXFAPresent\":false,\"Author\":\"boney Canute\",\"Creator\":\"Microsoft® Word 2021\",\"Producer\":\"Microsoft® Word 2021\",\"CreationDate\":\"D:20250211171652+05'30'\",\"ModDate\":\"D:20250211171652+05'30'\"},\"metadata\":{\"_metadata\":{\"pdf:producer\":\"Microsoft® Word 2021\",\"dc:creator\":\"boney Canute\",\"xmp:creatortool\":\"Microsoft® Word 2021\",\"xmp:createdate\":\"2025-02-11T17:16:52+05:30\",\"xmp:modifydate\":\"2025-02-11T17:16:52+05:30\",\"xmpmm:documentid\":\"uuid:972A80F8-8EF9-445A-8EA3-73249A702B18\",\"xmpmm:instanceid\":\"uuid:972A80F8-8EF9-445A-8EA3-73249A702B18\"}},\"totalPages\":2}",
+    "loc": "{\"lines\":{\"from\":1,\"to\":21}}"
+  }
+}
+[2025-02-12T05:04:00.020Z] [DEBUG] Processed chunk 2/3
+{
+  "chunkSize": 480,
+  "metadata": {
+    "source": "blob",
+    "fileType": "application/pdf",
+    "chunkIndex": 1,
+    "timestamp": 1739336640020,
+    "charCount": 480,
+    "tokenCount": 120,
+    "documentId": "Secrets of the universe.pdf_1739336640020",
+    "blobType": "application/pdf",
+    "pdf": "{\"version\":\"1.10.100\",\"info\":{\"PDFFormatVersion\":\"1.7\",\"IsAcroFormPresent\":false,\"IsXFAPresent\":false,\"Author\":\"boney Canute\",\"Creator\":\"Microsoft® Word 2021\",\"Producer\":\"Microsoft® Word 2021\",\"CreationDate\":\"D:20250211171652+05'30'\",\"ModDate\":\"D:20250211171652+05'30'\"},\"metadata\":{\"_metadata\":{\"pdf:producer\":\"Microsoft® Word 2021\",\"dc:creator\":\"boney Canute\",\"xmp:creatortool\":\"Microsoft® Word 2021\",\"xmp:createdate\":\"2025-02-11T17:16:52+05:30\",\"xmp:modifydate\":\"2025-02-11T17:16:52+05:30\",\"xmpmm:documentid\":\"uuid:972A80F8-8EF9-445A-8EA3-73249A702B18\",\"xmpmm:instanceid\":\"uuid:972A80F8-8EF9-445A-8EA3-73249A702B18\"}},\"totalPages\":2}",
+    "loc": "{\"lines\":{\"from\":21,\"to\":31}}"
+  }
+}
+[2025-02-12T05:04:00.021Z] [DEBUG] Processed chunk 3/3
+{
+  "chunkSize": 213,
+  "metadata": {
+    "source": "blob",
+    "fileType": "application/pdf",
+    "chunkIndex": 2,
+    "timestamp": 1739336640021,
+    "charCount": 213,
+    "tokenCount": 54,
+    "documentId": "Secrets of the universe.pdf_1739336640021",
+    "blobType": "application/pdf",
+    "pdf": "{\"version\":\"1.10.100\",\"info\":{\"PDFFormatVersion\":\"1.7\",\"IsAcroFormPresent\":false,\"IsXFAPresent\":false,\"Author\":\"boney Canute\",\"Creator\":\"Microsoft® Word 2021\",\"Producer\":\"Microsoft® Word 2021\",\"CreationDate\":\"D:20250211171652+05'30'\",\"ModDate\":\"D:20250211171652+05'30'\"},\"metadata\":{\"_metadata\":{\"pdf:producer\":\"Microsoft® Word 2021\",\"dc:creator\":\"boney Canute\",\"xmp:creatortool\":\"Microsoft® Word 2021\",\"xmp:createdate\":\"2025-02-11T17:16:52+05:30\",\"xmp:modifydate\":\"2025-02-11T17:16:52+05:30\",\"xmpmm:documentid\":\"uuid:972A80F8-8EF9-445A-8EA3-73249A702B18\",\"xmpmm:instanceid\":\"uuid:972A80F8-8EF9-445A-8EA3-73249A702B18\"}},\"totalPages\":2}",
+    "loc": "{\"lines\":{\"from\":33,\"to\":36}}"
+  }
+}
+[2025-02-12T05:04:00.022Z] [INFO] Created 3 chunks for processing
+[2025-02-12T05:04:00.022Z] [DEBUG] Generating embeddings for chunks
+[2025-02-12T05:04:01.243Z] [DEBUG] Generated embedding for chunk 2/3
+[2025-02-12T05:04:01.355Z] [DEBUG] Generated embedding for chunk 1/3
+[2025-02-12T05:04:02.130Z] [DEBUG] Generated embedding for chunk 3/3
+[2025-02-12T05:04:02.131Z] [INFO] Upserting 3 vectors to Pinecone
+[2025-02-12T05:04:02.131Z] [INFO] Uploading batch 1 of 1
+{
+  "start": 0,
+  "end": 3,
+  "namespace": "test-user-123_test11-test-user-123-1739336633",
+  "vectorCount": 3
+}
+[2025-02-12T05:04:02.977Z] [INFO] Successfully uploaded batch 1
+[2025-02-12T05:04:03.222Z] [INFO] Final index stats:
+{
+  "namespace": "test-user-123_test11-test-user-123-1739336633",
+  "allNamespaces": [
+    "test-user-123_test-08-test-user-123-1739272840",
+    "test-user-123_niko-test-user-123-1739274465",
+    "test-user-123_test-07-test-user-123-1739272290"
+  ],
+  "totalRecordCount": 78
+}
+[2025-02-12T05:04:03.394Z] [INFO] Successfully updated agent configuration:
+{
+  "agentId": "test11-test-user-123-1739336633",
+  "data": null,
+  "vectorDBConfig": {
+    "namespace": "test-user-123_test11-test-user-123-1739336633",
+    "documentCount": 1,
+    "documents": [
+      "Secrets of the universe.pdf"
+    ],
+    "status": "active"
+  }
+}
+[2025-02-12T05:04:03.502Z] [INFO] Vector DB creation completed successfully
+{
+  "namespace": "test-user-123_test11-test-user-123-1739336633",
+  "documentCount": 1,
+  "documents": [
+    "Secrets of the universe.pdf"
+  ],
+  "status": "active"
+}
